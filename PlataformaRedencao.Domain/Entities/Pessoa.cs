@@ -31,7 +31,7 @@ namespace PlataformaRedencao.Domain.Entities
         ///
         /// Não contempla nome social.
         /// </remarks>
-        public NomeCompleto Nome { get; private set; }
+        public NomePessoa NomePessoa { get; private set; }
 
         /// <summary>
         /// Data de nascimento da pessoa.
@@ -122,14 +122,14 @@ namespace PlataformaRedencao.Domain.Entities
         /// de consentimentos.
         /// </remarks>
         public Pessoa(
-            NomeCompleto nome,
+            NomePessoa nomePessoa,
             DateOnly dataNascimento,
             Sexo sexo,
             Endereco endereco,
             Contato contato,
             Profissao profissao)
         {
-            Nome = nome ?? throw new ArgumentNullException(nameof(nome));
+            NomePessoa = nomePessoa ?? throw new ArgumentNullException(nameof(nomePessoa));
             DataNascimento = dataNascimento;
             Sexo = sexo;
 
