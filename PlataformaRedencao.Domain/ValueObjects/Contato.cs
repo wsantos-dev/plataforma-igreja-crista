@@ -14,13 +14,14 @@ namespace Domain.ValueObjects
     /// </summary>
     public sealed class Contato : IEquatable<Contato>
     {
+
         /// <summary>
         /// Endereço de e-mail do contato.
         /// 
         /// Este campo é obrigatório e deve representar um e-mail válido
         /// segundo as regras do domínio.
         /// </summary>
-        public Email Email { get; }
+        public Email? Email { get; }
 
         /// <summary>
         /// Telefone do contato.
@@ -38,7 +39,9 @@ namespace Domain.ValueObjects
         /// <exception cref="ArgumentNullException">
         /// Lançada quando o e-mail informado é nulo.
         /// </exception>
-        public Contato(Email email, Telefone? telefone = null)
+
+
+        public Contato(Email? email, Telefone? telefone = null)
         {
             Email = email ?? throw new ArgumentNullException(nameof(email));
             Telefone = telefone;
@@ -60,7 +63,7 @@ namespace Domain.ValueObjects
         {
             if (other is null) return false;
 
-            return Email.Equals(other.Email) &&
+            return Email!.Equals(other.Email) &&
                    Equals(Telefone, other.Telefone);
         }
 
@@ -92,7 +95,7 @@ namespace Domain.ValueObjects
         /// <returns>Representação textual do contato.</returns>
         public override string ToString()
             => Telefone is null
-                ? Email.ToString()
+                ? Email!.ToString()
                 : $"{Email} | {Telefone}";
     }
 }

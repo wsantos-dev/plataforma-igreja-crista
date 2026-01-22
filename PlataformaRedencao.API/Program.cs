@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using PlataformaRedencao.Infra.Data.Context;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,7 +8,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var connectionString = builder.Configuration.GetConnectionString("PostgreSql");
+
+builder.Services.AddDbContext<PlataformaRedencaoDbContext>(options =>
+    options.UseNpgsql(
+        builder.Configuration.GetConnectionString("PostgreSql")
+    )
+);
 
 
 var app = builder.Build();

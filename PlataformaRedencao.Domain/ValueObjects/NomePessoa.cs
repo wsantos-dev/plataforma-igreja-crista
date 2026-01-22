@@ -30,6 +30,9 @@ namespace PlataformaRedencao.Domain.ValueObjects
         /// </remarks>
         public string SobreNome { get; }
 
+
+        private NomePessoa() { } // EF Core
+
         /// <summary>
         /// Cria uma nova instância de <see cref="NomePessoa"/>.
         /// </summary>
@@ -38,16 +41,16 @@ namespace PlataformaRedencao.Domain.ValueObjects
         /// <exception cref="ArgumentException">
         /// Lançada quando Primeiro ou SobreNome são inválidos.
         /// </exception>
-        public NomePessoa(string Primeiro, string SobreNome)
+        public NomePessoa(string primeiro, string sobrenome)
         {
-            if (string.IsNullOrWhiteSpace(Primeiro))
-                throw new ArgumentException("O Primeiro não pode ser vazio.", nameof(Primeiro));
+            if (string.IsNullOrWhiteSpace(primeiro))
+                throw new ArgumentException("O Primeiro não pode ser vazio.", nameof(primeiro));
 
-            if (string.IsNullOrWhiteSpace(SobreNome))
-                throw new ArgumentException("O SobreNome não pode ser vazio.", nameof(SobreNome));
+            if (string.IsNullOrWhiteSpace(primeiro))
+                throw new ArgumentException("O SobreNome não pode ser vazio.", nameof(sobrenome));
 
-            Primeiro = Primeiro.Trim();
-            SobreNome = SobreNome.Trim();
+            PrimeiroNome = primeiro.Trim();
+            SobreNome = sobrenome.Trim();
         }
 
         /// <summary>
