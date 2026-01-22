@@ -32,7 +32,9 @@ namespace PlataformaRedencao.Domain.ValueObjects
         /// em camadas superiores ou por Value Objects especializados
         /// (ex.: <c>Cpf</c>, <c>Cnpj</c>).
         /// </summary>
-        public string Numero { get; }
+        public string? Numero { get; }
+
+        private Documento() { }
 
         /// <summary>
         /// Cria uma nova instância de <see cref="Documento"/>.

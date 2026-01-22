@@ -18,8 +18,21 @@ namespace PlataformaRedencao.Domain.Entities
     ///
     /// Esta entidade não trata autenticação, autorização ou credenciais.
     /// </remarks>
-    public class Pessoa : BaseEntity
+    public abstract class Pessoa : BaseEntity
     {
+
+        /// <summary>
+        /// CPF da pessoa.
+        /// </summary>
+        /// <remarks>
+        /// Identificador civil único no contexto nacional.
+        /// Encapsulado em um Value Object para garantir:
+        /// - Validação oficial
+        /// - Imutabilidade
+        /// - Integridade semântica
+        /// </remarks>
+        public Cpf Cpf { get; private set; }
+
         /// <summary>
         /// Nome completo da pessoa.
         /// </summary>
@@ -28,7 +41,6 @@ namespace PlataformaRedencao.Domain.Entities
         /// - Validações estruturais
         /// - Imutabilidade
         /// - Coesão semântica
-        ///
         /// Não contempla nome social.
         /// </remarks>
         public NomePessoa NomePessoa { get; private set; }
@@ -39,7 +51,6 @@ namespace PlataformaRedencao.Domain.Entities
         /// <remarks>
         /// Utiliza <see cref="DateOnly"/> para evitar ambiguidades
         /// relacionadas a horário e fuso.
-        ///
         /// Deve sempre representar uma data passada.
         /// </remarks>
         public DateOnly DataNascimento { get; private set; }
@@ -87,15 +98,28 @@ namespace PlataformaRedencao.Domain.Entities
         /// reutilização, padronização e códigos oficiais (ex.: CBO).
         /// </remarks>
         public Profissao Profissao { get; private set; }
+        public int ProfissaoId { get; private set; }
 
         /// <summary>
-        /// Indica se o cadastro da pessoa está ativo no sistema.
+        /// Endereço da pessoa.
         /// </summary>
         /// <remarks>
-        /// Utilizado para desativação lógica, preservando
-        /// histórico e integridade referencial.
+        /// Referência a entidade <see cref="Endereco"/> para
+        /// permitir geolocalização, validação de endereço e consistência
+        /// de dados.
         /// </remarks>
-        public IReadOnlyCollection<Documento> Documentos => ((HashSet<Documento>)_documentos).ToList().AsReadOnly();
+        public Endereco Endereco { get; private set; }
+        public int EnderecoId { get; private set; }
+
+        /// <summary>
+        /// Lista de documentos associados à pessoa.
+        /// </summary>
+        /// <remarks>
+        /// Representa documentos civis ou legais da pessoa.
+        /// É exposta como leitura apenas para preservar a integridade.
+        /// </remarks>
+        public IReadOnlyCollection<Documento> Documentos =>
+            _documentos.ToList().AsReadOnly();
 
         /// <summary>
         /// Histórico de consentimentos concedidos pela pessoa.
@@ -104,24 +128,28 @@ namespace PlataformaRedencao.Domain.Entities
         /// Inclui consentimentos ativos e revogados.
         /// Nunca deve ser apagado ou sobrescrito.
         /// </remarks>
-        public IReadOnlyCollection<Consentimento> Consentimentos => ((HashSet<Consentimento>)_consentimentos).ToList().AsReadOnly();
+        public IReadOnlyCollection<Consentimento> Consentimentos =>
+            _consentimentos.ToList().AsReadOnly();
 
         private readonly ICollection<Documento> _documentos = new HashSet<Documento>();
         private readonly ICollection<Consentimento> _consentimentos = new HashSet<Consentimento>();
-
-        public int EnderecoId { get; private set; }
-        public Endereco Endereco { get; private set; }
-
-        public int ProfissaoId { get; private set; }
 
         /// <summary>
         /// Cria uma nova instância de <see cref="Pessoa"/> com dados essenciais.
         /// </summary>
         /// <remarks>
-        /// O cadastro inicial NÃO implica concessão automática
-        /// de consentimentos.
+        /// O cadastro inicial NÃO implica concessão automática de consentimentos.
         /// </remarks>
+        /// <param name="cpf">CPF da pessoa.</param>
+        /// <param name="nomePessoa">Nome completo da pessoa.</param>
+        /// <param name="dataNascimento">Data de nascimento da pessoa.</param>
+        /// <param name="sexo">Sexo da pessoa.</param>
+        /// <param name="endereco">Endereço da pessoa.</param>
+        /// <param name="contato">Informações de contato da pessoa.</param>
+        /// <param name="profissao">Profissão exercida pela pessoa.</param>
+        /// <exception cref="ArgumentNullException">Quando algum valor essencial é nulo.</exception>
         public Pessoa(
+            Cpf cpf,
             NomePessoa nomePessoa,
             DateOnly dataNascimento,
             Sexo sexo,
@@ -129,6 +157,7 @@ namespace PlataformaRedencao.Domain.Entities
             Contato contato,
             Profissao profissao)
         {
+            Cpf = cpf ?? throw new ArgumentNullException(nameof(cpf));
             NomePessoa = nomePessoa ?? throw new ArgumentNullException(nameof(nomePessoa));
             DataNascimento = dataNascimento;
             Sexo = sexo;
@@ -136,8 +165,8 @@ namespace PlataformaRedencao.Domain.Entities
             Endereco = endereco ?? throw new ArgumentNullException(nameof(endereco));
             EnderecoId = endereco.Id;
 
-            Profissao = profissao ?? throw new ArgumentNullException(nameof(profissao));
             Contato = contato ?? throw new ArgumentNullException(nameof(contato));
+            Profissao = profissao ?? throw new ArgumentNullException(nameof(profissao));
         }
     }
 }

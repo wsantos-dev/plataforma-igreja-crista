@@ -6,12 +6,12 @@ namespace PlataformaRedencao.Domain.Entities
     /// Aggregate Root que representa uma Igreja Evangélica
     /// dentro do domínio da Plataforma Redenção.
     /// </summary>
-    public class Igreja
+    /// <remarks>
+    /// A entidade <see cref="Igreja"/> concentra os dados oficiais de uma igreja,
+    /// incluindo informações civis, contato, liderança e endereço principal.
+    /// </remarks>
+    public class Igreja : BaseEntity
     {
-        /// <summary>
-        /// Identificador único da igreja.
-        /// </summary>
-        public int Id { get; private set; }
 
         /// <summary>
         /// Nome oficial da igreja.
@@ -56,6 +56,9 @@ namespace PlataformaRedencao.Domain.Entities
         /// <summary>
         /// Indica se a igreja está ativa no sistema.
         /// </summary>
+        /// <remarks>
+        /// Uma igreja inativa não realiza operações no sistema, mas seus registros permanecem.
+        /// </remarks>
         public bool Ativa { get; private set; }
 
         /// <summary>
@@ -69,17 +72,29 @@ namespace PlataformaRedencao.Domain.Entities
         public DateTime? AtualizadaEm { get; private set; }
 
         /// <summary>
-        /// Histórico de endereços associados à igreja.
-        /// 
-        /// Os endereços são entidades genéricas, vinculadas
-        /// pela combinação (TipoEntidadeEndereco, EntidadeId).
+        /// FK para o endereço principal da igreja.
         /// </summary>
-        private readonly List<Endereco> _enderecos = new();
-        public IReadOnlyCollection<Endereco> Enderecos => _enderecos;
+        /// <remarks>
+        /// Representa a referência ao endereço principal da igreja, armazenado na entidade <see cref="Endereco"/>.
+        /// </remarks>
+        public int? EnderecoId { get; private set; }
 
         /// <summary>
-        /// Cria uma nova instância de igreja.
+        /// Referência de navegação para o endereço.
         /// </summary>
+        public Endereco? Endereco { get; private set; }
+
+        /// <summary>
+        /// Cria uma nova instância de igreja com os dados essenciais.
+        /// </summary>
+        /// <param name="nome">Nome oficial da igreja.</param>
+        /// <param name="nomeFantasia">Nome fantasia ou abreviado da igreja.</param>
+        /// <param name="denominacao">Denominação religiosa da igreja.</param>
+        /// <param name="pastorResponsavel">Pastor presidente ou líder principal.</param>
+        /// <param name="dataFundacao">Data de fundação da igreja.</param>
+        /// <param name="cnpj">CNPJ da igreja.</param>
+        /// <param name="email">E-mail institucional.</param>
+        /// <param name="site">Site oficial da igreja.</param>
         public Igreja(
             string nome,
             string nomeFantasia,
@@ -104,40 +119,25 @@ namespace PlataformaRedencao.Domain.Entities
         }
 
         /// <summary>
-        /// Define um novo endereço para a igreja,
-        /// encerrando o endereço atual, se existir.
+        /// Altera o endereço principal da igreja, definindo a FK para o endereço existente.
         /// </summary>
-        public void AlterarEndereco(
-            string logradouro,
-            string cidade,
-            string estado,
-            string pais,
-            string telefone)
+        /// <param name="endereco">Endereço existente a ser vinculado como principal.</param>
+        /// <remarks>
+        /// Atualiza a referência de navegação e a FK <see cref="EnderecoId"/>.
+        /// </remarks>
+        public void AlterarEndereco(Endereco endereco)
         {
-            var enderecoAtual = _enderecos.FirstOrDefault(e =>
-                e.TipoEntidade == TipoEntidadeEndereco.Igreja &&
-                e.EntidadeId == Id &&
-                e.Atual);
-
-            enderecoAtual?.EncerrarVigencia();
-
-            var novoEndereco = new Endereco(
-                entidadeId: Id,
-                tipoEntidade: TipoEntidadeEndereco.Igreja,
-                logradouro: logradouro,
-                cidade: cidade,
-                estado: estado,
-                pais: pais,
-                telefone: telefone
-            );
-
-            _enderecos.Add(novoEndereco);
+            EnderecoId = endereco.Id;
+            Endereco = endereco;
             AtualizadaEm = DateTime.UtcNow;
         }
 
         /// <summary>
         /// Desativa a igreja no sistema.
         /// </summary>
+        /// <remarks>
+        /// Uma igreja desativada não realiza operações, mas mantém histórico de registros.
+        /// </remarks>
         public void Desativar()
         {
             Ativa = false;
@@ -147,6 +147,9 @@ namespace PlataformaRedencao.Domain.Entities
         /// <summary>
         /// Reativa a igreja no sistema.
         /// </summary>
+        /// <remarks>
+        /// Uma igreja reativada volta a estar disponível para operações.
+        /// </remarks>
         public void Reativar()
         {
             Ativa = true;

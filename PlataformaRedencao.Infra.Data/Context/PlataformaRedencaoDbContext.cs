@@ -10,11 +10,16 @@ namespace PlataformaRedencao.Infra.Data.Context
             : base(options)
         { }
 
-        public DbSet<Membro> Membros => Set<Membro>();
+        public DbSet<Membro> Membros { get; set; }
+        public DbSet<Endereco> Enderecos { get; set; }
+        public DbSet<Profissao> Profissoes { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+
             modelBuilder.ApplyConfigurationsFromAssembly(
                 typeof(PlataformaRedencaoDbContext).Assembly
             );

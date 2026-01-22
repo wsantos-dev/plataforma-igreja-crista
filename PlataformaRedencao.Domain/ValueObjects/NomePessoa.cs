@@ -30,6 +30,9 @@ namespace PlataformaRedencao.Domain.ValueObjects
         /// </remarks>
         public string SobreNome { get; }
 
+
+        private NomePessoa() { } // EF Core
+
         /// <summary>
         /// Cria uma nova instância de <see cref="NomePessoa"/>.
         /// </summary>

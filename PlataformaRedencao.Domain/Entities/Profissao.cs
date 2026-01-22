@@ -27,11 +27,6 @@ namespace PlataformaRedencao.Domain.Entities
         /// </summary>
         public string? Codigo { get; private set; }
 
-        /// <summary>
-        /// Indica se a profissão está ativa para uso no sistema.
-        /// </summary>
-        public bool Ativa { get; private set; }
-
         public Profissao(int id, string nome, string? codigo = null)
         {
             if (string.IsNullOrWhiteSpace(nome))
@@ -42,7 +37,7 @@ namespace PlataformaRedencao.Domain.Entities
             Id = id;
             Nome = nome.Trim();
             Codigo = string.IsNullOrWhiteSpace(codigo) ? null : codigo.Trim();
-            Ativa = true;
+
         }
 
         /// <summary>
@@ -63,11 +58,6 @@ namespace PlataformaRedencao.Domain.Entities
         {
             const int IdPadrao = 999;
             return new Profissao(IdPadrao, "Não informado", CodigoNaoInformado);
-        }
-
-        public void Desativar()
-        {
-            Ativa = false;
         }
     }
 }
