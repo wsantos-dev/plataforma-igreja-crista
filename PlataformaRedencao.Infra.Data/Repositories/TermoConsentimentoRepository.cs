@@ -1,33 +1,49 @@
+using Microsoft.EntityFrameworkCore;
 using PlataformaRedencao.Domain.Entities;
 using PlataformaRedencao.Domain.Interfaces;
+using PlataformaRedencao.Infra.Data.Context;
 
 namespace PlataformaRedencao.Infra.Data.Repositories
 {
     public class TermoConsentimentoRepository : ITermoConsentimentoRepository
     {
-        public Task<TermoConsentimento> ObterPorIdAsync(int id)
+        private readonly PlataformaRedencaoDbContext _context;
+
+        public TermoConsentimentoRepository(PlataformaRedencaoDbContext context)
+            => _context = context;
+
+        public async Task<TermoConsentimento?> ObterPorIdAsync(int? id)
+            => await _context.TermoConsentimentos
+            .AsNoTracking()
+            .FirstOrDefaultAsync(t => t.Id == id);
+
+        public async Task<IReadOnlyCollection<TermoConsentimento?>> ObterTodosAsync()
+            => await _context.TermoConsentimentos
+            .AsNoTracking()
+            .ToListAsync();
+
+        public async Task<TermoConsentimento> AdicionarAsync(TermoConsentimento entidade)
         {
-            throw new NotImplementedException();
+            _context.Add(entidade);
+            await _context.SaveChangesAsync();
+
+            return entidade;
         }
 
-        public Task<IReadOnlyCollection<TermoConsentimento>> ObterTodosAsync()
+        public async Task<TermoConsentimento> AtualizarAsync(TermoConsentimento entidade)
         {
-            throw new NotImplementedException();
+            _context.Update(entidade);
+            await _context.SaveChangesAsync();
+
+            return entidade;
         }
 
-        public Task AdicionarAsync(TermoConsentimento entidade)
+        public async Task<TermoConsentimento> Excluir(TermoConsentimento entidade)
         {
-            throw new NotImplementedException();
-        }
+            _context.Remove(entidade);
+            await _context.SaveChangesAsync();
 
-        public Task AtualizarAsync(TermoConsentimento entidade)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task Excluir(TermoConsentimento entidade)
-        {
-            throw new NotImplementedException();
+            return entidade;
         }
     }
 }

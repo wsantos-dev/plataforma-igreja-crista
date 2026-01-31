@@ -2,6 +2,6 @@ using PlataformaRedencao.Domain.Entities;
 
 namespace PlataformaRedencao.Domain.Interfaces
 {
-    public interface IConsentimento : IRepository<Consentimento>
+    public interface IConsentimentoRepository : IRepository<Consentimento>
     { }
 }

@@ -8,7 +8,7 @@ namespace PlataformaRedencao.Infra.Data.Repositories
     /// <summary>
     /// Repositório responsável pelas operações de persistência para <see cref="Consentimento"/>.
     /// </summary>
-    public class ConsentimentoRepository : IConsentimento
+    public class ConsentimentoRepository : IConsentimentoRepository
     {
         private readonly PlataformaRedencaoDbContext _context;
 
