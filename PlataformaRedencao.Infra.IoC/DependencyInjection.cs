@@ -21,7 +21,7 @@ public static class DependencyInjection
                 .Assembly.FullName)));
 
         services.AddScoped<IIgrejaRepository, IgrejaRepository>();
-        services.AddScoped<IMembroRepository, IMembroRepository>();
+        services.AddScoped<IMembroRepository, MembroRepository>();
         services.AddScoped<IProfissaoRepository, ProfissaoRepository>();
         services.AddScoped<IConsentimentoRepository, ConsentimentoRepository>();
         services.AddScoped<ITermoConsentimentoRepository, TermoConsentimentoRepository>();
