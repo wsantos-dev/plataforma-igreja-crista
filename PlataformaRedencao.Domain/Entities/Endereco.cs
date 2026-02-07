@@ -11,7 +11,7 @@ namespace PlataformaRedencao.Domain.Entities
     /// como Membro, Igreja, Pessoa ou Visitante, utilizando <see cref="TipoEntidade"/>.
     /// Possui controle de vigência, permitindo registrar períodos em que o endereço foi válido.
     /// </remarks>
-    public class Endereco : BaseEntity
+    public sealed class Endereco : BaseEntity
     {
         /// <summary>
         /// Identificador da entidade dona do endereço.

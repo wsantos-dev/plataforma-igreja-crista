@@ -10,7 +10,7 @@ namespace PlataformaRedencao.Domain.Entities
     /// A entidade <see cref="Igreja"/> concentra os dados oficiais de uma igreja,
     /// incluindo informações civis, contato, liderança e endereço principal.
     /// </remarks>
-    public class Igreja : BaseEntity
+    public sealed class Igreja : BaseEntity
     {
 
         /// <summary>

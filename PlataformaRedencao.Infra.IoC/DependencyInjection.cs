@@ -7,6 +7,7 @@ using PlataformaRedencao.Application.Services;
 using PlataformaRedencao.Infra.Data.Context;
 using PlataformaRedencao.Infra.Data.Repositories;
 using AutoMapper;
+using PlataformaRedencao.Application.Seguranca;
 
 namespace PlataformaRedencao.Infra.IoC;
 
@@ -20,6 +21,9 @@ public static class DependencyInjection
                 configuration.GetConnectionString("PostgreSql"),
                 p => p.MigrationsAssembly(typeof(PlataformaRedencaoDbContext)
                 .Assembly.FullName)));
+
+        // Segurança
+        services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
 
         // Repositories
 
