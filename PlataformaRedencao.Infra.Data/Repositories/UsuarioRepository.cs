@@ -7,14 +7,12 @@ namespace PlataformaRedencao.Infra.Data.Repositories
 {
     public class UsuarioRepository : IUsuarioRepository
     {
-
         private readonly PlataformaRedencaoDbContext _context;
 
         public UsuarioRepository(PlataformaRedencaoDbContext context)
         {
             _context = context;
         }
-
         public async Task<Usuario?> GetByIdAsync(int? id)
             => await _context.Usuarios
             .AsNoTracking()
@@ -34,7 +32,7 @@ namespace PlataformaRedencao.Infra.Data.Repositories
         {
             _context.Usuarios.Add(entidade);
             await _context.SaveChangesAsync();
-            
+
             return entidade;
         }
 
@@ -42,7 +40,7 @@ namespace PlataformaRedencao.Infra.Data.Repositories
         {
             _context.Usuarios.Update(entidade);
             await _context.SaveChangesAsync();
-            
+
             return entidade;
         }
 
@@ -50,7 +48,7 @@ namespace PlataformaRedencao.Infra.Data.Repositories
         {
             _context.Usuarios.Remove(entidade);
             await _context.SaveChangesAsync();
-            
+
             return entidade;
         }
     }

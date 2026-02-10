@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using PlataformaRedencao.Application.DTOs.Auth;
-using PlataformaRedencao.Application.Seguranca;
+using PlataformaRedencao.Application.Security;
 using PlataformaRedencao.Domain.Entities;
 using PlataformaRedencao.Domain.Interfaces;
 

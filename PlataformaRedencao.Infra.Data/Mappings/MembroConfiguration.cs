@@ -107,6 +107,16 @@ namespace PlataformaRedencao.Infra.Data.EntitiesConfiguration
                             .HasColumnName("igreja_id")
                             .IsRequired();
 
+                     builder.Property(m => m.CriadoEm)
+                            .HasColumnName("criado_em")
+                            .HasColumnType("timestamptz")
+                            .IsRequired();
+
+                     builder.Property(m => m.AtualizadoEm)
+                            .HasColumnName("atualizado_em")
+                            .HasColumnType("timestamptz")
+                            .IsRequired();
+
                      builder.HasOne(m => m.Igreja)
                             .WithMany() // Se não houver coleção de membros em Igreja, .WithMany() é suficiente
                             .HasForeignKey(m => m.IgrejaId)

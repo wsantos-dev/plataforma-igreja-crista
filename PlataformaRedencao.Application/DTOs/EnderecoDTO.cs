@@ -18,8 +18,5 @@ namespace PlataformaRedencao.Application.DTOs
         public string? Estado { get; set; }
         public string? Pais { get; set; }
         public string? Cep { get; set; }
-        public bool Atual { get; set; }
-        public DateTime? VigenteDesde { get; set; }
-        public DateTime? VigenteAte { get; set; }
     }
 }

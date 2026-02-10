@@ -7,13 +7,16 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace PlataformaRedencao.Infra.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class CriarPrimeirasEntities : Migration
+    public partial class CreateInitialTables : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
                 name: "membros");
+
+            migrationBuilder.EnsureSchema(
+                name: "public");
 
             migrationBuilder.EnsureSchema(
                 name: "seguranca");
@@ -34,10 +37,7 @@ namespace PlataformaRedencao.Infra.Data.Migrations
                     cidade = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     estado = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     pais = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    cep = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
-                    atual = table.Column<bool>(type: "boolean", nullable: false),
-                    vigente_desde = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    vigente_ate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    cep = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -69,7 +69,7 @@ namespace PlataformaRedencao.Infra.Data.Migrations
                     email = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
                     senha_hash = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
                     ativo = table.Column<bool>(type: "boolean", nullable: false),
-                    criado_em = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    criado_em = table.Column<DateTimeOffset>(type: "timestamptz", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -78,22 +78,21 @@ namespace PlataformaRedencao.Infra.Data.Migrations
 
             migrationBuilder.CreateTable(
                 name: "igreja",
-                schema: "membros",
+                schema: "public",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     nome = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     nome_fantasia = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
-                    denominacao = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    denominacao = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     pastor_responsavel = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
-                    data_fundacao = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    data_fundacao = table.Column<DateOnly>(type: "date", nullable: false),
                     cnpj = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
                     email = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     site = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
-                    ativa = table.Column<bool>(type: "boolean", nullable: false),
-                    criada_em = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    atualizada_em = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    criado_em = table.Column<DateTimeOffset>(type: "timestamptz", nullable: false),
+                    atualizado_em = table.Column<DateTimeOffset>(type: "timestamptz", nullable: true),
                     endereco_id = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
@@ -116,11 +115,11 @@ namespace PlataformaRedencao.Infra.Data.Migrations
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     cpf = table.Column<string>(type: "character varying(14)", maxLength: 14, nullable: false),
-                    primeiro_nome = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    sobrenome = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    primeiro_nome = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    sobrenome = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     data_nascimento = table.Column<DateOnly>(type: "date", nullable: false),
                     sexo = table.Column<char>(type: "character(1)", nullable: false),
-                    email = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    email = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
                     telefone = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true),
                     estado_civil = table.Column<int>(type: "integer", nullable: false),
                     escolaridade = table.Column<int>(type: "integer", nullable: false),
@@ -129,7 +128,9 @@ namespace PlataformaRedencao.Infra.Data.Migrations
                     igreja_id = table.Column<int>(type: "integer", nullable: false),
                     data_admissao = table.Column<DateOnly>(type: "date", nullable: false),
                     tipo_admissao = table.Column<int>(type: "integer", nullable: false),
-                    situacao = table.Column<int>(type: "integer", nullable: false)
+                    situacao = table.Column<int>(type: "integer", nullable: false),
+                    criado_em = table.Column<DateTimeOffset>(type: "timestamptz", nullable: false),
+                    atualizado_em = table.Column<DateTimeOffset>(type: "timestamptz", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -144,7 +145,7 @@ namespace PlataformaRedencao.Infra.Data.Migrations
                     table.ForeignKey(
                         name: "FK_membro_igreja_igreja_id",
                         column: x => x.igreja_id,
-                        principalSchema: "membros",
+                        principalSchema: "public",
                         principalTable: "igreja",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
@@ -158,12 +159,6 @@ namespace PlataformaRedencao.Infra.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_endereco_atual",
-                schema: "membros",
-                table: "endereco",
-                column: "atual");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_endereco_entidade_id_tipo_entidade",
                 schema: "membros",
                 table: "endereco",
@@ -171,7 +166,7 @@ namespace PlataformaRedencao.Infra.Data.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_igreja_endereco_id",
-                schema: "membros",
+                schema: "public",
                 table: "igreja",
                 column: "endereco_id");
 
@@ -207,7 +202,7 @@ namespace PlataformaRedencao.Infra.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "igreja",
-                schema: "membros");
+                schema: "public");
 
             migrationBuilder.DropTable(
                 name: "profissao",

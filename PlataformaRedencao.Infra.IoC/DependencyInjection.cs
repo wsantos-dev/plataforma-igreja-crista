@@ -6,7 +6,8 @@ using PlataformaRedencao.Application.Interfaces;
 using PlataformaRedencao.Application.Services;
 using PlataformaRedencao.Infra.Data.Context;
 using PlataformaRedencao.Infra.Data.Repositories;
-using PlataformaRedencao.Application.Seguranca;
+using PlataformaRedencao.Application.Security;
+using PlataformaRedencao.Infra.IoC.Security;
 
 namespace PlataformaRedencao.Infra.IoC;
 
@@ -20,10 +21,6 @@ public static class DependencyInjection
                 configuration.GetConnectionString("PostgreSql"),
                 p => p.MigrationsAssembly(typeof(PlataformaRedencaoDbContext)
                 .Assembly.FullName)));
-
-        // Segurança
-        services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
-        services.AddScoped<AuthService>();
 
         // Repositories
 
@@ -43,9 +40,10 @@ public static class DependencyInjection
         services.AddScoped<IProfissaoService, ProfissaoService>();
         services.AddScoped<IEnderecoService, EnderecoService>();
 
-
-
-
+        // Segurança
+        services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
+        services.AddScoped<AuthService>();
+        services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 
         return services;
     }

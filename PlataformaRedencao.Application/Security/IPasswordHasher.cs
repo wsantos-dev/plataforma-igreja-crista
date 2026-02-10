@@ -1,6 +1,6 @@
 using System;
 
-namespace PlataformaRedencao.Application.Seguranca;
+namespace PlataformaRedencao.Application.Security;
 
 public interface IPasswordHasher
 {

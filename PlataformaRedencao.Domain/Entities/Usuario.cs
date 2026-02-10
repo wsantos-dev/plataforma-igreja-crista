@@ -1,3 +1,5 @@
+using System.ComponentModel;
+
 namespace PlataformaRedencao.Domain.Entities;
 
 public sealed class Usuario : BaseEntity
@@ -6,7 +8,7 @@ public sealed class Usuario : BaseEntity
     public string SenhaHash { get; private set; } = null!;
 
     public bool IsAtivo { get; private set; }
-    public DateTime CriadoEm { get; private set; }
+    public DateTimeOffset CriadoEm { get; private set; }
 
     protected Usuario() { }
 
@@ -15,7 +17,7 @@ public sealed class Usuario : BaseEntity
         Email = email;
         SenhaHash = senhaHash;
         IsAtivo = true;
-        CriadoEm = DateTime.Now;
+        CriadoEm = DateTimeOffset.UtcNow;
     }
     public void Desativar()
     {

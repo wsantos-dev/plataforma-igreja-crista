@@ -12,8 +12,8 @@ using PlataformaRedencao.Infra.Data.Context;
 namespace PlataformaRedencao.Infra.Data.Migrations
 {
     [DbContext(typeof(PlataformaRedencaoDbContext))]
-    [Migration("20260207205315_CriarPrimeirasEntities")]
-    partial class CriarPrimeirasEntities
+    [Migration("20260210024639_CreateInitialTables")]
+    partial class CreateInitialTables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,10 +33,6 @@ namespace PlataformaRedencao.Infra.Data.Migrations
                         .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("Atual")
-                        .HasColumnType("boolean")
-                        .HasColumnName("atual");
 
                     b.Property<string>("Bairro")
                         .HasMaxLength(100)
@@ -91,17 +87,7 @@ namespace PlataformaRedencao.Infra.Data.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("tipo_entidade");
 
-                    b.Property<DateTime?>("VigenteAte")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("vigente_ate");
-
-                    b.Property<DateTime?>("VigenteDesde")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("vigente_desde");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("Atual");
 
                     b.HasIndex("EntidadeId", "TipoEntidade");
 
@@ -117,13 +103,9 @@ namespace PlataformaRedencao.Infra.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<bool>("Ativa")
-                        .HasColumnType("boolean")
-                        .HasColumnName("ativa");
-
-                    b.Property<DateTime?>("AtualizadaEm")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("atualizada_em");
+                    b.Property<DateTimeOffset?>("AtualizadoEm")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("atualizado_em");
 
                     b.Property<string>("Cnpj")
                         .IsRequired()
@@ -131,16 +113,15 @@ namespace PlataformaRedencao.Infra.Data.Migrations
                         .HasColumnType("character varying(20)")
                         .HasColumnName("cnpj");
 
-                    b.Property<DateTime>("CriadaEm")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("criada_em");
+                    b.Property<DateTimeOffset>("CriadoEm")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("criado_em");
 
-                    b.Property<DateTime>("DataFundacao")
-                        .HasColumnType("timestamp with time zone")
+                    b.Property<DateOnly>("DataFundacao")
+                        .HasColumnType("date")
                         .HasColumnName("data_fundacao");
 
                     b.Property<string>("Denominacao")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)")
                         .HasColumnName("denominacao");
@@ -183,7 +164,7 @@ namespace PlataformaRedencao.Infra.Data.Migrations
 
                     b.HasIndex("EnderecoId");
 
-                    b.ToTable("igreja", "membros");
+                    b.ToTable("igreja", "public");
                 });
 
             modelBuilder.Entity("PlataformaRedencao.Domain.Entities.Membro", b =>
@@ -195,11 +176,19 @@ namespace PlataformaRedencao.Infra.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTimeOffset>("AtualizadoEm")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("atualizado_em");
+
                     b.Property<string>("Cpf")
                         .IsRequired()
                         .HasMaxLength(14)
                         .HasColumnType("character varying(14)")
                         .HasColumnName("cpf");
+
+                    b.Property<DateTimeOffset>("CriadoEm")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("criado_em");
 
                     b.Property<DateOnly>("DataAdmissao")
                         .HasColumnType("date")
@@ -286,8 +275,8 @@ namespace PlataformaRedencao.Infra.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CriadoEm")
-                        .HasColumnType("timestamp with time zone")
+                    b.Property<DateTimeOffset>("CriadoEm")
+                        .HasColumnType("timestamptz")
                         .HasColumnName("criado_em");
 
                     b.Property<string>("Email")
@@ -390,15 +379,13 @@ namespace PlataformaRedencao.Infra.Data.Migrations
                                 .HasForeignKey("MembroId");
                         });
 
-                    b.Navigation("Contato")
-                        .IsRequired();
+                    b.Navigation("Contato");
 
                     b.Navigation("Endereco");
 
                     b.Navigation("Igreja");
 
-                    b.Navigation("NomePessoa")
-                        .IsRequired();
+                    b.Navigation("NomePessoa");
 
                     b.Navigation("Profissao");
                 });

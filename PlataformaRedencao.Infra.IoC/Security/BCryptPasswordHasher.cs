@@ -1,6 +1,7 @@
 using System;
+using PlataformaRedencao.Application.Security;
 
-namespace PlataformaRedencao.Application.Seguranca;
+namespace PlataformaRedencao.Infra.IoC.Security;
 
 public class BCryptPasswordHasher : IPasswordHasher
 {

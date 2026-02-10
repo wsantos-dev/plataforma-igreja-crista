@@ -70,30 +70,6 @@ namespace PlataformaRedencao.Domain.Entities
         public string? Cep { get; private set; }
 
         /// <summary>
-        /// Indica se este é o endereço atual do dono.
-        /// </summary>
-        /// <remarks>
-        /// Um endereço atual é considerado válido para uso nos registros da entidade.
-        /// </remarks>
-        public bool Atual { get; private set; }
-
-        /// <summary>
-        /// Data de início da vigência do endereço.
-        /// </summary>
-        /// <remarks>
-        /// Indica quando o endereço passou a ser considerado válido.
-        /// </remarks>
-        public DateTime? VigenteDesde { get; private set; }
-
-        /// <summary>
-        /// Data de término da vigência do endereço.
-        /// </summary>
-        /// <remarks>
-        /// Indica quando o endereço deixou de ser considerado válido.
-        /// </remarks>
-        public DateTime? VigenteAte { get; private set; }
-
-        /// <summary>
         /// Inicializa um novo endereço associado a uma entidade do domínio.
         /// </summary>
         /// <param name="entidadeId">Identificador da entidade dona do endereço.</param>
@@ -125,21 +101,6 @@ namespace PlataformaRedencao.Domain.Entities
             Estado = estado;
             Pais = pais;
             Cep = cep;
-
-            Atual = true;
-            VigenteDesde = DateTime.UtcNow;
-        }
-
-        /// <summary>
-        /// Encerra a vigência do endereço, marcando-o como não atual.
-        /// </summary>
-        /// <remarks>
-        /// Define <see cref="Atual"/> como falso e registra a data de término em <see cref="VigenteAte"/>.
-        /// </remarks>
-        public void EncerrarVigencia()
-        {
-            Atual = false;
-            VigenteAte = DateTime.UtcNow;
         }
     }
 }
