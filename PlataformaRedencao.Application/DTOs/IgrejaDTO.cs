@@ -14,9 +14,7 @@ namespace PlataformaRedencao.Application.DTOs
         public string? Cnpj { get; set; }
         public string? Email { get; set; }
         public string? Site { get; set; }
-        public bool Ativa { get; set; }
-        public DateTime CriadaEm { get; set; }
-        public DateTime? AtualizadaEm { get; set; }
+        public DateTimeOffset CriadaEm { get; set; }
         public int? EnderecoId { get; set; }
         public EnderecoDTO? Endereco { get; set; }
     }

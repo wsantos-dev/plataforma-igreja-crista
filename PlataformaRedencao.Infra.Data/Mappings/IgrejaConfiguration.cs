@@ -8,7 +8,7 @@ public class IgrejaConfiguration : IEntityTypeConfiguration<Igreja>
 {
     public void Configure(EntityTypeBuilder<Igreja> builder)
     {
-        builder.ToTable("igreja", "membros");
+        builder.ToTable("igreja", "public");
 
         builder.HasKey(i => i.Id);
 
@@ -49,16 +49,15 @@ public class IgrejaConfiguration : IEntityTypeConfiguration<Igreja>
             .HasColumnName("site")
             .HasMaxLength(200);
 
-        builder.Property(i => i.Ativa)
-            .HasColumnName("ativa")
+        builder.Property(i => i.CriadoEm)
+            .HasColumnName("criado_em")
+            .HasColumnType("timestamptz")
             .IsRequired();
 
-        builder.Property(i => i.CriadaEm)
-            .HasColumnName("criada_em")
-            .IsRequired();
+        builder.Property(i => i.AtualizadoEm)
+            .HasColumnName("atualizado_em")
+            .HasColumnType("timestamptz");
 
-        builder.Property(i => i.AtualizadaEm)
-            .HasColumnName("atualizada_em");
 
         // FK Endereço (nullable conforme entidade)
         builder.Property(i => i.EnderecoId)

@@ -64,20 +64,8 @@ namespace PlataformaRedencao.Infra.Data.Mappings
                 .HasMaxLength(20)
                 .IsRequired();
 
-            // Controle de vigência
-            builder.Property(e => e.Atual)
-                .HasColumnName("atual")
-                .IsRequired();
-
-            builder.Property(e => e.VigenteDesde)
-                .HasColumnName("vigente_desde");
-
-            builder.Property(e => e.VigenteAte)
-                .HasColumnName("vigente_ate");
-
             // Índices úteis
             builder.HasIndex(e => new { e.EntidadeId, e.TipoEntidade });
-            builder.HasIndex(e => e.Atual);
         }
     }
 }

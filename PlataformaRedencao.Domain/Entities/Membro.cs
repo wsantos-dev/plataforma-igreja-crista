@@ -21,12 +21,12 @@ namespace PlataformaRedencao.Domain.Entities
         /// <summary>
         /// CPF da pessoa.
         /// </summary>
-        public Cpf Cpf { get; private set; }
+        public Cpf? Cpf { get; private set; }
 
         /// <summary>
         /// Nome completo da pessoa.
         /// </summary>
-        public NomePessoa NomePessoa { get; private set; }
+        public NomePessoa? NomePessoa { get; private set; }
 
         /// <summary>
         /// Data de nascimento da pessoa.
@@ -36,12 +36,12 @@ namespace PlataformaRedencao.Domain.Entities
         /// <summary>
         /// Sexo da pessoa.
         /// </summary>
-        public Sexo Sexo { get; private set; }
+        public Sexo? Sexo { get; private set; }
 
         /// <summary>
         /// Informações de contato da pessoa.
         /// </summary>
-        public Contato Contato { get; private set; }
+        public Contato? Contato { get; private set; }
 
         /// <summary>
         /// Estado civil da pessoa.
@@ -56,7 +56,7 @@ namespace PlataformaRedencao.Domain.Entities
         /// <summary>
         /// Profissão exercida pela pessoa.
         /// </summary>
-        public Profissao Profissao { get; private set; }
+        public Profissao? Profissao { get; private set; }
 
         /// <summary>
         /// Identificador da profissão.
@@ -71,7 +71,7 @@ namespace PlataformaRedencao.Domain.Entities
         /// <summary>
         /// Endereço da pessoa.
         /// </summary>
-        public Endereco Endereco { get; private set; }
+        public Endereco? Endereco { get; private set; }
 
         /// <summary>
         /// Identificador da igreja à qual o membro pertence.
@@ -84,7 +84,7 @@ namespace PlataformaRedencao.Domain.Entities
         /// <summary>
         /// Igreja à qual o membro está vinculado.
         /// </summary>
-        public Igreja Igreja { get; private set; }
+        public Igreja? Igreja { get; private set; }
 
         /// <summary>
         /// Data de admissão do membro na igreja.
@@ -100,6 +100,18 @@ namespace PlataformaRedencao.Domain.Entities
         /// Situação atual do membro na igreja.
         /// </summary>
         public SituacaoMembro Situacao { get; private set; }
+
+
+        /// <summary>
+        /// Data de criação do cadastro do Membro.
+        /// </summary>
+        public DateTimeOffset CriadoEm { get; private set; }
+
+        /// <summary>
+        /// Data da última atualização do cadastro do Membro.
+        /// </summary>
+        public DateTimeOffset? AtualizadoEm { get; private set; }
+
 
         /// <summary>
         /// Fábrica para criar um novo membro.
@@ -131,7 +143,8 @@ namespace PlataformaRedencao.Domain.Entities
                 IgrejaId = igreja.Id,
                 DataAdmissao = dataAdmissao,
                 TipoAdmissao = tipoAdmissao,
-                Situacao = SituacaoMembro.Ativo
+                Situacao = SituacaoMembro.Ativo,
+                CriadoEm = DateTimeOffset.UtcNow
             };
 
             return membro;
@@ -148,6 +161,7 @@ namespace PlataformaRedencao.Domain.Entities
             DataAdmissao = dataAdmissao;
             TipoAdmissao = tipoAdmissao;
             Situacao = situacao;
+            AtualizadoEm = DateTimeOffset.UtcNow;
         }
     }
 }

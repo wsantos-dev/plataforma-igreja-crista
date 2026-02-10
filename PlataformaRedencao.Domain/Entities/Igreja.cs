@@ -10,7 +10,7 @@ namespace PlataformaRedencao.Domain.Entities
     /// A entidade <see cref="Igreja"/> concentra os dados oficiais de uma igreja,
     /// incluindo informações civis, contato, liderança e endereço principal.
     /// </remarks>
-    public class Igreja : BaseEntity
+    public sealed class Igreja : BaseEntity
     {
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace PlataformaRedencao.Domain.Entities
         /// <summary>
         /// Denominação à qual a igreja pertence.
         /// </summary>
-        public string Denominacao { get; private set; }
+        public string? Denominacao { get; private set; }
 
         /// <summary>
         /// Pastor presidente ou líder principal da igreja.
@@ -36,7 +36,7 @@ namespace PlataformaRedencao.Domain.Entities
         /// <summary>
         /// Data de fundação da igreja.
         /// </summary>
-        public DateTime DataFundacao { get; private set; }
+        public DateOnly DataFundacao { get; private set; }
 
         /// <summary>
         /// Número de registro legal da igreja (CNPJ).
@@ -54,22 +54,14 @@ namespace PlataformaRedencao.Domain.Entities
         public string Site { get; private set; }
 
         /// <summary>
-        /// Indica se a igreja está ativa no sistema.
-        /// </summary>
-        /// <remarks>
-        /// Uma igreja inativa não realiza operações no sistema, mas seus registros permanecem.
-        /// </remarks>
-        public bool Ativa { get; private set; }
-
-        /// <summary>
         /// Data de criação do registro da igreja no sistema.
         /// </summary>
-        public DateTime CriadaEm { get; private set; }
+        public DateTimeOffset CriadoEm { get; private set; }
 
         /// <summary>
         /// Data da última atualização do cadastro da igreja.
         /// </summary>
-        public DateTime? AtualizadaEm { get; private set; }
+        public DateTimeOffset? AtualizadoEm { get; private set; }
 
         /// <summary>
         /// FK para o endereço principal da igreja.
@@ -100,7 +92,7 @@ namespace PlataformaRedencao.Domain.Entities
             string nomeFantasia,
             string denominacao,
             string pastorResponsavel,
-            DateTime dataFundacao,
+            DateOnly dataFundacao,
             string cnpj,
             string email,
             string site)
@@ -113,9 +105,7 @@ namespace PlataformaRedencao.Domain.Entities
             Cnpj = cnpj;
             Email = email;
             Site = site;
-
-            Ativa = true;
-            CriadaEm = DateTime.UtcNow;
+            CriadoEm = DateTimeOffset.UtcNow;
         }
 
         /// <summary>
@@ -129,31 +119,7 @@ namespace PlataformaRedencao.Domain.Entities
         {
             EnderecoId = endereco.Id;
             Endereco = endereco;
-            AtualizadaEm = DateTime.UtcNow;
-        }
-
-        /// <summary>
-        /// Desativa a igreja no sistema.
-        /// </summary>
-        /// <remarks>
-        /// Uma igreja desativada não realiza operações, mas mantém histórico de registros.
-        /// </remarks>
-        public void Desativar()
-        {
-            Ativa = false;
-            AtualizadaEm = DateTime.UtcNow;
-        }
-
-        /// <summary>
-        /// Reativa a igreja no sistema.
-        /// </summary>
-        /// <remarks>
-        /// Uma igreja reativada volta a estar disponível para operações.
-        /// </remarks>
-        public void Reativar()
-        {
-            Ativa = true;
-            AtualizadaEm = DateTime.UtcNow;
+            AtualizadoEm = DateTimeOffset.UtcNow;
         }
     }
 }
