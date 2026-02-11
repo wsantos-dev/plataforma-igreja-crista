@@ -24,21 +24,21 @@ public static class DependencyInjection
 
         // Repositories
 
-        services.AddScoped<IIgrejaRepository, IgrejaRepository>();
-        services.AddScoped<IMembroRepository, MembroRepository>();
-        services.AddScoped<IProfissaoRepository, ProfissaoRepository>();
-        services.AddScoped<IEnderecoRepository, EnderecoRepository>();
-        services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+        services.AddScoped<IChurchRepository, ChurchRepository>();
+        services.AddScoped<IMemberRepository, MemberRepository>();
+        services.AddScoped<IProfessionRepository, ProfessionRepository>();
+        services.AddScoped<IAddressRepository, AddressRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
 
 
         // AutoMapper
         services.AddAutoMapper(typeof(DependencyInjection).Assembly);
 
         // Application services
-        services.AddScoped<IIgrejaService, IgrejaService>();
-        services.AddScoped<IMembroService, MembroService>();
-        services.AddScoped<IProfissaoService, ProfissaoService>();
-        services.AddScoped<IEnderecoService, EnderecoService>();
+        services.AddScoped<IChurchService, ChurchService>();
+        services.AddScoped<IMemberService, MemberService>();
+        services.AddScoped<IProfissionService, ProfissaoService>();
+        services.AddScoped<IAddressService, AddressService>();
 
         // Segurança
         services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();

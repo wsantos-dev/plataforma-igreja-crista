@@ -19,7 +19,7 @@ namespace PlataformaRedencao.Infra.IoC.Security
             _configuration = configuration;
         }
 
-        public string GenerateToken(Usuario usuario)
+        public string GenerateToken(User usuario)
         {
             var jwtSettings = _configuration.GetSection("Jwt");
 

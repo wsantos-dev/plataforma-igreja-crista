@@ -2,8 +2,8 @@ using PlataformaRedencao.Domain.Entities;
 
 namespace PlataformaRedencao.Domain.Interfaces
 {
-    public interface IUsuarioRepository : IRepository<Usuario>
+    public interface IUserRepository : IRepository<User>
     {
-        Task<Usuario> GetByEmailAsync(string email);
+        Task<User?> GetByEmailAsync(string email);
     }
 }

@@ -11,7 +11,7 @@ namespace PlataformaRedencao.Domain.ValueObjects
     /// O e-mail é tratado como um valor imutável, sem identidade própria,
     /// e sua igualdade é definida pelo endereço, de forma case-insensitive.
     /// </summary>
-    public sealed class Email : IEquatable<Email>
+    public sealed class EmailAddress : IEquatable<EmailAddress>
     {
         /// <summary>
         /// Expressão regular utilizada para validação básica
@@ -25,65 +25,65 @@ namespace PlataformaRedencao.Domain.ValueObjects
         /// <summary>
         /// Endereço de e-mail validado e normalizado.
         /// </summary>
-        public string Endereco { get; }
+        public string Address { get; }
 
         /// <summary>
-        /// Cria uma nova instância de <see cref="Email"/> a partir
+        /// Cria uma nova instância de <see cref="EmailAddress"/> a partir
         /// de um endereço informado.
         /// </summary>
-        /// <param name="endereco">Endereço de e-mail.</param>
+        /// <param name="address">Endereço de e-mail.</param>
         /// <exception cref="ArgumentException">
         /// Lançada quando o e-mail é nulo, vazio ou inválido.
         /// </exception>
-        public Email(string endereco)
+        public EmailAddress(string address)
         {
-            if (string.IsNullOrWhiteSpace(endereco))
-                throw new ArgumentException("E-mail não pode ser vazio.", nameof(endereco));
+            if (string.IsNullOrWhiteSpace(address))
+                throw new ArgumentException("E-mail não pode ser vazio.", nameof(address));
 
-            endereco = endereco.Trim();
+            address = address.Trim();
 
-            if (!EmailRegex.IsMatch(endereco))
-                throw new ArgumentException("E-mail inválido.", nameof(endereco));
+            if (!EmailRegex.IsMatch(address))
+                throw new ArgumentException("E-mail inválido.", nameof(address));
 
-            Endereco = endereco;
+            Address = address;
         }
 
         /// <summary>
-        /// Conversão implícita de <see cref="Email"/> para <see cref="string"/>.
+        /// Conversão implícita de <see cref="EmailAddress"/> para <see cref="string"/>.
         /// 
         /// Retorna o endereço de e-mail validado.
         /// </summary>
-        public static implicit operator string(Email email)
-            => email.Endereco;
+        public static implicit operator string(EmailAddress email)
+            => email.Address;
 
         #region Equality
 
         /// <summary>
-        /// Determina se outro <see cref="Email"/> é igual ao objeto atual.
+        /// Determina se outro <see cref="EmailAddress"/> é igual ao objeto atual.
         /// 
         /// A comparação é realizada de forma case-insensitive,
         /// conforme convenção de e-mails.
         /// </summary>
-        /// <param name="other">Outro objeto <see cref="Email"/>.</param>
+        /// <param name="other">Outro objeto <see cref="EmailAddress"/>.</param>
         /// <returns>
         /// <c>true</c> se os endereços forem equivalentes; caso contrário, <c>false</c>.
         /// </returns>
-        public bool Equals(Email? other)
+        public bool Equals(EmailAddress? other)
             => other is not null &&
-               string.Equals(Endereco, other.Endereco, StringComparison.OrdinalIgnoreCase);
+               string.Equals(Address, other.Address, StringComparison.OrdinalIgnoreCase);
 
         /// <summary>
         /// Determina se o objeto especificado é igual ao objeto atual.
         /// </summary>
         public override bool Equals(object? obj)
-            => Equals(obj as Email);
+            => Equals(obj as EmailAddress);
 
         /// <summary>
         /// Retorna o código hash baseado no endereço de e-mail,
         /// utilizando comparação case-insensitive.
         /// </summary>
         public override int GetHashCode()
-            => StringComparer.OrdinalIgnoreCase.GetHashCode(Endereco);
+            => StringComparer.OrdinalIgnoreCase.GetHashCode(Address);
 
         #endregion
 
@@ -92,6 +92,6 @@ namespace PlataformaRedencao.Domain.ValueObjects
         /// </summary>
         /// <returns>Endereço de e-mail.</returns>
         public override string ToString()
-            => Endereco;
+            => Address;
     }
 }

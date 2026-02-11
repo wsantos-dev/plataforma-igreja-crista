@@ -4,6 +4,6 @@ namespace PlataformaRedencao.Application.Security
 {
     public interface IJwtTokenGenerator
     {
-        string GenerateToken(Usuario usuario);
+        string GenerateToken(User usuario);
     }
 }

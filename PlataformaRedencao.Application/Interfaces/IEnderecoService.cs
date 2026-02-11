@@ -5,27 +5,27 @@ namespace PlataformaRedencao.Application.Interfaces
     /// <summary>
     /// Serviço para operações relacionadas a endereços.
     /// </summary>
-    public interface IEnderecoService
+    public interface IAddressService
     {
         /// <summary>
         /// Obtém todos os endereços.
         /// </summary>
-        Task<IReadOnlyCollection<EnderecoDTO>> GetEnderecosAsync();
+        Task<IReadOnlyCollection<AddressDTO>> GetAddressAsync();
 
         /// <summary>
         /// Obtém um endereço pelo identificador.
         /// </summary>
-        Task<EnderecoDTO> GetById(int? id);
+        Task<AddressDTO> GetById(int? id);
 
         /// <summary>
         /// Adiciona um novo endereço.
         /// </summary>
-        Task Add(EnderecoDTO enderecoDTO);
+        Task Add(AddressDTO enderecoDTO);
 
         /// <summary>
         /// Atualiza um endereço existente.
         /// </summary>
-        Task Update(EnderecoDTO enderecoDTO);
+        Task Update(AddressDTO enderecoDTO);
 
         /// <summary>
         /// Remove um endereço pelo identificador.

@@ -13,8 +13,8 @@ namespace PlataformaRedencao.API.Endpoints
             var group = app.MapGroup("/auth")
                            .WithTags("Auth");
 
-            group.MapPost("/cadastrar", CadastrarUsuarioAsync)
-                 .WithName("CadastrarUsuario")
+            group.MapPost("/create", CreateUsuarioAsync)
+                 .WithName("CreateUser")
                  .WithSummary("Cadastrar usuário")
                  .WithDescription("Cria um novo usuário na plataforma");
 
@@ -49,7 +49,7 @@ namespace PlataformaRedencao.API.Endpoints
         private static async Task<IResult> RefreshTokenAsync(
         string refreshToken,
         IRefreshTokenRepository refreshRepo,
-        IUsuarioRepository usuarioRepo,
+        IUserRepository usuarioRepo,
         IJwtTokenGenerator jwtTokenGenerator)
         {
             var storedToken = await refreshRepo.GetAsync(refreshToken);
@@ -98,9 +98,9 @@ namespace PlataformaRedencao.API.Endpoints
             });
         }
 
-        private static async Task<IResult> CadastrarUsuarioAsync(RegisterUserRequestDTO requestDto, AuthService authService)
+        private static async Task<IResult> CreateUsuarioAsync(RegisterUserRequestDTO requestDto, AuthService authService)
         {
-            await authService.CadastrarUsuarioAsync(requestDto);
+            await authService.CreateUsuarioAsync(requestDto);
             return Results.Ok();
         }
     }

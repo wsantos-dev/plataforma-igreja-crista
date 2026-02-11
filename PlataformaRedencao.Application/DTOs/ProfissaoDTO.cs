@@ -1,12 +1,14 @@
 namespace PlataformaRedencao.Application.DTOs
 {
     /// <summary>
-    /// DTO simples para profissões.
+    /// DTO simples para Profession.
     /// </summary>
-    public class ProfissaoDTO
+    public class ProfessionDTO
     {
         public int Id { get; set; }
-        public string Nome { get; set; } = null!;
-        public string? Codigo { get; set; }
+
+        public string Name { get; set; } = null!;
+
+        public string? Code { get; set; }
     }
 }
