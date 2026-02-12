@@ -5,100 +5,82 @@ using System.Text.RegularExpressions;
 namespace PlataformaRedencao.Domain.ValueObjects
 {
     /// <summary>
-    /// Value Object que representa o CPF (Cadastro de Pessoas Físicas)
-    /// no domínio.
-    /// 
-    /// Este objeto encapsula todas as regras de validação do CPF,
-    /// garantindo que apenas valores válidos possam ser instanciados.
-    /// 
-    /// O CPF é tratado como um valor imutável, sem identidade própria,
-    /// com igualdade definida exclusivamente pelo seu conteúdo.
+    /// Value object representing a Brazilian CPF (individual taxpayer registry) in the domain.
+    /// Encapsulates all CPF validation rules so that only valid values can be instantiated.
+    /// The CPF is immutable, has no identity of its own, and equality is defined solely by its content.
     /// </summary>
     public sealed class Cpf : IEquatable<Cpf>
     {
         /// <summary>
-        /// Expressão regular utilizada para remover caracteres
-        /// não numéricos do CPF informado.
+        /// Regular expression used to strip non-numeric characters from the CPF value.
         /// </summary>
         private static readonly Regex OnlyDigitsRegex =
             new(@"[^\d]", RegexOptions.Compiled);
 
         /// <summary>
-        /// Valor numérico do CPF contendo exatamente 11 dígitos,
-        /// sem formatação.
+        /// Numeric value of the CPF containing exactly 11 digits, unformatted.
         /// </summary>
         public string Value { get; }
 
         /// <summary>
-        /// Cria uma nova instância de <see cref="Cpf"/> a partir de
-        /// um valor informado.
-        /// 
-        /// São aceitos valores formatados ou não formatados
-        /// (ex.: 123.456.789-09 ou 12345678909).
+        /// Creates a new instance of <see cref="Cpf"/> from the given value.
+        /// Accepts formatted or unformatted values (e.g. 123.456.789-09 or 12345678909).
         /// </summary>
-        /// <param name="value">Valor do CPF.</param>
+        /// <param name="value">CPF value.</param>
         /// <exception cref="ArgumentException">
-        /// Lançada quando o CPF é nulo, vazio ou inválido segundo
-        /// as regras oficiais de validação.
+        /// Thrown when the CPF is null, empty, or invalid according to official validation rules.
         /// </exception>
         public Cpf(string value)
         {
             if (string.IsNullOrWhiteSpace(value))
-                throw new ArgumentException("CPF não pode ser vazio.", nameof(value));
+                throw new ArgumentException("CPF cannot be empty.", nameof(value));
 
             var digits = OnlyDigitsRegex.Replace(value, string.Empty);
 
             if (digits.Length != 11)
-                throw new ArgumentException("CPF deve conter exatamente 11 dígitos.", nameof(value));
+                throw new ArgumentException("CPF must contain exactly 11 digits.", nameof(value));
 
             if (HasRepeatedDigits(digits))
-                throw new ArgumentException("CPF inválido.", nameof(value));
+                throw new ArgumentException("Invalid CPF.", nameof(value));
 
             if (!HasValidCheckDigits(digits))
-                throw new ArgumentException("CPF inválido.", nameof(value));
+                throw new ArgumentException("Invalid CPF.", nameof(value));
 
             Value = digits;
         }
 
         /// <summary>
-        /// Retorna o CPF formatado no padrão brasileiro:
-        /// XXX.XXX.XXX-XX
+        /// Returns the CPF formatted in Brazilian standard: XXX.XXX.XXX-XX.
         /// </summary>
-        /// <returns>CPF formatado.</returns>
+        /// <returns>Formatted CPF.</returns>
         public override string ToString()
             => $"{Value[..3]}.{Value.Substring(3, 3)}.{Value.Substring(6, 3)}-{Value.Substring(9, 2)}";
 
         #region Equality
 
         /// <summary>
-        /// Determina se outro <see cref="Cpf"/> é igual ao objeto atual.
-        /// 
-        /// Dois CPFs são considerados iguais quando possuem
-        /// exatamente o mesmo valor numérico.
+        /// Determines whether another <see cref="Cpf"/> is equal to this instance (same numeric value).
         /// </summary>
-        /// <param name="other">Outro objeto <see cref="Cpf"/>.</param>
-        /// <returns>
-        /// <c>true</c> se os valores forem iguais; caso contrário, <c>false</c>.
-        /// </returns>
+        /// <param name="other">Another <see cref="Cpf"/> instance.</param>
+        /// <returns><c>true</c> if the values are equal; otherwise, <c>false</c>.</returns>
         public bool Equals(Cpf? other)
             => other is not null && Value == other.Value;
 
         /// <summary>
-        /// Determina se o objeto especificado é igual ao objeto atual.
+        /// Determines whether the specified object is equal to the current object.
         /// </summary>
         public override bool Equals(object? obj)
             => Equals(obj as Cpf);
 
         /// <summary>
-        /// Retorna o código hash baseado no valor do CPF.
+        /// Returns the hash code based on the CPF value.
         /// </summary>
         public override int GetHashCode()
             => Value.GetHashCode();
 
         /// <summary>
-        /// Conversão implícita de <see cref="Cpf"/> para <see cref="string"/>.
-        /// 
-        /// Retorna o valor numérico do CPF sem formatação.
+        /// Implicit conversion from <see cref="Cpf"/> to <see cref="string"/>.
+        /// Returns the numeric CPF value without formatting.
         /// </summary>
         public static implicit operator string(Cpf cpf)
             => cpf.Value;
@@ -108,21 +90,19 @@ namespace PlataformaRedencao.Domain.ValueObjects
         #region Validation
 
         /// <summary>
-        /// Verifica se o CPF contém todos os dígitos iguais
-        /// (ex.: 11111111111), o que o torna inválido.
+        /// Checks whether the CPF has all digits equal (e.g. 11111111111), which makes it invalid.
         /// </summary>
         private static bool HasRepeatedDigits(string digits)
             => digits.All(c => c == digits[0]);
 
         /// <summary>
-        /// Valida os dígitos verificadores do CPF conforme
-        /// o algoritmo oficial.
+        /// Validates the CPF check digits according to the official algorithm.
         /// </summary>
         private static bool HasValidCheckDigits(string digits)
         {
             var numbers = digits.Select(c => c - '0').ToArray();
 
-            // Primeiro dígito verificador
+            // First check digit
             var sum = 0;
             for (var i = 0; i < 9; i++)
                 sum += numbers[i] * (10 - i);
@@ -133,7 +113,7 @@ namespace PlataformaRedencao.Domain.ValueObjects
             if (numbers[9] != firstCheckDigit)
                 return false;
 
-            // Segundo dígito verificador
+            // Second check digit
             sum = 0;
             for (var i = 0; i < 10; i++)
                 sum += numbers[i] * (11 - i);

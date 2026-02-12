@@ -7,7 +7,7 @@ using PlataformaRedencao.Domain.Interfaces;
 namespace PlataformaRedencao.Application.Services
 {
     /// <summary>
-    /// Implementação do serviço para operações relacionadas a membros.
+    /// Implementation of the service for member-related operations.
     /// </summary>
     public class MemberService : IMemberService
     {
@@ -15,7 +15,7 @@ namespace PlataformaRedencao.Application.Services
         private readonly IMapper _mapper;
 
         /// <summary>
-        /// Inicializa uma nova instância de <see cref="MemberService"/>.
+        /// Initializes a new instance of <see cref="MemberService"/>.
         /// </summary>
         public MemberService(IMemberRepository membroRepository, IMapper mapper)
         {
@@ -24,7 +24,7 @@ namespace PlataformaRedencao.Application.Services
         }
 
         /// <summary>
-        /// Obtém todos os membros.
+        /// Gets all members.
         /// </summary>
         public async Task<IReadOnlyCollection<MemberDTO>> GetMembersAsync()
         {
@@ -33,7 +33,7 @@ namespace PlataformaRedencao.Application.Services
         }
 
         /// <summary>
-        /// Obtém um membro pelo identificador.
+        /// Gets a member by id.
         /// </summary>
         public async Task<MemberDTO> GetById(int? id)
         {
@@ -42,7 +42,7 @@ namespace PlataformaRedencao.Application.Services
         }
 
         /// <summary>
-        /// Obtém um membro pelo CPF dentro de uma igreja.
+        /// Gets a member by CPF within a church.
         /// </summary>
         public async Task<MemberDTO> GetByCpfAsync(string cpf, int igrejaId)
         {
@@ -51,7 +51,7 @@ namespace PlataformaRedencao.Application.Services
         }
 
         /// <summary>
-        /// Obtém um membro pelo e-mail dentro de uma igreja.
+        /// Gets a member by email within a church.
         /// </summary>
         public async Task<MemberDTO> GetByEmailAsync(string email, int igrejaId)
         {
@@ -60,7 +60,7 @@ namespace PlataformaRedencao.Application.Services
         }
 
         /// <summary>
-        /// Obtém os membros de uma igreja.
+        /// Gets members of a church.
         /// </summary>
         public async Task<IReadOnlyList<MemberDTO>> GetByChurchAsync(int igrejaId)
         {
@@ -69,7 +69,7 @@ namespace PlataformaRedencao.Application.Services
         }
 
         /// <summary>
-        /// Obtém membros ativos de uma igreja.
+        /// Gets active members of a church.
         /// </summary>
         public async Task<IReadOnlyList<MemberDTO>> GetAtivosByIgrejaAsync(int igrejaId)
         {
@@ -78,7 +78,7 @@ namespace PlataformaRedencao.Application.Services
         }
 
         /// <summary>
-        /// Obtém membros inativos de uma igreja.
+        /// Gets inactive members of a church.
         /// </summary>
         public async Task<IReadOnlyList<MemberDTO>> GetInativosByIgrejaAsync(int igrejaId)
         {
@@ -87,7 +87,7 @@ namespace PlataformaRedencao.Application.Services
         }
 
         /// <summary>
-        /// Adiciona um novo membro.
+        /// Adds a new member.
         /// </summary>
         public async Task Add(MemberDTO MemberDTO)
         {
@@ -96,7 +96,7 @@ namespace PlataformaRedencao.Application.Services
         }
 
         /// <summary>
-        /// Atualiza os dados de um membro existente.
+        /// Updates an existing member.
         /// </summary>
         public async Task Update(MemberDTO MemberDTO)
         {
@@ -105,7 +105,7 @@ namespace PlataformaRedencao.Application.Services
         }
 
         /// <summary>
-        /// Remove um membro pelo identificador.
+        /// Removes a member by id.
         /// </summary>
         public async Task Remove(int? id)
         {

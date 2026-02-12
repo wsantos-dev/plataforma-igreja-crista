@@ -1,29 +1,25 @@
 namespace PlataformaRedencao.Domain.Entities
 {
     /// <summary>
-    /// Representa uma profissão exercida por uma pessoa.
+    /// Represents a profession held by a person.
     /// </summary>
     /// <remarks>
-    /// A entidade <see cref="Profession"/> é utilizada como referência
-    /// para classificar a ocupação profissional de uma pessoa.
-    ///
-    /// Algumas profissões possuem significado especial no domínio,
-    /// como a profissão padrão "Não informado".
+    /// Used as a reference to classify a person's occupation. Some professions have special meaning in the domain, such as the default "Not informed".
     /// </remarks>
     public sealed class Profession : BaseEntity
     {
         /// <summary>
-        /// Código utilizado para representar profissão não informada.
+        /// Code used to represent "not informed" profession.
         /// </summary>
         public const string NotInformedCode = "0000";
 
         /// <summary>
-        /// Nome da profissão.
+        /// Profession name.
         /// </summary>
         public string Name { get; private set; }
 
         /// <summary>
-        /// Código oficial da profissão (ex.: CBO).
+        /// Official profession code (e.g. CBO).
         /// </summary>
         public string? Code { get; private set; }
 
@@ -31,7 +27,7 @@ namespace PlataformaRedencao.Domain.Entities
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentException(
-                    "O nome da profissão não pode ser vazio.",
+                    "Profession name cannot be empty.",
                     nameof(name));
 
             Id = id;
@@ -40,23 +36,19 @@ namespace PlataformaRedencao.Domain.Entities
         }
 
         /// <summary>
-        /// Indica se esta profissão representa o valor padrão
-        /// "Não informado".
+        /// Indicates whether this profession represents the default "not informed" value.
         /// </summary>
         public bool IsNotInformed()
             => Code == NotInformedCode;
 
         /// <summary>
-        /// Cria a instância padrão de profissão "Não informado".
+        /// Creates the default "not informed" profession instance.
         /// </summary>
-        /// <remarks>
-        /// Deve ser utilizada exclusivamente para seed inicial
-        /// ou cenários controlados de inicialização.
-        /// </remarks>
+        /// <remarks>Should be used only for initial seed or controlled initialization scenarios.</remarks>
         public static Profession CreateNotInformed()
         {
             const int DefaultId = 999;
-            return new Profession(DefaultId, "Não informado", NotInformedCode);
+            return new Profession(DefaultId, "Not informed", NotInformedCode);
         }
     }
 }

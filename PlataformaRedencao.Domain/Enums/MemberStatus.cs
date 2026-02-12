@@ -3,20 +3,20 @@ using System.ComponentModel;
 namespace PlataformaRedencao.Domain.Enums
 {
     /// <summary>
-    /// Define a situação atual do membro na igreja.
+    /// Defines the current status of a member in the church.
     /// </summary>
     public enum MemberStatus
     {
-        [Description("Ativo")]
+        [Description("Active")]
         Active = 1,
 
-        [Description("Afastado")]
+        [Description("Suspended")]
         Suspended = 2,
 
-        [Description("Desligado")]
+        [Description("Removed")]
         Removed = 3,
 
-        [Description("Falecido")]
+        [Description("Deceased")]
         Deceased = 4
     }
 }

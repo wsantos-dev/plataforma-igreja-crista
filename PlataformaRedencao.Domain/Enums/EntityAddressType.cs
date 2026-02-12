@@ -3,15 +3,15 @@ using System.ComponentModel;
 namespace PlataformaRedencao.Domain.Enums
 {
     /// <summary>
-    /// Define os tipos de entidades que podem possuir endereços.
+    /// Defines the types of entities that can have addresses.
     /// </summary>
     public enum EntityAddressType
     {
-        [Description("Igreja")]
+        [Description("Church")]
         Church = 1,
-        [Description("Membro")]
+        [Description("Member")]
         Member = 2,
-        [Description("Visitante")]
+        [Description("Visitor")]
         Visitor = 3
     }
 }

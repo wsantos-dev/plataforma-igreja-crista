@@ -3,19 +3,14 @@ using System.Text.RegularExpressions;
 namespace PlataformaRedencao.Domain.ValueObjects
 {
     /// <summary>
-    /// Value Object que representa um endereço de e-mail no domínio.
-    /// 
-    /// Este objeto encapsula as regras de validação de e-mail,
-    /// garantindo que apenas valores válidos possam ser instanciados.
-    /// 
-    /// O e-mail é tratado como um valor imutável, sem identidade própria,
-    /// e sua igualdade é definida pelo endereço, de forma case-insensitive.
+    /// Value object representing an email address in the domain.
+    /// Encapsulates email validation rules so that only valid values can be instantiated.
+    /// The email is immutable, has no identity of its own, and equality is defined by the address (case-insensitive).
     /// </summary>
     public sealed class EmailAddress : IEquatable<EmailAddress>
     {
         /// <summary>
-        /// Expressão regular utilizada para validação básica
-        /// do formato do endereço de e-mail.
+        /// Regular expression used for basic email address format validation.
         /// </summary>
         private static readonly Regex EmailRegex = new(
             @"^[^@\s]+@[^@\s]+\.[^@\s]+$",
@@ -23,35 +18,33 @@ namespace PlataformaRedencao.Domain.ValueObjects
         );
 
         /// <summary>
-        /// Endereço de e-mail validado e normalizado.
+        /// Validated and normalized email address.
         /// </summary>
         public string Address { get; }
 
         /// <summary>
-        /// Cria uma nova instância de <see cref="EmailAddress"/> a partir
-        /// de um endereço informado.
+        /// Creates a new instance of <see cref="EmailAddress"/> from the given address.
         /// </summary>
-        /// <param name="address">Endereço de e-mail.</param>
+        /// <param name="address">Email address.</param>
         /// <exception cref="ArgumentException">
-        /// Lançada quando o e-mail é nulo, vazio ou inválido.
+        /// Thrown when the email is null, empty, or invalid.
         /// </exception>
         public EmailAddress(string address)
         {
             if (string.IsNullOrWhiteSpace(address))
-                throw new ArgumentException("E-mail não pode ser vazio.", nameof(address));
+                throw new ArgumentException("Email cannot be empty.", nameof(address));
 
             address = address.Trim();
 
             if (!EmailRegex.IsMatch(address))
-                throw new ArgumentException("E-mail inválido.", nameof(address));
+                throw new ArgumentException("Invalid email.", nameof(address));
 
             Address = address;
         }
 
         /// <summary>
-        /// Conversão implícita de <see cref="EmailAddress"/> para <see cref="string"/>.
-        /// 
-        /// Retorna o endereço de e-mail validado.
+        /// Implicit conversion from <see cref="EmailAddress"/> to <see cref="string"/>.
+        /// Returns the validated email address.
         /// </summary>
         public static implicit operator string(EmailAddress email)
             => email.Address;
@@ -59,28 +52,22 @@ namespace PlataformaRedencao.Domain.ValueObjects
         #region Equality
 
         /// <summary>
-        /// Determina se outro <see cref="EmailAddress"/> é igual ao objeto atual.
-        /// 
-        /// A comparação é realizada de forma case-insensitive,
-        /// conforme convenção de e-mails.
+        /// Determines whether another <see cref="EmailAddress"/> is equal to this instance (case-insensitive).
         /// </summary>
-        /// <param name="other">Outro objeto <see cref="EmailAddress"/>.</param>
-        /// <returns>
-        /// <c>true</c> se os endereços forem equivalentes; caso contrário, <c>false</c>.
-        /// </returns>
+        /// <param name="other">Another <see cref="EmailAddress"/> instance.</param>
+        /// <returns><c>true</c> if the addresses are equivalent; otherwise, <c>false</c>.</returns>
         public bool Equals(EmailAddress? other)
             => other is not null &&
                string.Equals(Address, other.Address, StringComparison.OrdinalIgnoreCase);
 
         /// <summary>
-        /// Determina se o objeto especificado é igual ao objeto atual.
+        /// Determines whether the specified object is equal to the current object.
         /// </summary>
         public override bool Equals(object? obj)
             => Equals(obj as EmailAddress);
 
         /// <summary>
-        /// Retorna o código hash baseado no endereço de e-mail,
-        /// utilizando comparação case-insensitive.
+        /// Returns the hash code based on the email address (case-insensitive).
         /// </summary>
         public override int GetHashCode()
             => StringComparer.OrdinalIgnoreCase.GetHashCode(Address);
@@ -88,9 +75,9 @@ namespace PlataformaRedencao.Domain.ValueObjects
         #endregion
 
         /// <summary>
-        /// Retorna a representação textual do e-mail.
+        /// Returns the string representation of the email.
         /// </summary>
-        /// <returns>Endereço de e-mail.</returns>
+        /// <returns>Email address.</returns>
         public override string ToString()
             => Address;
     }

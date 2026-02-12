@@ -1,21 +1,14 @@
 namespace PlataformaRedencao.Domain.Entities
 {
     /// <summary>
-    /// Classe base abstrata para entidades do domínio.
-    /// 
-    /// Fornece a identificação única da entidade, que a diferencia
-    /// de outras instâncias do mesmo tipo.
-    /// 
-    /// Esta classe deve ser herdada apenas por entidades que possuam
-    /// identidade própria e ciclo de vida no domínio.
+    /// Abstract base class for domain entities.
+    /// Provides unique identity for the entity, distinguishing it from other instances of the same type.
+    /// This class should be inherited only by entities that have their own identity and lifecycle in the domain.
     /// </summary>
     public abstract class BaseEntity
     {
         /// <summary>
-        /// Identificador único da entidade.
-        /// 
-        /// Este identificador define a identidade da entidade no domínio
-        /// e é normalmente atribuído pela camada de persistência.
+        /// Unique identifier of the entity. Defines the entity identity in the domain and is typically assigned by the persistence layer.
         /// </summary>
         public int Id { get; protected set; }
 

@@ -1,7 +1,7 @@
 namespace PlataformaRedencao.Application.DTOs
 {
     /// <summary>
-    /// DTO que representa informações de contato (email e telefone).
+    /// DTO representing contact information (email and phone).
     /// </summary>
     public class ContactDTO
     {

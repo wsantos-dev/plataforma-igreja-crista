@@ -7,8 +7,16 @@ using PlataformaRedencao.Domain.Validation;
 
 namespace PlataformaRedencao.API.Endpoints
 {
+    /// <summary>
+    /// Global error handling endpoint; maps domain and server errors to Problem Details responses.
+    /// </summary>
     public static class ErrorEndpoints
     {
+        /// <summary>
+        /// Maps the global error handler endpoint.
+        /// </summary>
+        /// <param name="app">The <see cref="WebApplication"/> to map the endpoint on.</param>
+        /// <returns>The <see cref="WebApplication"/> for chaining.</returns>
         public static WebApplication MapErrorEndpoints(this WebApplication app)
         {
             app.Map("/error", (HttpContext context) => 
@@ -18,14 +26,14 @@ namespace PlataformaRedencao.API.Endpoints
                 return exception switch 
                 {
                     DomainValidationException ex => Results.Problem(
-                        title: "Requisição inválida.",
+                        title: "Invalid request.",
                         detail: ex.Message,
                         statusCode: StatusCodes.Status400BadRequest
                     ),
                     
                     _ => Results.Problem(
-                        title: "Erro interno do servidor.",
-                        detail: "Ocorreu um erro inesperado.",
+                        title: "Internal server error.",
+                        detail: "An unexpected error occurred.",
                         statusCode: StatusCodes.Status500InternalServerError
                     )
                 };

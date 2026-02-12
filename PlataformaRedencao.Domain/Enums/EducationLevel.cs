@@ -3,38 +3,38 @@ using System.ComponentModel;
 namespace PlataformaRedencao.Domain.Enums
 {
     /// <summary>
-    /// Define os níveis de escolaridade.
+    /// Defines education levels.
     /// </summary>
     public enum EducationLevel
     {
-        [Description("Analfabeto(a)")]
+        [Description("Illiterate")]
         Illiterate = 0,
 
-        [Description("Ensino Fundamental Completo")]
+        [Description("Elementary school completed")]
         ElementarySchoolCompleted = 1,
 
-        [Description("Ensino Fundamental Incompleto")]
+        [Description("Elementary school incomplete")]
         ElementarySchoolIncomplete = 2,
 
-        [Description("Ensino Médio Completo")]
+        [Description("High school completed")]
         HighSchoolCompleted = 3,
 
-        [Description("Ensino Médio Incompleto")]
+        [Description("High school incomplete")]
         HighSchoolIncomplete = 4,
 
-        [Description("Superior Completo")]
+        [Description("Higher education completed")]
         HigherEducationCompleted = 5,
 
-        [Description("Superior Incompleto")]
+        [Description("Higher education incomplete")]
         HigherEducationIncomplete = 6,
 
-        [Description("Pós-Graduação")]
+        [Description("Postgraduate")]
         Postgraduate = 7,
 
-        [Description("Mestrado")]
+        [Description("Master's degree")]
         MasterDegree = 8,
 
-        [Description("Doutorado")]
+        [Description("Doctorate")]
         Doctorate = 9
     }
 }

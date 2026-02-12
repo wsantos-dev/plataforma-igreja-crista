@@ -1,65 +1,54 @@
 namespace PlataformaRedencao.Domain.ValueObjects
 {
     /// <summary>
-    /// Representa o nome civil completo de uma pessoa.
+    /// Represents the full legal name of a person.
     /// </summary>
     /// <remarks>
-    /// <see cref="PersonName"/> é um Value Object e, portanto:
-    /// - Não possui identidade própria.
-    /// - É imutável após sua criação.
-    /// - É comparado por valor.
-    /// 
-    /// Este objeto encapsula o primeiro nome e o sobrenome conforme
-    /// registro civil da pessoa.
+    /// <see cref="PersonName"/> is a value object: it has no identity, is immutable after creation, and is compared by value.
+    /// It encapsulates first name and last name as in civil registration.
     /// </remarks>
     public sealed class PersonName
     {
         /// <summary>
-        /// Primeiro nome civil da pessoa.
+        /// Legal first name of the person (as in civil registration).
         /// </summary>
-        /// <remarks>
-        /// Corresponde ao primeiro nome registrado oficialmente.
-        /// </remarks>
         public string FirstName { get; }
 
         /// <summary>
-        /// Sobrenome da pessoa.
+        /// Last name / family name of the person (as in civil registration).
         /// </summary>
-        /// <remarks>
-        /// Representa o nome de família conforme registro civil.
-        /// </remarks>
         public string LastName { get; }
 
         private PersonName() { } // EF Core
 
         /// <summary>
-        /// Cria uma nova instância de <see cref="PersonName"/>.
+        /// Creates a new instance of <see cref="PersonName"/>.
         /// </summary>
-        /// <param name="firstName">Primeiro nome civil da pessoa.</param>
-        /// <param name="lastName">Sobrenome da pessoa.</param>
+        /// <param name="firstName">Legal first name.</param>
+        /// <param name="lastName">Last name.</param>
         /// <exception cref="ArgumentException">
-        /// Lançada quando primeiro nome ou sobrenome são inválidos.
+        /// Thrown when first name or last name are invalid.
         /// </exception>
         public PersonName(string firstName, string lastName)
         {
             if (string.IsNullOrWhiteSpace(firstName))
-                throw new ArgumentException("O primeiro nome não pode ser vazio.", nameof(firstName));
+                throw new ArgumentException("First name cannot be empty.", nameof(firstName));
 
             if (string.IsNullOrWhiteSpace(lastName))
-                throw new ArgumentException("O sobrenome não pode ser vazio.", nameof(lastName));
+                throw new ArgumentException("Last name cannot be empty.", nameof(lastName));
 
             FirstName = firstName.Trim();
             LastName = lastName.Trim();
         }
 
         /// <summary>
-        /// Retorna o nome completo formatado.
+        /// Returns the full name formatted.
         /// </summary>
         public override string ToString()
             => $"{FirstName} {LastName}";
 
         /// <summary>
-        /// Compara dois <see cref="PersonName"/> por valor.
+        /// Compares two <see cref="PersonName"/> instances by value.
         /// </summary>
         public override bool Equals(object? obj)
         {
@@ -71,7 +60,7 @@ namespace PlataformaRedencao.Domain.ValueObjects
         }
 
         /// <summary>
-        /// Gera o código hash com base nos valores do objeto.
+        /// Returns the hash code based on the object values.
         /// </summary>
         public override int GetHashCode()
             => HashCode.Combine(FirstName, LastName);

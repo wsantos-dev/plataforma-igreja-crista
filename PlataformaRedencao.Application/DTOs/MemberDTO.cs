@@ -4,8 +4,8 @@ using PlataformaRedencao.Domain.ValueObjects;
 namespace PlataformaRedencao.Application.DTOs
 {
     /// <summary>
-    /// DTO para transferência de dados de Member.
-    /// Value Objects são representados como tipos primitivos para facilitar serialização.
+    /// DTO for Member data transfer.
+    /// Value objects are represented as primitive types to facilitate serialization.
     /// </summary>
     public class MemberDTO
     {

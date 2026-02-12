@@ -7,36 +7,36 @@ using PlataformaRedencao.Infra.Data.Context;
 namespace PlataformaRedencao.Infra.Data.Repositories
 {
     /// <summary>
-    /// Repositório responsável pelas operações de persistência para <see cref="Member"/>.
+    /// Repository for persistence operations on <see cref="Member"/> entities.
     /// </summary>
     public class MemberRepository : IMemberRepository
     {
         private readonly PlataformaRedencaoDbContext _context;
 
         /// <summary>
-        /// Inicializa uma nova instância de <see cref="MemberRepository"/>.
+        /// Initializes a new instance of <see cref="MemberRepository"/>.
         /// </summary>
-        /// <param name="context">Contexto do banco de dados.</param>
+        /// <param name="context">Database context.</param>
         public MemberRepository(PlataformaRedencaoDbContext context)
         {
             _context = context;
         }
 
         /// <summary>
-        /// Obtém um Member pelo identificador.
+        /// Gets a member by id.
         /// </summary>
-        /// <param name="id">Identificador do Member (pode ser nulo).</param>
-        /// <returns>Uma tarefa que contém o Member encontrado ou <c>null</c> se não encontrado.</returns>
+        /// <param name="id">Member id (nullable).</param>
+        /// <returns>The member or <c>null</c> if not found.</returns>
         public async Task<Member?> GetByIdAsync(int? id)
             => await _context.Members
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Id == id);
 
         /// <summary>
-        /// Obtém os Members de uma igreja.
+        /// Gets members of a church.
         /// </summary>
-        /// <param name="churchId">Identificador da igreja.</param>
-        /// <returns>Uma tarefa que contém a lista de Members da igreja informada.</returns>
+        /// <param name="churchId">Church id.</param>
+        /// <returns>List of members of the given church.</returns>
         public async Task<IReadOnlyList<Member>> GetByChurchAsync(int churchId)
             => await _context.Members
                 .AsNoTracking()
@@ -44,19 +44,19 @@ namespace PlataformaRedencao.Infra.Data.Repositories
                 .ToListAsync();
 
         /// <summary>
-        /// Obtém todos os Members.
+        /// Gets all members.
         /// </summary>
-        /// <returns>Uma tarefa que contém uma coleção somente-leitura com todos os Members.</returns>
+        /// <returns>A read-only collection of all members.</returns>
         public async Task<IReadOnlyCollection<Member?>> GetAllAsync()
             => await _context.Members
                 .AsNoTracking()
                 .ToListAsync();
 
         /// <summary>
-        /// Adiciona um novo Member e persiste no banco.
+        /// Adds a new member and persists it.
         /// </summary>
-        /// <param name="entidade">Entidade <see cref="Member"/> a ser adicionada.</param>
-        /// <returns>A entidade adicionada com possíveis valores gerados (ex.: Id).</returns>
+        /// <param name="entidade">Member entity to add.</param>
+        /// <returns>The added entity with generated values (e.g. Id).</returns>
         public async Task<Member> AddAsync(Member entidade)
         {
             _context.Add(entidade);
@@ -66,10 +66,10 @@ namespace PlataformaRedencao.Infra.Data.Repositories
         }
 
         /// <summary>
-        /// Atualiza um Member existente e persiste as alterações.
+        /// Updates an existing member and persists changes.
         /// </summary>
-        /// <param name="entidade">Entidade <see cref="Member"/> a ser atualizada.</param>
-        /// <returns>A entidade atualizada.</returns>
+        /// <param name="entidade">Member entity to update.</param>
+        /// <returns>The updated entity.</returns>
         public async Task<Member> UpdateAsync(Member entidade)
         {
             _context.Update(entidade);
@@ -79,10 +79,10 @@ namespace PlataformaRedencao.Infra.Data.Repositories
         }
 
         /// <summary>
-        /// Remove um Member e persiste a exclusão.
+        /// Removes a member and persists the deletion.
         /// </summary>
-        /// <param name="entidade">Entidade <see cref="Member"/> a ser removida.</param>
-        /// <returns>A entidade removida.</returns>
+        /// <param name="entidade">Member entity to remove.</param>
+        /// <returns>The removed entity.</returns>
         public async Task<Member> DeleteAsync(Member entidade)
         {
             _context.Remove(entidade);
@@ -92,10 +92,10 @@ namespace PlataformaRedencao.Infra.Data.Repositories
         }
 
         /// <summary>
-        /// Obtém Members ativos de uma igreja.
+        /// Gets active members of a church.
         /// </summary>
-        /// <param name="churchId">Identificador da igreja.</param>
-        /// <returns>Uma tarefa que contém a lista de Members ativos da igreja informada.</returns>
+        /// <param name="churchId">Church id.</param>
+        /// <returns>List of active members of the given church.</returns>
         public async Task<IReadOnlyList<Member>> GetActivesByChurchAsync(int churchId)
             => await _context.Members
                 .AsNoTracking()
@@ -103,10 +103,10 @@ namespace PlataformaRedencao.Infra.Data.Repositories
                 .ToListAsync();
 
         /// <summary>
-        /// Obtém Members inativos de uma igreja.
+        /// Gets inactive members of a church.
         /// </summary>
-        /// <param name="churchId">Identificador da igreja.</param>
-        /// <returns>Uma tarefa que contém a lista de Members inativos da igreja informada.</returns>
+        /// <param name="churchId">Church id.</param>
+        /// <returns>List of inactive members of the given church.</returns>
         public async Task<IReadOnlyList<Member?>> GetInactivesByChurchAsync(int churchId)
             => await _context.Members
                 .AsNoTracking()
@@ -114,22 +114,22 @@ namespace PlataformaRedencao.Infra.Data.Repositories
                 .ToListAsync();
 
         /// <summary>
-        /// Obtém um Member pela combinação CPF e igreja.
+        /// Gets a member by CPF and church.
         /// </summary>
-        /// <param name="cpf">CPF do Member.</param>
-        /// <param name="churchId">Identificador da igreja.</param>
-        /// <returns>A entidade encontrada ou <c>null</c> caso não exista.</returns>
+        /// <param name="cpf">Member CPF.</param>
+        /// <param name="churchId">Church id.</param>
+        /// <returns>The member or <c>null</c> if not found.</returns>
         public async Task<Member?> GetByCpfAsync(string cpf, int churchId)
             => await _context.Members
                 .AsNoTracking()
                 .SingleOrDefaultAsync(m => m.Cpf! == cpf && m.ChurchId == churchId);
 
         /// <summary>
-        /// Obtém um Member pelo e-mail e igreja.
+        /// Gets a member by email and church.
         /// </summary>
-        /// <param name="email">E-mail do Member.</param>
-        /// <param name="churchId">Identificador da igreja.</param>
-        /// <returns>A entidade encontrada ou <c>null</c> caso não exista.</returns>
+        /// <param name="email">Member email.</param>
+        /// <param name="churchId">Church id.</param>
+        /// <returns>The member or <c>null</c> if not found.</returns>
         public async Task<Member?> GetByEmailAsync(string email, int churchId)
             => await _context.Members
                 .AsNoTracking()

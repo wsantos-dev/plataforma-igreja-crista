@@ -1,7 +1,7 @@
 namespace PlataformaRedencao.Application.DTOs
 {
     /// <summary>
-    /// DTO simples para Profession.
+    /// Simple DTO for Profession.
     /// </summary>
     public class ProfessionDTO
     {

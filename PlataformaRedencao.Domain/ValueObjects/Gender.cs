@@ -3,40 +3,27 @@ using System;
 namespace PlataformaRedencao.Domain.ValueObjects
 {
     /// <summary>
-    /// Value Object que representa o sexo de uma pessoa no domínio.
-    /// 
-    /// Trata-se de um conceito de domínio com conjunto fechado de valores válidos,
-    /// representados por códigos simbólicos persistíveis.
-    /// 
-    /// Este objeto é imutável e possui igualdade definida por valor.
+    /// Value object representing a person's gender in the domain.
+    /// Closed set of valid values represented by persistible symbolic codes; immutable with value equality.
     /// </summary>
     public sealed class Gender : IEquatable<Gender>
     {
         /// <summary>
-        /// Código simbólico que representa o sexo da pessoa.
-        /// 
-        /// Valores válidos:
-        /// <list type="bullet">
-        /// <item><description><c>M</c> - Masculino</description></item>
-        /// <item><description><c>F</c> - Feminino</description></item>
-        /// </list>
-        /// 
-        /// Este código é utilizado para persistência e integração entre camadas.
+        /// Symbolic code representing the person's gender.
+        /// Valid values: <c>M</c> (Male), <c>F</c> (Female). Used for persistence and cross-layer integration.
         /// </summary>
         public char Code { get; }
 
         /// <summary>
-        /// Descrição textual do sexo, destinada a uso semântico
-        /// e apresentação em camadas externas.
+        /// Text description of the gender for semantic use and presentation in external layers.
         /// </summary>
         public string Description { get; }
 
         /// <summary>
-        /// Construtor privado para garantir a criação controlada
-        /// das instâncias válidas do Value Object.
+        /// Private constructor for controlled creation of valid value object instances.
         /// </summary>
-        /// <param name="code">Código simbólico do sexo.</param>
-        /// <param name="description">Descrição textual do sexo.</param>
+        /// <param name="code">Symbolic code for the gender.</param>
+        /// <param name="description">Text description of the gender.</param>
         private Gender(char code, string description)
         {
             Code = code;
@@ -44,80 +31,75 @@ namespace PlataformaRedencao.Domain.ValueObjects
         }
 
         /// <summary>
-        /// Representa o sexo masculino.
+        /// Male.
         /// </summary>
-        public static readonly Gender Male = new('M', "Masculino");
+        public static readonly Gender Male = new('M', "Male");
 
         /// <summary>
-        /// Representa o sexo feminino.
+        /// Female.
         /// </summary>
-        public static readonly Gender Female = new('F', "Feminino");
+        public static readonly Gender Female = new('F', "Female");
 
         /// <summary>
-        /// Cria uma instância de <see cref="Gender"/> a partir de um código simbólico.
+        /// Creates a <see cref="Gender"/> instance from a symbolic code.
         /// </summary>
-        /// <param name="code">Código do sexo (ex.: M, F).</param>
-        /// <returns>Instância correspondente de <see cref="Gender"/>.</returns>
+        /// <param name="code">Gender code (e.g. M, F).</param>
+        /// <returns>Corresponding <see cref="Gender"/> instance.</returns>
         /// <exception cref="ArgumentException">
-        /// Lançada quando o código é nulo, vazio ou não corresponde a um valor válido do domínio.
+        /// Thrown when the code is null, empty, or does not match a valid domain value.
         /// </exception>
         public static Gender FromCode(char code)
         {
             if (char.IsWhiteSpace(code))
-                throw new ArgumentException("Código do sexo é obrigatório.");
+                throw new ArgumentException("Gender code is required.");
 
             return char.ToUpperInvariant(code) switch
             {
                 'M' => Male,
                 'F' => Female,
-                _ => throw new ArgumentException($"Código de sexo inválido: '{code}'.")
+                _ => throw new ArgumentException($"Invalid gender code: '{code}'.")
             };
         }
 
         /// <summary>
-        /// Determina se o objeto especificado é igual ao objeto atual.
+        /// Determines whether the specified object is equal to the current object.
         /// </summary>
-        /// <param name="obj">Objeto a ser comparado.</param>
-        /// <returns>
-        /// <c>true</c> se os objetos forem iguais; caso contrário, <c>false</c>.
-        /// </returns>
+        /// <param name="obj">Object to compare.</param>
+        /// <returns><c>true</c> if equal; otherwise, <c>false</c>.</returns>
         public override bool Equals(object? obj)
             => Equals(obj as Gender);
 
         /// <summary>
-        /// Determina se outro <see cref="Gender"/> é igual ao objeto atual,
-        /// com base no código do domínio.
+        /// Determines whether another <see cref="Gender"/> is equal to this instance (by domain code).
         /// </summary>
-        /// <param name="other">Outro objeto <see cref="Gender"/>.</param>
-        /// <returns>
-        /// <c>true</c> se os códigos forem iguais; caso contrário, <c>false</c>.
-        /// </returns>
+        /// <param name="other">Another <see cref="Gender"/> instance.</param>
+        /// <returns><c>true</c> if the codes are equal; otherwise, <c>false</c>.</returns>
         public bool Equals(Gender? other)
             => other is not null && Code == other.Code;
 
         /// <summary>
-        /// Retorna o código hash baseado no valor do domínio.
+        /// Returns the hash code based on the domain value.
         /// </summary>
-        /// <returns>Código hash do objeto.</returns>
+        /// <returns>Hash code of the object.</returns>
         public override int GetHashCode()
             => Code.GetHashCode();
 
         /// <summary>
-        /// Operador de igualdade entre dois objetos <see cref="Gender"/>.
+        /// Equality operator for two <see cref="Gender"/> instances.
         /// </summary>
         public static bool operator ==(Gender left, Gender right)
             => Equals(left, right);
 
         /// <summary>
-        /// Operador de desigualdade entre dois objetos <see cref="Gender"/>.
+        /// Inequality operator for two <see cref="Gender"/> instances.
         /// </summary>
         public static bool operator !=(Gender left, Gender right)
             => !Equals(left, right);
 
         /// <summary>
-        /// Retorna a descrição textual do sexo.
+        /// Returns the text description of the gender.
         /// </summary>
-        /// <returns>Descrição do sexo.</returns>
+        /// <returns>Gender description.</returns>
         public override string ToString()
             => Description;
     }

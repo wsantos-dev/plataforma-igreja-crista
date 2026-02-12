@@ -5,8 +5,16 @@ using System.Threading.Tasks;
 
 namespace PlataformaRedencao.API.Endpoints
 {
+    /// <summary>
+    /// Minimal API endpoints that require authentication (e.g. current user info).
+    /// </summary>
     public static class SecureEndpoints
     {
+        /// <summary>
+        /// Maps secure (authorized) endpoints to the application.
+        /// </summary>
+        /// <param name="app">The <see cref="WebApplication"/> to map endpoints on.</param>
+        /// <returns>The <see cref="WebApplication"/> for chaining.</returns>
         public static WebApplication MapSecureEndpoints(this WebApplication app)
         {
             var group = app.MapGroup("/secure")
@@ -15,7 +23,7 @@ namespace PlataformaRedencao.API.Endpoints
 
             group.MapGet("/me", MeAsync)
                  .WithName("Me")
-                 .WithSummary("Usuário Logado");
+                 .WithSummary("Current user");
 
 
             return app;

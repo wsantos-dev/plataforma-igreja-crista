@@ -3,76 +3,56 @@ using PlataformaRedencao.Application.DTOs;
 namespace PlataformaRedencao.Application.Interfaces
 {
     /// <summary>
-    /// Serviço para operações relacionadas a membros.
+    /// Service for member-related operations.
     /// </summary>
     public interface IMemberService
     {
-        /// <summary>
-        /// Obtém todos os membros.
-        /// </summary>
-        /// <returns>Uma coleção somente de leitura de <see cref="MemberDTO"/>.</returns>
+        /// <summary>Gets all members.</summary>
+        /// <returns>A read-only collection of <see cref="MemberDTO"/>.</returns>
         Task<IReadOnlyCollection<MemberDTO>> GetMembersAsync();
 
-        /// <summary>
-        /// Obtém um membro pelo identificador.
-        /// </summary>
-        /// <param name="id">Identificador do membro. Pode ser nulo.</param>
-        /// <returns>O membro correspondente ou <c>null</c> se não encontrado.</returns>
+        /// <summary>Gets a member by id.</summary>
+        /// <param name="id">Member id (nullable).</param>
+        /// <returns>The member or <c>null</c> if not found.</returns>
         Task<MemberDTO> GetById(int? id);
 
-        /// <summary>
-        /// Obtém um membro pelo CPF dentro de uma igreja.
-        /// </summary>
-        /// <param name="cpf">CPF do membro.</param>
-        /// <param name="igrejaId">Identificador da igreja.</param>
-        /// <returns>O membro correspondente ou <c>null</c> se não encontrado.</returns>
+        /// <summary>Gets a member by CPF within a church.</summary>
+        /// <param name="cpf">Member CPF.</param>
+        /// <param name="igrejaId">Church id.</param>
+        /// <returns>The member or <c>null</c> if not found.</returns>
         Task<MemberDTO> GetByCpfAsync(string cpf, int igrejaId);
 
-        /// <summary>
-        /// Obtém um membro pelo e-mail dentro de uma igreja.
-        /// </summary>
-        /// <param name="email">E-mail do membro.</param>
-        /// <param name="igrejaId">Identificador da igreja.</param>
-        /// <returns>O membro correspondente ou <c>null</c> se não encontrado.</returns>
+        /// <summary>Gets a member by email within a church.</summary>
+        /// <param name="email">Member email.</param>
+        /// <param name="igrejaId">Church id.</param>
+        /// <returns>The member or <c>null</c> if not found.</returns>
         Task<MemberDTO> GetByEmailAsync(string email, int igrejaId);
 
-        /// <summary>
-        /// Obtém os membros de uma igreja.
-        /// </summary>
-        /// <param name="igrejaId">Identificador da igreja.</param>
-        /// <returns>Lista de membros vinculados à igreja.</returns>
+        /// <summary>Gets members of a church.</summary>
+        /// <param name="igrejaId">Church id.</param>
+        /// <returns>List of members linked to the church.</returns>
         Task<IReadOnlyList<MemberDTO>> GetByChurchAsync(int igrejaId);
 
-        /// <summary>
-        /// Obtém os membros ativos de uma igreja.
-        /// </summary>
-        /// <param name="igrejaId">Identificador da igreja.</param>
-        /// <returns>Lista de membros ativos vinculados à igreja.</returns>
+        /// <summary>Gets active members of a church.</summary>
+        /// <param name="igrejaId">Church id.</param>
+        /// <returns>List of active members linked to the church.</returns>
         Task<IReadOnlyList<MemberDTO>> GetAtivosByIgrejaAsync(int igrejaId);
 
-        /// <summary>
-        /// Obtém os membros inativos de uma igreja.
-        /// </summary>
-        /// <param name="igrejaId">Identificador da igreja.</param>
-        /// <returns>Lista de membros inativos vinculados à igreja.</returns>
+        /// <summary>Gets inactive members of a church.</summary>
+        /// <param name="igrejaId">Church id.</param>
+        /// <returns>List of inactive members linked to the church.</returns>
         Task<IReadOnlyList<MemberDTO>> GetInativosByIgrejaAsync(int igrejaId);
 
-        /// <summary>
-        /// Adiciona um novo membro.
-        /// </summary>
-        /// <param name="MemberDTO">Dados do membro a ser adicionado.</param>
+        /// <summary>Adds a new member.</summary>
+        /// <param name="MemberDTO">Member data to add.</param>
         Task Add(MemberDTO MemberDTO);
 
-        /// <summary>
-        /// Atualiza os dados de um membro existente.
-        /// </summary>
-        /// <param name="MemberDTO">Dados do membro a ser atualizado.</param>
+        /// <summary>Updates an existing member.</summary>
+        /// <param name="MemberDTO">Member data to update.</param>
         Task Update(MemberDTO MemberDTO);
 
-        /// <summary>
-        /// Remove um membro pelo identificador.
-        /// </summary>
-        /// <param name="id">Identificador do membro a ser removido. Pode ser nulo.</param>
+        /// <summary>Removes a member by id.</summary>
+        /// <param name="id">Member id to remove (nullable).</param>
         Task Remove(int? id);
     }
 }

@@ -6,8 +6,16 @@ using PlataformaRedencao.Domain.Interfaces;
 
 namespace PlataformaRedencao.API.Endpoints
 {
+    /// <summary>
+    /// Minimal API endpoints for authentication (register, login, refresh, logout).
+    /// </summary>
     public static class AuthEndpoints
     {
+        /// <summary>
+        /// Maps authentication endpoints to the application.
+        /// </summary>
+        /// <param name="app">The <see cref="WebApplication"/> to map endpoints on.</param>
+        /// <returns>The <see cref="WebApplication"/> for chaining.</returns>
         public static WebApplication MapAuthEndpoints(this WebApplication app)
         {
             var group = app.MapGroup("/auth")
@@ -15,13 +23,13 @@ namespace PlataformaRedencao.API.Endpoints
 
             group.MapPost("/create", CreateUsuarioAsync)
                  .WithName("CreateUser")
-                 .WithSummary("Cadastrar usuário")
-                 .WithDescription("Cria um novo usuário na plataforma");
+                 .WithSummary("Register user")
+                 .WithDescription("Creates a new user on the platform");
 
             group.MapPost("/login", LoginAsync)
                  .WithName("Login")
-                 .WithSummary("Login do usuário")
-                 .WithDescription("Autentica o usuário e retorna os dados de acesso");
+                 .WithSummary("User login")
+                 .WithDescription("Authenticates the user and returns access data");
 
             group.MapPost("/refresh", RefreshTokenAsync)
                  .WithName("Refresh")
@@ -29,7 +37,7 @@ namespace PlataformaRedencao.API.Endpoints
 
             group.MapPost("/logout", LogoutAsync)
                  .WithName("Logout")
-                 .WithSummary("Realiza o Logout na plataforma");
+                 .WithSummary("Logs out from the platform");
 
             return app;
         }
@@ -77,7 +85,7 @@ namespace PlataformaRedencao.API.Endpoints
             IRefreshTokenRepository refreshRepo)
         {
             if (requestDto is null)
-                return Results.BadRequest("Requisição inválida.");
+                return Results.BadRequest("Invalid request.");
 
             var usuario = await authService.LoginAsync(requestDto);
             var token = tokenGenerator.GenerateToken(usuario);

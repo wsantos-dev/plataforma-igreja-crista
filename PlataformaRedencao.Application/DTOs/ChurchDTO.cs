@@ -1,7 +1,7 @@
 namespace PlataformaRedencao.Application.DTOs
 {
     /// <summary>
-    /// DTO que representa uma Church para transferência de dados entre camadas.
+    /// DTO representing a Church for data transfer between layers.
     /// </summary>
     public class ChurchDTO
     {

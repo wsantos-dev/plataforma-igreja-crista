@@ -9,11 +9,11 @@ using PlataformaRedencao.Infra.IoC;
 var builder = WebApplication.CreateBuilder(args);
 
 
-// Injeção de Dependência
+// Dependency injection
 builder.Services.AddInfrastructure(builder.Configuration);
 
 
-// Segurança
+// Security
 var jwtSettings = builder.Configuration.GetSection("Jwt");
 var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]!);
 
@@ -42,7 +42,7 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization();
 
-// Adiciona suporte ao Swagger/OpenAPI
+// Swagger/OpenAPI support
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -52,7 +52,7 @@ builder.Services.AddSwaggerGen(c =>
         Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
         Scheme = "Bearer",
         In = Microsoft.OpenApi.Models.ParameterLocation.Header,
-        Description = "Digite: Bearer { seu token }"
+        Description = "Enter: Bearer { your token }"
     });
 
     c.AddSecurityRequirement(new()
@@ -73,12 +73,12 @@ builder.Services.AddSwaggerGen(c =>
 
 
 
-// erros globais
+// Global error handling
 builder.Services.AddProblemDetails();
 
 var app = builder.Build();
 
-// Configuração do Swagger no ambiente de desenvolvimento
+// Swagger in development
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

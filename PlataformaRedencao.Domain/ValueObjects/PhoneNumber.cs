@@ -4,16 +4,13 @@ using System.Text.RegularExpressions;
 namespace PlataformaRedencao.Domain.ValueObjects
 {
     /// <summary>
-    /// Value Object que representa um número de telefone no domínio.
-    /// 
-    /// Encapsula validação e formatação de números de telefone,
-    /// garantindo consistência e imutabilidade.
+    /// Value object representing a phone number in the domain.
+    /// Encapsulates validation and formatting of phone numbers, ensuring consistency and immutability.
     /// </summary>
     public sealed class PhoneNumber : IEquatable<PhoneNumber>
     {
         /// <summary>
-        /// Expressão regular utilizada para validação básica
-        /// de números de telefone brasileiros.
+        /// Regular expression used for basic validation of Brazilian phone numbers.
         /// </summary>
         private static readonly Regex PhoneRegex = new Regex(
             @"^\(?\d{2}\)?\s?9?\d{4}-?\d{4}$",
@@ -21,48 +18,48 @@ namespace PlataformaRedencao.Domain.ValueObjects
         );
 
         /// <summary>
-        /// Número de telefone validado.
+        /// Validated phone number.
         /// </summary>
         public string Number { get; }
 
         /// <summary>
-        /// Cria uma nova instância de <see cref="PhoneNumber"/>.
+        /// Creates a new instance of <see cref="PhoneNumber"/>.
         /// </summary>
-        /// <param name="number">Número de telefone.</param>
+        /// <param name="number">Phone number.</param>
         /// <exception cref="ArgumentException">
-        /// Lançada quando o número é nulo, vazio ou inválido.
+        /// Thrown when the number is null, empty, or invalid.
         /// </exception>
         public PhoneNumber(string number)
         {
             if (string.IsNullOrWhiteSpace(number))
-                throw new ArgumentException("O número de telefone não pode ser vazio.", nameof(number));
+                throw new ArgumentException("Phone number cannot be empty.", nameof(number));
 
             number = number.Trim();
 
             if (!PhoneRegex.IsMatch(number))
-                throw new ArgumentException("Número de telefone inválido.", nameof(number));
+                throw new ArgumentException("Invalid phone number.", nameof(number));
 
             Number = number;
         }
 
         /// <summary>
-        /// Formata o telefone de forma padrão: (XX) 9XXXX-XXXX.
+        /// Formats the phone number in standard form: (XX) 9XXXX-XXXX.
         /// </summary>
         public string Format()
         {
-            var digits = Regex.Replace(Number, @"\D", ""); // remove tudo que não é número
+            var digits = Regex.Replace(Number, @"\D", ""); // strip non-digits
 
-            if (digits.Length == 11) // celular com 9
+            if (digits.Length == 11) // mobile with 9
                 return $"({digits.Substring(0, 2)}) {digits.Substring(2, 5)}-{digits.Substring(7, 4)}";
 
-            if (digits.Length == 10) // fixo
+            if (digits.Length == 10) // landline
                 return $"({digits.Substring(0, 2)}) {digits.Substring(2, 4)}-{digits.Substring(6, 4)}";
 
             return Number; // fallback
         }
 
         /// <summary>
-        /// Implementação de Value Object (igualdade por valor).
+        /// Value object equality implementation (by value).
         /// </summary>
         public override bool Equals(object? obj)
             => Equals(obj as PhoneNumber);

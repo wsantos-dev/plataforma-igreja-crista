@@ -3,7 +3,7 @@ using PlataformaRedencao.Domain.Enums;
 namespace PlataformaRedencao.Application.DTOs
 {
     /// <summary>
-    /// DTO para representar endereços.
+    /// DTO for representing addresses.
     /// </summary>
     public class AddressDTO
     {

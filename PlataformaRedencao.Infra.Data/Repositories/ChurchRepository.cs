@@ -6,55 +6,55 @@ using PlataformaRedencao.Infra.Data.Context;
 namespace PlataformaRedencao.Infra.Data.Repositories
 {
     /// <summary>
-    /// Repositório responsável pelas operações de persistência para <see cref="Church"/>.
+    /// Repository for persistence operations on <see cref="Church"/> entities.
     /// </summary>
     public class ChurchRepository : IChurchRepository
     {
         private readonly PlataformaRedencaoDbContext _context;
 
         /// <summary>
-        /// Inicializa uma nova instância de <see cref="ChurchRepository"/>.
+        /// Initializes a new instance of <see cref="ChurchRepository"/>.
         /// </summary>
-        /// <param name="context">Contexto do banco de dados.</param>
+        /// <param name="context">Database context.</param>
         public ChurchRepository(PlataformaRedencaoDbContext context)
         {
             _context = context;
         }
 
         /// <summary>
-        /// Obtém uma Church pelo identificador.
+        /// Gets a church by id.
         /// </summary>
-        /// <param name="id">Identificador da Church (pode ser nulo).</param>
-        /// <returns>A entity <see cref="Church"/> ou <c>null</c> caso não exista.</returns>
+        /// <param name="id">Church id (nullable).</param>
+        /// <returns>The <see cref="Church"/> entity or <c>null</c> if not found.</returns>
         public async Task<Church?> GetByIdAsync(int? id)
             => await _context.Churches
             .AsNoTracking()
             .FirstOrDefaultAsync(i => i.Id == id);
 
         /// <summary>
-        /// Obtém todas as Igrejas.
+        /// Gets all churches.
         /// </summary>
-        /// <returns>Uma coleção somente-leitura com todas as Churches.</returns>
+        /// <returns>A read-only collection of churches.</returns>
         public async Task<IReadOnlyCollection<Church?>> GetAllAsync()
             => await _context.Churches
             .AsNoTracking()
             .ToListAsync();
 
         /// <summary>
-        /// Obtém uma Igreja pelo CNPJ.
+        /// Gets a church by CNPJ.
         /// </summary>
-        /// <param name="cnpj">CNPJ da Church.</param>
-        /// <returns>A entity <see cref="Church"/> ou <c>null</c> caso não exista.</returns>
+        /// <param name="cnpj">Church CNPJ.</param>
+        /// <returns>The <see cref="Church"/> entity or <c>null</c> if not found.</returns>
         public async Task<Church?> GetByCnpjAsync(string cnpj)
             => await _context.Churches
             .AsNoTracking()
             .SingleOrDefaultAsync(c => c.Cnpj == cnpj);
 
         /// <summary>
-        /// Obtém a Igreja pela denominação.
+        /// Gets churches by denomination.
         /// </summary>
-        /// <param name="denominacao">Denominação a ser pesquisada.</param>
-        /// <returns>As Churches que correspondem à denominação informada.</returns>
+        /// <param name="demomination">Denomination to search for.</param>
+        /// <returns>Churches matching the given denomination.</returns>
         public async Task<IEnumerable<Church>> GetByDenominationAsync(string demomination)
             => await _context.Churches
             .AsNoTracking()
@@ -62,10 +62,10 @@ namespace PlataformaRedencao.Infra.Data.Repositories
             .ToListAsync();
 
         /// <summary>
-        /// Adiciona uma nova Igreja e persiste no banco.
+        /// Adds a new church and persists it.
         /// </summary>
-        /// <param name="entity">entity <see cref="Church"/> a ser adicionada.</param>
-        /// <returns>A entity adicionada com possíveis valores gerados (ex.: Id).</returns>
+        /// <param name="entity">Church entity to add.</param>
+        /// <returns>The added entity with generated values (e.g. Id).</returns>
         public async Task<Church> AddAsync(Church entity)
         {
             _context.Add(entity);
@@ -75,10 +75,10 @@ namespace PlataformaRedencao.Infra.Data.Repositories
         }
 
         /// <summary>
-        /// Atualiza uma Igreja existente e persiste as alterações.
+        /// Updates an existing church and persists changes.
         /// </summary>
-        /// <param name="entity">entity <see cref="Church"/> a ser atualizada.</param>
-        /// <returns>A entity atualizada.</returns>
+        /// <param name="entity">Church entity to update.</param>
+        /// <returns>The updated entity.</returns>
         public async Task<Church> UpdateAsync(Church entity)
         {
             _context.Update(entity);
@@ -88,10 +88,10 @@ namespace PlataformaRedencao.Infra.Data.Repositories
         }
 
         /// <summary>
-        /// Remove uma Igreja e persiste a exclusão.
+        /// Removes a church and persists the deletion.
         /// </summary>
-        /// <param name="entity">entity <see cref="Church"/> a ser removida.</param>
-        /// <returns>A entity removida.</returns>
+        /// <param name="entity">Church entity to remove.</param>
+        /// <returns>The removed entity.</returns>
         public async Task<Church> DeleteAsync(Church entity)
         {
             _context.Remove(entity);

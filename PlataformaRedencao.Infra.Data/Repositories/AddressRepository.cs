@@ -6,43 +6,43 @@ using PlataformaRedencao.Infra.Data.Context;
 namespace PlataformaRedencao.Infra.Data.Repositories
 {
     /// <summary>
-    /// Repositório responsável pelas operações de persistência para <see cref="Endereco"/>.
+    /// Repository for persistence operations on <see cref="Address"/> entities.
     /// </summary>
     public class AddressRepository : IAddressRepository
     {
         private readonly PlataformaRedencaoDbContext _context;
 
         /// <summary>
-        /// Inicializa uma nova instância de <see cref="AddressRepository"/>.
+        /// Initializes a new instance of <see cref="AddressRepository"/>.
         /// </summary>
-        /// <param name="context">Contexto do banco de dados.</param>
+        /// <param name="context">Database context.</param>
         public AddressRepository(PlataformaRedencaoDbContext context)
             => _context = context;
 
         /// <summary>
-        /// Obtém um endereço pelo seu identificador.
+        /// Gets an address by id.
         /// </summary>
-        /// <param name="id">Identificador do endereço.</param>
-        /// <returns>A entity <see cref="Endereco"/> ou <c>null</c> caso não exista.</returns>
+        /// <param name="id">Address id.</param>
+        /// <returns>The <see cref="Address"/> entity or <c>null</c> if not found.</returns>
         public Task<Address?> GetByIdAsync(int? id)
             => _context.Addresses
             .AsNoTracking()
             .FirstOrDefaultAsync(e => e.Id == id);
 
         /// <summary>
-        /// Obtém todos os endereços registrados.
+        /// Gets all registered addresses.
         /// </summary>
-        /// <returns>Uma coleção de <see cref="Endereco"/> (pode estar vazia).</returns>
+        /// <returns>A collection of <see cref="Address"/> (may be empty).</returns>
         public async Task<IReadOnlyCollection<Address?>> GetAllAsync()
             => await _context.Addresses
             .AsNoTracking()
             .ToListAsync();
 
         /// <summary>
-        /// Adiciona um novo endereço e persiste no banco.
+        /// Adds a new address and persists it.
         /// </summary>
-        /// <param name="entity">entity a ser adicionada.</param>
-        /// <returns>A entity adicionada com possíveis valores gerados (ex.: Id).</returns>
+        /// <param name="entity">Entity to add.</param>
+        /// <returns>The added entity with generated values (e.g. Id).</returns>
         public async Task<Address> AddAsync(Address entity)
         {
             _context.Add(entity);
@@ -51,10 +51,10 @@ namespace PlataformaRedencao.Infra.Data.Repositories
             return entity;
         }
         /// <summary>
-        /// Atualiza um endereço existente e persiste as alterações.
+        /// Updates an existing address and persists changes.
         /// </summary>
-        /// <param name="entity">entity com as alterações.</param>
-        /// <returns>A entity atualizada.</returns>
+        /// <param name="entity">Entity with changes.</param>
+        /// <returns>The updated entity.</returns>
         public async Task<Address> UpdateAsync(Address entity)
         {
             _context.Update(entity);
@@ -63,10 +63,10 @@ namespace PlataformaRedencao.Infra.Data.Repositories
             return entity;
         }
         /// <summary>
-        /// Remove um endereço e persiste a exclusão.
+        /// Removes an address and persists the deletion.
         /// </summary>
-        /// <param name="entity">entity a ser removida.</param>
-        /// <returns>A entity removida.</returns>
+        /// <param name="entity">Entity to remove.</param>
+        /// <returns>The removed entity.</returns>
         public async Task<Address> DeleteAsync(Address entity)
         {
             _context.Remove(entity);

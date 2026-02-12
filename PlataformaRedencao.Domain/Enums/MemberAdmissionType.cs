@@ -3,14 +3,14 @@ using System.ComponentModel;
 namespace PlataformaRedencao.Domain.Enums
 {
     /// <summary>
-    /// Define o tipo de admissão do membro na igreja.
+    /// Defines the type of member admission to the church.
     /// </summary>
     public enum MemberAdmissionType
     {
-        [Description("Batismo")]
+        [Description("Baptism")]
         Baptism = 1,
 
-        [Description("Aclamação")]
+        [Description("Acclamation")]
         Acclamation = 2
     }
 }

@@ -3,33 +3,23 @@ using PlataformaRedencao.Application.DTOs;
 namespace PlataformaRedencao.Application.Interfaces
 {
     /// <summary>
-    /// Serviço para operações relacionadas a profissões.
+    /// Service for profession-related operations.
     /// </summary>
     public interface IProfissionService
     {
-        /// <summary>
-        /// Obtém todas as profissões.
-        /// </summary>
+        /// <summary>Gets all professions.</summary>
         Task<IReadOnlyCollection<ProfessionDTO>> GetProfessionsAsync();
 
-        /// <summary>
-        /// Obtém uma profissão pelo identificador.
-        /// </summary>
+        /// <summary>Gets a profession by id.</summary>
         Task<ProfessionDTO> GetById(int? id);
 
-        /// <summary>
-        /// Adiciona uma nova profissão.
-        /// </summary>
+        /// <summary>Adds a new profession.</summary>
         Task Add(ProfessionDTO ProfessionDTO);
 
-        /// <summary>
-        /// Atualiza uma profissão existente.
-        /// </summary>
+        /// <summary>Updates an existing profession.</summary>
         Task Update(ProfessionDTO ProfessionDTO);
 
-        /// <summary>
-        /// Remove uma profissão pelo identificador.
-        /// </summary>
+        /// <summary>Removes a profession by id.</summary>
         Task Remove(int? id);
     }
 }

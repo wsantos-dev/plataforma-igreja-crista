@@ -3,33 +3,23 @@ using PlataformaRedencao.Application.DTOs;
 namespace PlataformaRedencao.Application.Interfaces
 {
     /// <summary>
-    /// Serviço para operações relacionadas a endereços.
+    /// Service for address-related operations.
     /// </summary>
     public interface IAddressService
     {
-        /// <summary>
-        /// Obtém todos os endereços.
-        /// </summary>
+        /// <summary>Gets all addresses.</summary>
         Task<IReadOnlyCollection<AddressDTO>> GetAddressAsync();
 
-        /// <summary>
-        /// Obtém um endereço pelo identificador.
-        /// </summary>
+        /// <summary>Gets an address by id.</summary>
         Task<AddressDTO> GetById(int? id);
 
-        /// <summary>
-        /// Adiciona um novo endereço.
-        /// </summary>
+        /// <summary>Adds a new address.</summary>
         Task Add(AddressDTO enderecoDTO);
 
-        /// <summary>
-        /// Atualiza um endereço existente.
-        /// </summary>
+        /// <summary>Updates an existing address.</summary>
         Task Update(AddressDTO enderecoDTO);
 
-        /// <summary>
-        /// Remove um endereço pelo identificador.
-        /// </summary>
+        /// <summary>Removes an address by id.</summary>
         Task Remove(int? id);
     }
 }

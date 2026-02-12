@@ -7,7 +7,7 @@ using PlataformaRedencao.Domain.Interfaces;
 namespace PlataformaRedencao.Application.Services
 {
     /// <summary>
-    /// Implementação do serviço para operações relacionadas a igrejas.
+    /// Implementation of the service for church-related operations.
     /// </summary>
     public class ChurchService : IChurchService
     {
@@ -15,10 +15,10 @@ namespace PlataformaRedencao.Application.Services
         private readonly IMapper _mapper;
 
         /// <summary>
-        /// Inicializa uma nova instância de <see cref="IChurchService"/>.
+        /// Initializes a new instance of <see cref="ChurchService"/>.
         /// </summary>
-        /// <param name="igrejaRepository">Repositório de igrejas.</param>
-        /// <param name="mapper">Mapeador de objetos.</param>
+        /// <param name="churchRepository">Church repository.</param>
+        /// <param name="mapper">Object mapper.</param>
         public ChurchService(IChurchRepository churchRepository, IMapper mapper)
         {
             _churchRepository = churchRepository;
@@ -27,10 +27,10 @@ namespace PlataformaRedencao.Application.Services
         }
 
         /// <summary>
-        /// Obtém uma igreja pelo identificador.
+        /// Gets a church by id.
         /// </summary>
-        /// <param name="id">Identificador da igreja. Pode ser nulo.</param>
-        /// <returns>Um <see cref="ChurchDTO"/> correspondente ou <c>null</c> se não encontrado.</returns>
+        /// <param name="id">Church id (nullable).</param>
+        /// <returns>The <see cref="ChurchDTO"/> or <c>null</c> if not found.</returns>
         public async Task<ChurchDTO> GetById(int? id)
         {
             var igrejaEntity = await _churchRepository.GetByIdAsync(id);
@@ -38,9 +38,9 @@ namespace PlataformaRedencao.Application.Services
         }
 
         /// <summary>
-        /// Obtém todas as igrejas.
+        /// Gets all churches.
         /// </summary>
-        /// <returns>Uma coleção somente de leitura de <see cref="ChurchDTO"/>.</returns>
+        /// <returns>A read-only collection of <see cref="ChurchDTO"/>.</returns>
         public async Task<IReadOnlyCollection<ChurchDTO>> GetChurchesAsync()
         {
             var igrejasEntity = await _churchRepository.GetAllAsync();
@@ -48,10 +48,10 @@ namespace PlataformaRedencao.Application.Services
         }
 
         /// <summary>
-        /// Adiciona uma nova igreja.
+        /// Adds a new church.
         /// </summary>
-        /// <param name="ChurchDTO">Dados da igreja a ser adicionada.</param>
-        /// <returns>Uma tarefa assíncrona que representa a operação.</returns>
+        /// <param name="ChurchDTO">Church data to add.</param>
+        /// <returns>A task representing the async operation.</returns>
         public async Task Add(ChurchDTO ChurchDTO)
         {
             var igrejaEntity = _mapper.Map<Church>(ChurchDTO);
@@ -59,10 +59,10 @@ namespace PlataformaRedencao.Application.Services
         }
 
         /// <summary>
-        /// Atualiza os dados de uma igreja existente.
+        /// Updates an existing church.
         /// </summary>
-        /// <param name="ChurchDTO">Dados da igreja a ser atualizada.</param>
-        /// <returns>Uma tarefa assíncrona que representa a operação.</returns>
+        /// <param name="ChurchDTO">Church data to update.</param>
+        /// <returns>A task representing the async operation.</returns>
         public async Task Update(ChurchDTO ChurchDTO)
         {
             var igrejaEntity = _mapper.Map<Church>(ChurchDTO);
@@ -70,10 +70,10 @@ namespace PlataformaRedencao.Application.Services
         }
 
         /// <summary>
-        /// Remove uma igreja pelo identificador.
+        /// Removes a church by id.
         /// </summary>
-        /// <param name="id">Identificador da igreja a ser removida. Pode ser nulo.</param>
-        /// <returns>Uma tarefa assíncrona que representa a operação.</returns>
+        /// <param name="id">Church id to remove (nullable).</param>
+        /// <returns>A task representing the async operation.</returns>
         public async Task Remove(int? id)
         {
             var igrejaEntity = await _churchRepository.GetByIdAsync(id);

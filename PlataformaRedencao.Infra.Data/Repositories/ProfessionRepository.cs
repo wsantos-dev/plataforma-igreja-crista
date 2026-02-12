@@ -6,43 +6,43 @@ using PlataformaRedencao.Infra.Data.Context;
 namespace PlataformaRedencao.Infra.Data.Repositories
 {
     /// <summary>
-    /// Repositório responsável pelas operações de persistência para <see cref="Profession"/>.
+    /// Repository for persistence operations on <see cref="Profession"/> entities.
     /// </summary>
     public class ProfessionRepository : IProfessionRepository
     {
         private readonly PlataformaRedencaoDbContext _context;
 
         /// <summary>
-        /// Inicializa uma nova instância de <see cref="ProfessionRepository"/>.
+        /// Initializes a new instance of <see cref="ProfessionRepository"/>.
         /// </summary>
-        /// <param name="context">Contexto do banco de dados.</param>
+        /// <param name="context">Database context.</param>
         public ProfessionRepository(PlataformaRedencaoDbContext context)
             => _context = context;
 
         /// <summary>
-        /// Obtém uma profissão pelo seu identificador.
+        /// Gets a profession by id.
         /// </summary>
-        /// <param name="id">Identificador da profissão.</param>
-        /// <returns>A entity <see cref="Profession"/> ou <c>null</c> caso não exista.</returns>
+        /// <param name="id">Profession id.</param>
+        /// <returns>The <see cref="Profession"/> entity or <c>null</c> if not found.</returns>
         public async Task<Profession?> GetByIdAsync(int? id)
             => await _context.Professions
             .AsNoTracking()
             .FirstOrDefaultAsync(p => p.Id == id);
 
         /// <summary>
-        /// Obtém todas as profissões registradas.
+        /// Gets all registered professions.
         /// </summary>
-        /// <returns>Uma coleção de <see cref="Profession"/> (pode estar vazia).</returns>
+        /// <returns>A collection of <see cref="Profession"/> (may be empty).</returns>
         public async Task<IReadOnlyCollection<Profession?>> GetAllAsync()
             => await _context.Professions
             .AsNoTracking()
             .ToListAsync();
 
         /// <summary>
-        /// Adiciona uma nova profissão e persiste no banco.
+        /// Adds a new profession and persists it.
         /// </summary>
-        /// <param name="entity">entity a ser adicionada.</param>
-        /// <returns>A entity adicionada com possíveis valores gerados (ex.: Id).</returns>
+        /// <param name="entity">Entity to add.</param>
+        /// <returns>The added entity with generated values (e.g. Id).</returns>
         public async Task<Profession> AddAsync(Profession entity)
         {
             _context.Add(entity);
@@ -52,10 +52,10 @@ namespace PlataformaRedencao.Infra.Data.Repositories
         }
 
         /// <summary>
-        /// Atualiza uma profissão existente e persiste as alterações.
+        /// Updates an existing profession and persists changes.
         /// </summary>
-        /// <param name="entity">entity com as alterações.</param>
-        /// <returns>A entity atualizada.</returns>
+        /// <param name="entity">Entity with changes.</param>
+        /// <returns>The updated entity.</returns>
         public async Task<Profession> UpdateAsync(Profession entity)
         {
             _context.Update(entity);
@@ -65,10 +65,10 @@ namespace PlataformaRedencao.Infra.Data.Repositories
         }
 
         /// <summary>
-        /// Remove uma profissão e persiste a exclusão.
+        /// Removes a profession and persists the deletion.
         /// </summary>
-        /// <param name="entity">entity a ser removida.</param>
-        /// <returns>A entity removida.</returns>
+        /// <param name="entity">Entity to remove.</param>
+        /// <returns>The removed entity.</returns>
         public async Task<Profession> DeleteAsync(Profession entity)
         {
             _context.Remove(entity);

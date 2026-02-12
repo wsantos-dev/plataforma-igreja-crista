@@ -7,7 +7,7 @@ using PlataformaRedencao.Domain.Interfaces;
 namespace PlataformaRedencao.Application.Services
 {
     /// <summary>
-    /// Implementação do serviço para operações relacionadas a profissões.
+    /// Implementation of the service for profession-related operations.
     /// </summary>
     public class ProfissaoService : IProfissionService
     {
@@ -15,7 +15,7 @@ namespace PlataformaRedencao.Application.Services
         private readonly IMapper _mapper;
 
         /// <summary>
-        /// Inicializa uma nova instância de <see cref="ProfissaoService"/>.
+        /// Initializes a new instance of <see cref="ProfissaoService"/>.
         /// </summary>
         public ProfissaoService(IProfessionRepository profissaoRepository, IMapper mapper)
         {
@@ -24,7 +24,7 @@ namespace PlataformaRedencao.Application.Services
         }
 
         /// <summary>
-        /// Obtém todas as profissões.
+        /// Gets all professions.
         /// </summary>
         public async Task<IReadOnlyCollection<ProfessionDTO>> GetProfessionsAsync()
         {
@@ -33,7 +33,7 @@ namespace PlataformaRedencao.Application.Services
         }
 
         /// <summary>
-        /// Obtém uma profissão pelo identificador.
+        /// Gets a profession by id.
         /// </summary>
         public async Task<ProfessionDTO> GetById(int? id)
         {
@@ -42,7 +42,7 @@ namespace PlataformaRedencao.Application.Services
         }
 
         /// <summary>
-        /// Adiciona uma nova profissão.
+        /// Adds a new profession.
         /// </summary>
         public async Task Add(ProfessionDTO ProfessionDTO)
         {
@@ -51,7 +51,7 @@ namespace PlataformaRedencao.Application.Services
         }
 
         /// <summary>
-        /// Atualiza uma profissão existente.
+        /// Updates an existing profession.
         /// </summary>
         public async Task Update(ProfessionDTO ProfessionDTO)
         {
@@ -60,7 +60,7 @@ namespace PlataformaRedencao.Application.Services
         }
 
         /// <summary>
-        /// Remove uma profissão pelo identificador.
+        /// Removes a profession by id.
         /// </summary>
         public async Task Remove(int? id)
         {

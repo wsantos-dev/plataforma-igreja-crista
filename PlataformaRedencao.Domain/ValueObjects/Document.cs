@@ -4,60 +4,45 @@ using PlataformaRedencao.Domain.Enums;
 namespace PlataformaRedencao.Domain.ValueObjects
 {
     /// <summary>
-    /// Value Object que representa um documento de identificação
-    /// no domínio.
-    /// 
-    /// Um documento é composto por um tipo (<see cref="TipoDocumento"/>)
-    /// e por um número associado a esse tipo.
-    /// 
-    /// Este objeto é imutável, não possui identidade própria
-    /// e sua igualdade deve ser definida exclusivamente pelos valores
-    /// que o compõem.
+    /// Value object representing an identification document in the domain.
+    /// Composed of a type (<see cref="DocumentType"/>) and an associated number.
+    /// Immutable, has no identity of its own, and equality is defined by its values.
     /// </summary>
     public sealed class Document
     {
         /// <summary>
-        /// Tipo do documento de identificação.
-        /// 
-        /// Define a natureza do documento (ex.: CPF, RG, CNH, CNPJ),
-        /// conforme conjunto fechado estabelecido pelo domínio.
+        /// Type of the identification document (e.g. CPF, RG, CNH, CNPJ) from a closed domain set.
         /// </summary>
         public DocumentType DocumentType { get; }
 
         /// <summary>
-        /// Número do documento.
-        /// 
-        /// Deve representar o valor do documento conforme o tipo informado.
-        /// As regras de validação específicas podem ser aplicadas
-        /// em camadas superiores ou por Value Objects especializados
-        /// (ex.: <c>Cpf</c>, <c>Cnpj</c>).
+        /// Document number. Must match the document type; specific validation may be applied by specialized value objects (e.g. <c>Cpf</c>).
         /// </summary>
         public string? DocumentNumber { get; }
 
         private Document() { }
 
         /// <summary>
-        /// Cria uma nova instância de <see cref="Document"/>.
+        /// Creates a new instance of <see cref="Document"/>.
         /// </summary>
-        /// <param name="documentType">Tipo do documento.</param>
-        /// <param name="documentNumber">Número do documento.</param>
+        /// <param name="documentType">Document type.</param>
+        /// <param name="documentNumber">Document number.</param>
         /// <exception cref="ArgumentException">
-        /// Lançada quando o número do documento é nulo ou vazio.
+        /// Thrown when the document number is null or empty.
         /// </exception>
         public Document(DocumentType documentType, string documentNumber)
         {
             if (string.IsNullOrWhiteSpace(documentNumber))
-                throw new ArgumentException("Número do documento não pode ser vazio.", nameof(documentNumber));
+                throw new ArgumentException("Document number cannot be empty.", nameof(documentNumber));
 
             DocumentType = documentType;
             DocumentNumber = documentNumber.Trim();
         }
 
         /// <summary>
-        /// Retorna a representação textual do documento,
-        /// combinando tipo e número.
+        /// Returns the string representation of the document (type and number).
         /// </summary>
-        /// <returns>Representação textual do documento.</returns>
+        /// <returns>String representation of the document.</returns>
         public override string ToString()
             => $"{DocumentType}: {DocumentNumber}";
     }
