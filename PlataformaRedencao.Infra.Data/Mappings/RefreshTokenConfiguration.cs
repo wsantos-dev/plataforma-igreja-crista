@@ -30,7 +30,7 @@ namespace PlataformaRedencao.Infra.Data.Mappings
 
                      // Foreign key reference to the associated user.
                      builder.Property(r => r.UsuarioId)
-                            .HasColumnName("usuario_id")
+                            .HasColumnName("user_id")
                             .IsRequired();
 
                      // The refresh token string (typically a secure random value).

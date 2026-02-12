@@ -22,7 +22,7 @@ namespace PlataformaRedencao.Infra.Data.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("PlataformaRedencao.Domain.Entities.Endereco", b =>
+            modelBuilder.Entity("PlataformaRedencao.Domain.Entities.Address", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -31,67 +31,67 @@ namespace PlataformaRedencao.Infra.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Bairro")
+                    b.Property<string>("City")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)")
-                        .HasColumnName("bairro");
+                        .HasColumnName("city");
 
-                    b.Property<string>("Cep")
+                    b.Property<string>("Complement")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("complement");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("country");
+
+                    b.Property<int>("EntityId")
+                        .HasColumnType("integer")
+                        .HasColumnName("entity_id");
+
+                    b.Property<int>("EntityType")
+                        .HasColumnType("integer")
+                        .HasColumnName("entity_type");
+
+                    b.Property<string>("Neighborhood")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("neighborhood");
+
+                    b.Property<string>("Number")
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
+                        .HasColumnName("number");
+
+                    b.Property<string>("PostalCode")
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("character varying(20)")
-                        .HasColumnName("cep");
+                        .HasColumnName("postalcode");
 
-                    b.Property<string>("Cidade")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasColumnName("cidade");
-
-                    b.Property<string>("Complemento")
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasColumnName("complemento");
-
-                    b.Property<int>("EntidadeId")
-                        .HasColumnType("integer")
-                        .HasColumnName("entidade_id");
-
-                    b.Property<string>("Estado")
+                    b.Property<string>("State")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)")
-                        .HasColumnName("estado");
+                        .HasColumnName("state");
 
-                    b.Property<string>("Logradouro")
+                    b.Property<string>("Street")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)")
-                        .HasColumnName("logradouro");
-
-                    b.Property<string>("Numero")
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)")
-                        .HasColumnName("numero");
-
-                    b.Property<string>("Pais")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasColumnName("pais");
-
-                    b.Property<int>("TipoEntidade")
-                        .HasColumnType("integer")
-                        .HasColumnName("tipo_entidade");
+                        .HasColumnName("street");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EntidadeId", "TipoEntidade");
+                    b.HasIndex("EntityId", "EntityType");
 
-                    b.ToTable("endereco", "membros");
+                    b.ToTable("address", "secretary");
                 });
 
-            modelBuilder.Entity("PlataformaRedencao.Domain.Entities.Igreja", b =>
+            modelBuilder.Entity("PlataformaRedencao.Domain.Entities.Church", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -100,9 +100,9 @@ namespace PlataformaRedencao.Infra.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTimeOffset?>("AtualizadoEm")
-                        .HasColumnType("timestamptz")
-                        .HasColumnName("atualizado_em");
+                    b.Property<int?>("AddressId")
+                        .HasColumnType("integer")
+                        .HasColumnName("address_id");
 
                     b.Property<string>("Cnpj")
                         .IsRequired()
@@ -110,18 +110,14 @@ namespace PlataformaRedencao.Infra.Data.Migrations
                         .HasColumnType("character varying(20)")
                         .HasColumnName("cnpj");
 
-                    b.Property<DateTimeOffset>("CriadoEm")
+                    b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamptz")
-                        .HasColumnName("criado_em");
+                        .HasColumnName("created_at");
 
-                    b.Property<DateOnly>("DataFundacao")
-                        .HasColumnType("date")
-                        .HasColumnName("data_fundacao");
-
-                    b.Property<string>("Denominacao")
+                    b.Property<string>("Denomination")
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)")
-                        .HasColumnName("denominacao");
+                        .HasColumnName("denomination");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -129,42 +125,46 @@ namespace PlataformaRedencao.Infra.Data.Migrations
                         .HasColumnType("character varying(200)")
                         .HasColumnName("email");
 
-                    b.Property<int?>("EnderecoId")
-                        .HasColumnType("integer")
-                        .HasColumnName("endereco_id");
+                    b.Property<DateOnly>("FoundationDate")
+                        .HasColumnType("date")
+                        .HasColumnName("foundation_date");
 
-                    b.Property<string>("Nome")
+                    b.Property<string>("LeadPastor")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)")
-                        .HasColumnName("nome");
+                        .HasColumnName("lead_pastor");
 
-                    b.Property<string>("NomeFantasia")
+                    b.Property<string>("OfficialName")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)")
-                        .HasColumnName("nome_fantasia");
+                        .HasColumnName("official_name");
 
-                    b.Property<string>("PastorResponsavel")
+                    b.Property<string>("TradeName")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)")
-                        .HasColumnName("pastor_responsavel");
+                        .HasColumnName("trade_name");
 
-                    b.Property<string>("Site")
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("updated_at");
+
+                    b.Property<string>("Website")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)")
-                        .HasColumnName("site");
+                        .HasColumnName("website");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EnderecoId");
+                    b.HasIndex("AddressId");
 
-                    b.ToTable("igreja", "public");
+                    b.ToTable("church", "secretary");
                 });
 
-            modelBuilder.Entity("PlataformaRedencao.Domain.Entities.Membro", b =>
+            modelBuilder.Entity("PlataformaRedencao.Domain.Entities.Member", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -173,72 +173,71 @@ namespace PlataformaRedencao.Infra.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTimeOffset>("AtualizadoEm")
-                        .HasColumnType("timestamptz")
-                        .HasColumnName("atualizado_em");
+                    b.Property<int>("AddressId")
+                        .HasColumnType("integer")
+                        .HasColumnName("address_id");
+
+                    b.Property<DateOnly>("AdmissionDate")
+                        .HasColumnType("date")
+                        .HasColumnName("admission_date");
+
+                    b.Property<int>("AdmissionType")
+                        .HasColumnType("integer")
+                        .HasColumnName("admission_type");
+
+                    b.Property<DateOnly>("BirthDate")
+                        .HasColumnType("date")
+                        .HasColumnName("birth_date");
+
+                    b.Property<int>("ChurchId")
+                        .HasColumnType("integer")
+                        .HasColumnName("church_id");
 
                     b.Property<string>("Cpf")
-                        .IsRequired()
                         .HasMaxLength(14)
                         .HasColumnType("character varying(14)")
                         .HasColumnName("cpf");
 
-                    b.Property<DateTimeOffset>("CriadoEm")
+                    b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamptz")
-                        .HasColumnName("criado_em");
+                        .HasColumnName("created_at");
 
-                    b.Property<DateOnly>("DataAdmissao")
-                        .HasColumnType("date")
-                        .HasColumnName("data_admissao");
-
-                    b.Property<DateOnly>("DataNascimento")
-                        .HasColumnType("date")
-                        .HasColumnName("data_nascimento");
-
-                    b.Property<int>("EnderecoId")
+                    b.Property<int>("EducationLevel")
                         .HasColumnType("integer")
-                        .HasColumnName("endereco_id");
+                        .HasColumnName("education_level");
 
-                    b.Property<int>("Escolaridade")
+                    b.Property<char>("Gender")
+                        .HasColumnType("char(1)")
+                        .HasColumnName("gender");
+
+                    b.Property<int>("MaritalStatus")
                         .HasColumnType("integer")
-                        .HasColumnName("escolaridade");
+                        .HasColumnName("marital_status");
 
-                    b.Property<int>("EstadoCivil")
+                    b.Property<int>("ProfessionId")
                         .HasColumnType("integer")
-                        .HasColumnName("estado_civil");
+                        .HasColumnName("profession_id");
 
-                    b.Property<int>("IgrejaId")
+                    b.Property<int>("Status")
                         .HasColumnType("integer")
-                        .HasColumnName("igreja_id");
+                        .HasColumnName("status");
 
-                    b.Property<int>("ProfissaoId")
-                        .HasColumnType("integer")
-                        .HasColumnName("profissao_id");
-
-                    b.Property<char>("Sexo")
-                        .HasColumnType("character(1)")
-                        .HasColumnName("sexo");
-
-                    b.Property<int>("Situacao")
-                        .HasColumnType("integer")
-                        .HasColumnName("situacao");
-
-                    b.Property<int>("TipoAdmissao")
-                        .HasColumnType("integer")
-                        .HasColumnName("tipo_admissao");
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("updated_at");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EnderecoId");
+                    b.HasIndex("AddressId");
 
-                    b.HasIndex("IgrejaId");
+                    b.HasIndex("ChurchId");
 
-                    b.HasIndex("ProfissaoId");
+                    b.HasIndex("ProfessionId");
 
-                    b.ToTable("membro", "membros");
+                    b.ToTable("member", "secretary");
                 });
 
-            modelBuilder.Entity("PlataformaRedencao.Domain.Entities.Profissao", b =>
+            modelBuilder.Entity("PlataformaRedencao.Domain.Entities.Profession", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -247,20 +246,20 @@ namespace PlataformaRedencao.Infra.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Codigo")
+                    b.Property<string>("Code")
                         .HasMaxLength(30)
                         .HasColumnType("character varying(30)")
-                        .HasColumnName("codigo");
+                        .HasColumnName("code");
 
-                    b.Property<string>("Nome")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("character varying(150)")
-                        .HasColumnName("nome");
+                        .HasColumnName("name");
 
                     b.HasKey("Id");
 
-                    b.ToTable("profissao", "membros");
+                    b.ToTable("profession", "secretary");
                 });
 
             modelBuilder.Entity("PlataformaRedencao.Domain.Entities.RefreshToken", b =>
@@ -287,14 +286,14 @@ namespace PlataformaRedencao.Infra.Data.Migrations
 
                     b.Property<int>("UsuarioId")
                         .HasColumnType("integer")
-                        .HasColumnName("usuario_id");
+                        .HasColumnName("user_id");
 
                     b.HasKey("Id");
 
-                    b.ToTable("refresh_token", "seguranca");
+                    b.ToTable("refresh_token", "security");
                 });
 
-            modelBuilder.Entity("PlataformaRedencao.Domain.Entities.Usuario", b =>
+            modelBuilder.Entity("PlataformaRedencao.Domain.Entities.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -303,119 +302,119 @@ namespace PlataformaRedencao.Infra.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTimeOffset>("CriadoEm")
+                    b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamptz")
-                        .HasColumnName("criado_em");
+                        .HasColumnName("created_at");
 
-                    b.Property<string>("Email")
+                    b.Property<string>("EmailAddress")
                         .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("character varying(150)")
-                        .HasColumnName("email");
+                        .HasColumnName("email_address");
 
-                    b.Property<bool>("IsAtivo")
+                    b.Property<bool>("IsActive")
                         .HasColumnType("boolean")
-                        .HasColumnName("ativo");
+                        .HasColumnName("active");
 
-                    b.Property<string>("SenhaHash")
+                    b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)")
-                        .HasColumnName("senha_hash");
+                        .HasColumnName("password_hash");
 
                     b.HasKey("Id");
 
-                    b.ToTable("usuario", "seguranca");
+                    b.ToTable("user", "security");
                 });
 
-            modelBuilder.Entity("PlataformaRedencao.Domain.Entities.Igreja", b =>
+            modelBuilder.Entity("PlataformaRedencao.Domain.Entities.Church", b =>
                 {
-                    b.HasOne("PlataformaRedencao.Domain.Entities.Endereco", "Endereco")
+                    b.HasOne("PlataformaRedencao.Domain.Entities.Address", "Address")
                         .WithMany()
-                        .HasForeignKey("EnderecoId")
+                        .HasForeignKey("AddressId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.Navigation("Endereco");
+                    b.Navigation("Address");
                 });
 
-            modelBuilder.Entity("PlataformaRedencao.Domain.Entities.Membro", b =>
+            modelBuilder.Entity("PlataformaRedencao.Domain.Entities.Member", b =>
                 {
-                    b.HasOne("PlataformaRedencao.Domain.Entities.Endereco", "Endereco")
+                    b.HasOne("PlataformaRedencao.Domain.Entities.Address", "Address")
                         .WithMany()
-                        .HasForeignKey("EnderecoId")
+                        .HasForeignKey("AddressId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("PlataformaRedencao.Domain.Entities.Igreja", "Igreja")
+                    b.HasOne("PlataformaRedencao.Domain.Entities.Church", "Church")
                         .WithMany()
-                        .HasForeignKey("IgrejaId")
+                        .HasForeignKey("ChurchId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("PlataformaRedencao.Domain.Entities.Profissao", "Profissao")
+                    b.HasOne("PlataformaRedencao.Domain.Entities.Profession", "Profession")
                         .WithMany()
-                        .HasForeignKey("ProfissaoId")
+                        .HasForeignKey("ProfessionId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.OwnsOne("Domain.ValueObjects.Contato", "Contato", b1 =>
+                    b.OwnsOne("PlataformaRedencao.Domain.ValueObjects.Contact", "Contact", b1 =>
                         {
-                            b1.Property<int>("MembroId")
+                            b1.Property<int>("MemberId")
                                 .HasColumnType("integer");
 
-                            b1.Property<string>("Email")
+                            b1.Property<string>("EmailAddress")
                                 .IsRequired()
                                 .HasMaxLength(255)
                                 .HasColumnType("character varying(255)")
-                                .HasColumnName("email");
+                                .HasColumnName("email_address");
 
-                            b1.Property<string>("Telefone")
+                            b1.Property<string>("PhoneNumber")
                                 .HasMaxLength(20)
                                 .HasColumnType("character varying(20)")
-                                .HasColumnName("telefone");
+                                .HasColumnName("phone_number");
 
-                            b1.HasKey("MembroId");
+                            b1.HasKey("MemberId");
 
-                            b1.ToTable("membro", "membros");
+                            b1.ToTable("member", "secretary");
 
                             b1.WithOwner()
-                                .HasForeignKey("MembroId");
+                                .HasForeignKey("MemberId");
                         });
 
-                    b.OwnsOne("PlataformaRedencao.Domain.ValueObjects.NomePessoa", "NomePessoa", b1 =>
+                    b.OwnsOne("PlataformaRedencao.Domain.ValueObjects.PersonName", "FullName", b1 =>
                         {
-                            b1.Property<int>("MembroId")
+                            b1.Property<int>("MemberId")
                                 .HasColumnType("integer");
 
-                            b1.Property<string>("PrimeiroNome")
-                                .IsRequired()
-                                .HasMaxLength(50)
-                                .HasColumnType("character varying(50)")
-                                .HasColumnName("primeiro_nome");
-
-                            b1.Property<string>("SobreNome")
+                            b1.Property<string>("FirstName")
                                 .IsRequired()
                                 .HasMaxLength(100)
                                 .HasColumnType("character varying(100)")
-                                .HasColumnName("sobrenome");
+                                .HasColumnName("first_name");
 
-                            b1.HasKey("MembroId");
+                            b1.Property<string>("LastName")
+                                .IsRequired()
+                                .HasMaxLength(150)
+                                .HasColumnType("character varying(150)")
+                                .HasColumnName("last_name");
 
-                            b1.ToTable("membro", "membros");
+                            b1.HasKey("MemberId");
+
+                            b1.ToTable("member", "secretary");
 
                             b1.WithOwner()
-                                .HasForeignKey("MembroId");
+                                .HasForeignKey("MemberId");
                         });
 
-                    b.Navigation("Contato");
+                    b.Navigation("Address");
 
-                    b.Navigation("Endereco");
+                    b.Navigation("Church");
 
-                    b.Navigation("Igreja");
+                    b.Navigation("Contact");
 
-                    b.Navigation("NomePessoa");
+                    b.Navigation("FullName");
 
-                    b.Navigation("Profissao");
+                    b.Navigation("Profession");
                 });
 #pragma warning restore 612, 618
         }

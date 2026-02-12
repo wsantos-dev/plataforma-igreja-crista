@@ -69,11 +69,15 @@ public class MemberConfiguration : IEntityTypeConfiguration<Member>
         // =============================
         // Gender (Enum)
         // =============================
-        // Stores enum as integer in the database.
+        // Stores enum as char in the database.
         builder.Property(m => m.Gender)
-            .HasColumnName("gender")
-            .HasConversion<int>()
-            .IsRequired(false);
+       .HasConversion(
+            g => g!.Code,
+            c => Gender.FromCode(c)
+        )
+       .HasColumnName("gender")
+       .HasColumnType("char(1)")
+       .IsRequired();
 
         // =============================
         // Contact (Owned Type)

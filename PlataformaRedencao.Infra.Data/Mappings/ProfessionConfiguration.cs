@@ -29,13 +29,13 @@ namespace PlataformaRedencao.Infra.Data.Mappings
 
                      // Profession name (required).
                      builder.Property(p => p.Name)
-                            .HasColumnName("nome")
+                            .HasColumnName("name")
                             .HasMaxLength(150)
                             .IsRequired();
 
                      // Optional profession code (e.g., internal or regulatory identifier).
                      builder.Property(p => p.Code)
-                            .HasColumnName("codigo")
+                            .HasColumnName("code")
                             .HasMaxLength(30);
               }
        }
