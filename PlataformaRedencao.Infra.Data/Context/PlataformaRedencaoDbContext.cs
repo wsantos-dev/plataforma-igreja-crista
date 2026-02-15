@@ -33,10 +33,23 @@ namespace PlataformaRedencao.Infra.Data.Context
             modelBuilder.Entity<IdentityRoleClaim<string>>().ToTable("asp_net_role_claims", Schemas.Auth);
             modelBuilder.Entity<IdentityUserToken<string>>().ToTable("asp_net_user_tokens", Schemas.Auth);
 
-
             modelBuilder.ApplyConfigurationsFromAssembly(
                 typeof(PlataformaRedencaoDbContext).Assembly
             );
+
+            foreach (var entity in modelBuilder.Model.GetEntityTypes())
+            {
+                // IGNORA OWNED TYPES
+                if (entity.IsOwned())
+                    continue;
+
+                foreach (var property in entity.GetProperties())
+                {
+                    property.SetColumnName(
+                        property.GetColumnName().ToSnakeCase()
+                    );
+                }
+            }
         }
     }
 }

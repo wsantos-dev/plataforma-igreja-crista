@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../PlataformaRedencao.Application/PlataformaRedencao.Application.csproj" />
+    <ProjectReference Include="../PlataformaRedencao.Config/PlataformaRedencao.Config.csproj" />
     <ProjectReference Include="../PlataformaRedencao.Infra.IoC/PlataformaRedencao.Infra.IoC.csproj" />
   </ItemGroup>
 

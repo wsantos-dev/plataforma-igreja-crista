@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
-using System.IO;
 
 namespace PlataformaRedencao.Infra.Data.Context
 {
@@ -13,11 +12,12 @@ namespace PlataformaRedencao.Infra.Data.Context
             IConfigurationRoot configuration = new ConfigurationBuilder()
                 .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../PlataformaRedencao.API"))
                 .AddJsonFile("appsettings.json", optional: true)
-                .AddUserSecrets<PlataformaRedencaoDbContextFactory>() // Isso busca os segredos
+                .AddUserSecrets<PlataformaRedencaoDbContextFactory>()
                 .Build();
 
             var builder = new DbContextOptionsBuilder<PlataformaRedencaoDbContext>();
-            var connectionString = configuration.GetConnectionString("PostgreSql");
+            var connectionString = PlataformaRedencao.Config.AppSettings.PostgreSqlConnectionString;
+
 
             builder.UseNpgsql(connectionString);
 

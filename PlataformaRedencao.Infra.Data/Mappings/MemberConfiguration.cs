@@ -41,17 +41,16 @@ public class MemberConfiguration : IEntityTypeConfiguration<Member>
             .HasMaxLength(14)
             .IsRequired(false);
 
-        // =============================
-        // PersonName (Owned Type)
-        // =============================
-        // Configures FullName as an owned entity type (value object pattern).
-        builder.OwnsOne(m => m.FullName, (OwnedNavigationBuilder<Member, PersonName> owned) =>
+
+        builder.OwnsOne(m => m.FullName, fullname =>
         {
-            owned.Property(n => n.FirstName)
+            fullname.Property(n => n.FirstName)
                 .HasMaxLength(100)
+                .HasColumnName("first_name")
                 .IsRequired();
 
-            owned.Property(n => n.LastName)
+            fullname.Property(n => n.LastName)
+                .HasColumnName("last_name")
                 .HasMaxLength(150)
                 .IsRequired();
         });
@@ -75,13 +74,10 @@ public class MemberConfiguration : IEntityTypeConfiguration<Member>
        .HasColumnType("char(1)")
        .IsRequired();
 
-        // =============================
-        // Contact (Owned Type)
-        // =============================
-        // Configures Contact as an owned type containing value objects.
-        builder.OwnsOne(m => m.Contact, (OwnedNavigationBuilder<Member, Contact> contact) =>
+        builder.OwnsOne(m => m.Contact, contact =>
         {
             contact.Property(c => c.EmailAddress)
+                .HasColumnName("email_address")
                 .HasMaxLength(255)
                 .HasConversion(
                     v => v!.Address,
@@ -89,6 +85,7 @@ public class MemberConfiguration : IEntityTypeConfiguration<Member>
                 .IsRequired();
 
             contact.Property(c => c.PhoneNumber)
+                .HasColumnName("phone_number")
                 .HasMaxLength(20)
                 .HasConversion(
                     v => v!.Number,
