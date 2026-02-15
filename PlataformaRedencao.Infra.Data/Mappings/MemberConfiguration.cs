@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PlataformaRedencao.Domain.Entities;
 using PlataformaRedencao.Domain.ValueObjects;
+using PlataformaRedencao.Infra.Data.Constants;
 
 namespace PlataformaRedencao.Infra.Data.Mappings;
 
@@ -21,7 +22,7 @@ public class MemberConfiguration : IEntityTypeConfiguration<Member>
     public void Configure(EntityTypeBuilder<Member> builder)
     {
         // Maps the entity to the "member" table within the "secretary" schema.
-        builder.ToTable("member", "secretary");
+        builder.ToTable("member", Schemas.Secretary);
 
         // Primary Key configuration.
         builder.HasKey(m => m.Id);
@@ -45,14 +46,14 @@ public class MemberConfiguration : IEntityTypeConfiguration<Member>
         // PersonName (Owned Type)
         // =============================
         // Configures FullName as an owned entity type (value object pattern).
-        builder.OwnsOne(m => m.FullName, name =>
+        builder.OwnsOne(m => m.FullName, (OwnedNavigationBuilder<Member, PersonName> owned) =>
         {
-            name.Property(n => n.FirstName)
+            owned.Property(n => n.FirstName)
                 .HasColumnName("first_name")
                 .HasMaxLength(100)
                 .IsRequired();
 
-            name.Property(n => n.LastName)
+            owned.Property(n => n.LastName)
                 .HasColumnName("last_name")
                 .HasMaxLength(150)
                 .IsRequired();
@@ -83,7 +84,7 @@ public class MemberConfiguration : IEntityTypeConfiguration<Member>
         // Contact (Owned Type)
         // =============================
         // Configures Contact as an owned type containing value objects.
-        builder.OwnsOne(m => m.Contact, contact =>
+        builder.OwnsOne(m => m.Contact, (OwnedNavigationBuilder<Member, Contact> contact) =>
         {
             contact.Property(c => c.EmailAddress)
                 .HasColumnName("email_address")

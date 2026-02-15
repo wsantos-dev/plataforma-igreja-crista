@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PlataformaRedencao.Domain.Entities;
+using PlataformaRedencao.Infra.Data.Constants;
 
 namespace PlataformaRedencao.Infra.Data.Mappings
 {
@@ -19,7 +20,7 @@ namespace PlataformaRedencao.Infra.Data.Mappings
               public void Configure(EntityTypeBuilder<Profession> builder)
               {
                      // Maps the entity to the "profession" table within the "secretary" schema.
-                     builder.ToTable("profession", "secretary");
+                     builder.ToTable("profession", Schemas.Secretary);
 
                      // Primary Key configuration.
                      builder.HasKey(p => p.Id);

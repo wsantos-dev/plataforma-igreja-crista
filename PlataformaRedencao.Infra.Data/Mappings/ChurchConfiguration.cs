@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PlataformaRedencao.Domain.Entities;
+using PlataformaRedencao.Infra.Data.Constants;
 
 namespace PlataformaRedencao.Infra.Data.Mappings;
 
@@ -19,7 +20,7 @@ public class ChurchConfiguration : IEntityTypeConfiguration<Church>
     public void Configure(EntityTypeBuilder<Church> builder)
     {
         // Maps the entity to the "church" table within the "secretary" schema.
-        builder.ToTable("church", "secretary");
+        builder.ToTable("church", Schemas.Secretary);
 
         // Primary Key configuration.
         builder.HasKey(c => c.Id);

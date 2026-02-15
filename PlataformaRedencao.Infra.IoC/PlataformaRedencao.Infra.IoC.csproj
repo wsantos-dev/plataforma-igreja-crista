@@ -8,12 +8,8 @@
 
   <ItemGroup>
     <ProjectReference Include="../PlataformaRedencao.Application/PlataformaRedencao.Application.csproj" />
-    <ProjectReference Include="../PlataformaRedencao.Domain/PlataformaRedencao.Domain.csproj" />
     <ProjectReference Include="../PlataformaRedencao.Infra.Data/PlataformaRedencao.Infra.Data.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.15.0" />
+    <ProjectReference Include="../PlataformaRedencao.Infra.Identity/PlataformaRedencao.Infra.Identity.csproj" />
   </ItemGroup>
 
 </Project>

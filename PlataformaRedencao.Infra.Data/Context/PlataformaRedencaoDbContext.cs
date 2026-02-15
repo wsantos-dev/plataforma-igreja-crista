@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using PlataformaRedencao.Domain.Entities;
+using PlataformaRedencao.Infra.Identity.Entities;
 
 namespace PlataformaRedencao.Infra.Data.Context
 {
-    public class PlataformaRedencaoDbContext : DbContext
+    public class PlataformaRedencaoDbContext : IdentityDbContext<ApplicationUser>
     {
         public PlataformaRedencaoDbContext(DbContextOptions<PlataformaRedencaoDbContext> options)
             : base(options)
@@ -13,7 +15,6 @@ namespace PlataformaRedencao.Infra.Data.Context
         public DbSet<Member> Members { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Profession> Professions { get; set; }
-        public DbSet<User> Users { get; set; }
 
         public DbSet<RefreshToken> RefreshTokens { get; set; }
 
@@ -21,6 +22,8 @@ namespace PlataformaRedencao.Infra.Data.Context
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.HasDefaultSchema("auth");
+            
             modelBuilder.ApplyConfigurationsFromAssembly(
                 typeof(PlataformaRedencaoDbContext).Assembly
             );

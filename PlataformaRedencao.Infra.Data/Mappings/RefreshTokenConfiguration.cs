@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PlataformaRedencao.Domain.Entities;
+using PlataformaRedencao.Infra.Data.Constants;
 
 namespace PlataformaRedencao.Infra.Data.Mappings
 {
@@ -20,7 +21,7 @@ namespace PlataformaRedencao.Infra.Data.Mappings
               public void Configure(EntityTypeBuilder<RefreshToken> builder)
               {
                      // Maps the entity to the "refresh_token" table within the "security" schema.
-                     builder.ToTable("refresh_token", "security");
+                     builder.ToTable("refresh_token", Schemas.Auth);
 
                      // Primary Key configuration.
                      builder.HasKey(r => r.Id);

@@ -1,6 +1,4 @@
 using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using PlataformaRedencao.API.Endpoints;
 using PlataformaRedencao.Domain.Enums;
 using PlataformaRedencao.Infra.IoC;
@@ -16,51 +14,14 @@ builder.Services.AddInfrastructure(builder.Configuration);
 var jwtSettings = builder.Configuration.GetSection("Jwt");
 var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]!);
 
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-
-        ValidIssuer = jwtSettings["Issuer"],
-        ValidAudience = jwtSettings["Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(key),
-
-        ClockSkew = TimeSpan.Zero
-
-    };
-});
 
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("AdminOnly", policy =>
-        policy.RequireRole("Admin"));
-
-    options.AddPolicy("PastorOnly", policy =>
-        policy.RequireRole(Roles.Pastor.ToString()));
-
-    options.AddPolicy("TreasurerOnly", policy =>
-        policy.RequireRole(Roles.Treasurer.ToString()));
-
-    options.AddPolicy("FinanceCommitteeOnly", policy =>
-        policy.RequireRole(Roles.FinanceCommittee.ToString()));
-
-    options.AddPolicy("LeaderMinistrieOnly", policy =>
-        policy.RequireRole(Roles.LeaderMinistrie.ToString()));
-
-    options.AddPolicy("MemberWithMinistrieOnly", policy =>
-        policy.RequireRole(Roles.MemberWithMinistrie.ToString()));
-
-    options.AddPolicy("MemberWithoutMinistrieOnly", policy =>
-        policy.RequireRole(Roles.MemberWithoutMinistrie.ToString()));
+    foreach (var role in Enum.GetNames(typeof(Roles)))
+    {
+        options.AddPolicy($"{role}Only",
+            policy => policy.RequireRole(role));
+    }
 });
 
 
@@ -114,7 +75,6 @@ app.UseAuthorization();
 
 app.UseExceptionHandler();
 app.MapErrorEndpoints();
-app.MapAuthEndpoints();
 app.MapAdminEndpoints();
 
 app.Run();
