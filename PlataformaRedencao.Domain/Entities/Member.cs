@@ -16,6 +16,10 @@ namespace PlataformaRedencao.Domain.Entities
         private Member() { }
 
         /// <summary>
+        /// ASP.NET Identity User
+        /// </summary>
+        public string? ApplicationUserId { get; set; }
+        /// <summary>
         /// Person's CPF (Brazilian tax ID).
         /// </summary>
         public Cpf? Cpf { get; private set; }

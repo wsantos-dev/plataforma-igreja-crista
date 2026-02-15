@@ -18,11 +18,8 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(
         this IServiceCollection services, IConfiguration configuration)
     {
-        // Infra.Data
-        services.AddDataInfrastructure(configuration);
-
-
         // Repositories
+        services.AddDataInfrastructure(configuration);
 
         services.AddScoped<IChurchRepository, ChurchRepository>();
         services.AddScoped<IMemberRepository, MemberRepository>();

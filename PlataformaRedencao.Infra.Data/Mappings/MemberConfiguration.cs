@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PlataformaRedencao.Domain.Entities;
 using PlataformaRedencao.Domain.ValueObjects;
 using PlataformaRedencao.Infra.Data.Constants;
+using PlataformaRedencao.Infra.Identity.Entities;
 
 namespace PlataformaRedencao.Infra.Data.Mappings;
 
@@ -27,15 +28,13 @@ public class MemberConfiguration : IEntityTypeConfiguration<Member>
         // Primary Key configuration.
         builder.HasKey(m => m.Id);
 
-        builder.Property(m => m.Id)
-            .HasColumnName("id");
+        builder.Property(m => m.Id);
 
         // =============================
         // CPF (Value Object)
         // =============================
         // Maps the Cpf value object to a single column using value conversion.
         builder.Property(m => m.Cpf)
-            .HasColumnName("cpf")
             .HasConversion(
                 v => v!.Value,     // Converts Value Object to primitive for persistence.
                 v => new Cpf(v))   // Rehydrates Value Object from database value.
@@ -49,12 +48,10 @@ public class MemberConfiguration : IEntityTypeConfiguration<Member>
         builder.OwnsOne(m => m.FullName, (OwnedNavigationBuilder<Member, PersonName> owned) =>
         {
             owned.Property(n => n.FirstName)
-                .HasColumnName("first_name")
                 .HasMaxLength(100)
                 .IsRequired();
 
             owned.Property(n => n.LastName)
-                .HasColumnName("last_name")
                 .HasMaxLength(150)
                 .IsRequired();
         });
@@ -63,7 +60,6 @@ public class MemberConfiguration : IEntityTypeConfiguration<Member>
         // BirthDate
         // =============================
         builder.Property(m => m.BirthDate)
-            .HasColumnName("birth_date")
             .HasColumnType("date")
             .IsRequired();
 
@@ -76,7 +72,6 @@ public class MemberConfiguration : IEntityTypeConfiguration<Member>
             g => g!.Code,
             c => Gender.FromCode(c)
         )
-       .HasColumnName("gender")
        .HasColumnType("char(1)")
        .IsRequired();
 
@@ -87,7 +82,6 @@ public class MemberConfiguration : IEntityTypeConfiguration<Member>
         builder.OwnsOne(m => m.Contact, (OwnedNavigationBuilder<Member, Contact> contact) =>
         {
             contact.Property(c => c.EmailAddress)
-                .HasColumnName("email_address")
                 .HasMaxLength(255)
                 .HasConversion(
                     v => v!.Address,
@@ -95,7 +89,6 @@ public class MemberConfiguration : IEntityTypeConfiguration<Member>
                 .IsRequired();
 
             contact.Property(c => c.PhoneNumber)
-                .HasColumnName("phone_number")
                 .HasMaxLength(20)
                 .HasConversion(
                     v => v!.Number,
@@ -106,22 +99,18 @@ public class MemberConfiguration : IEntityTypeConfiguration<Member>
         // Enumerations
         // =============================
         builder.Property(m => m.MaritalStatus)
-            .HasColumnName("marital_status")
             .HasConversion<int>()
             .IsRequired();
 
         builder.Property(m => m.EducationLevel)
-            .HasColumnName("education_level")
             .HasConversion<int>()
             .IsRequired();
 
         builder.Property(m => m.AdmissionType)
-            .HasColumnName("admission_type")
             .HasConversion<int>()
             .IsRequired();
 
         builder.Property(m => m.Status)
-            .HasColumnName("status")
             .HasConversion<int>()
             .IsRequired();
 
@@ -129,7 +118,6 @@ public class MemberConfiguration : IEntityTypeConfiguration<Member>
         // AdmissionDate
         // =============================
         builder.Property(m => m.AdmissionDate)
-            .HasColumnName("admission_date")
             .HasColumnType("date")
             .IsRequired();
 
@@ -138,7 +126,6 @@ public class MemberConfiguration : IEntityTypeConfiguration<Member>
         // =============================
 
         builder.Property(m => m.AddressId)
-            .HasColumnName("address_id")
             .IsRequired();
 
         builder.HasOne(m => m.Address)
@@ -147,7 +134,6 @@ public class MemberConfiguration : IEntityTypeConfiguration<Member>
             .OnDelete(DeleteBehavior.Restrict); // Prevents cascade delete.
 
         builder.Property(m => m.ProfessionId)
-            .HasColumnName("profession_id")
             .IsRequired();
 
         builder.HasOne(m => m.Profession)
@@ -156,7 +142,6 @@ public class MemberConfiguration : IEntityTypeConfiguration<Member>
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.Property(m => m.ChurchId)
-            .HasColumnName("church_id")
             .IsRequired();
 
         builder.HasOne(m => m.Church)
@@ -168,12 +153,23 @@ public class MemberConfiguration : IEntityTypeConfiguration<Member>
         // Auditing
         // =============================
         builder.Property(m => m.CreatedAt)
-            .HasColumnName("created_at")
             .HasColumnType("timestamptz") // PostgreSQL timestamp with time zone.
             .IsRequired();
 
         builder.Property(m => m.UpdatedAt)
-            .HasColumnName("updated_at")
             .HasColumnType("timestamptz");
+
+        builder.Property(m => m.ApplicationUserId)
+               .HasMaxLength(450)
+               .IsRequired();
+
+        builder.HasIndex(m => m.ApplicationUserId)
+               .IsUnique();
+
+        builder.HasOne<ApplicationUser>()
+               .WithOne()
+               .HasForeignKey<Member>(m => m.ApplicationUserId)
+               .HasPrincipalKey<ApplicationUser>(u => u.Id)
+               .OnDelete(DeleteBehavior.Restrict);
     }
 }

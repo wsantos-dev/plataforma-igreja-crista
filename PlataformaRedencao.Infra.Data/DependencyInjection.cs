@@ -16,8 +16,10 @@ public static class DependencyInjection
                options.UseNpgsql(
                    configuration.GetConnectionString("PostgreSql"),
                    p => p.MigrationsAssembly(typeof(PlataformaRedencaoDbContext)
-                   .Assembly.FullName))
-            );
+                   .Assembly.FullName)
+                )
+            .UseSnakeCaseNamingConvention()
+        );
 
         return services;
     }

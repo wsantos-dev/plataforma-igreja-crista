@@ -25,18 +25,15 @@ namespace PlataformaRedencao.Infra.Data.Mappings
                      // Primary Key configuration.
                      builder.HasKey(p => p.Id);
 
-                     builder.Property(p => p.Id)
-                            .HasColumnName("id");
+                     builder.Property(p => p.Id);
 
                      // Profession name (required).
                      builder.Property(p => p.Name)
-                            .HasColumnName("name")
                             .HasMaxLength(150)
                             .IsRequired();
 
                      // Optional profession code (e.g., internal or regulatory identifier).
                      builder.Property(p => p.Code)
-                            .HasColumnName("code")
                             .HasMaxLength(30);
               }
        }

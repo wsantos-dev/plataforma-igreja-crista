@@ -26,8 +26,7 @@ namespace PlataformaRedencao.Infra.Data.Mappings
             // Primary Key configuration.
             builder.HasKey(e => e.Id);
 
-            builder.Property(e => e.Id)
-                .HasColumnName("id");
+            builder.Property(e => e.Id);
 
             // Owner entity identification (polymorphic association).
             builder.Property(e => e.EntityId)

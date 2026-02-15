@@ -32,7 +32,7 @@ namespace PlataformaRedencao.Domain.ValueObjects
         public PersonName(string firstName, string lastName)
         {
             if (string.IsNullOrWhiteSpace(firstName))
-                throw new ArgumentException("First name cannot be empty.", nameof(firstName));
+                throw new ArgumentException("O nome não pode ser .", nameof(firstName));
 
             if (string.IsNullOrWhiteSpace(lastName))
                 throw new ArgumentException("Last name cannot be empty.", nameof(lastName));
