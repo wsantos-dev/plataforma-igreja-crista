@@ -16,7 +16,7 @@ namespace PlataformaRedencao.Infra.Data.Context
                 .Build();
 
             var builder = new DbContextOptionsBuilder<PlataformaRedencaoDbContext>();
-            var connectionString = PlataformaRedencao.Config.AppSettings.PostgreSqlConnectionString;
+            var connectionString = Config.AppSettings.PostgreSqlConnectionString;
 
 
             builder.UseNpgsql(connectionString);

@@ -1,4 +1,7 @@
+using System.Text.RegularExpressions;
 using PlataformaRedencao.Domain.Enums;
+using PlataformaRedencao.Domain.Validation;
+using PlataformaRedencao.Domain.ValueObjects;
 
 namespace PlataformaRedencao.Domain.Entities
 {
@@ -95,12 +98,24 @@ namespace PlataformaRedencao.Domain.Entities
             string email,
             string website)
         {
+
+            ValidateDomain(
+                officialName,
+                tradeName,
+                denomination,
+                leadPastor,
+                foundationDate,
+                cnpj,
+                email,
+                website
+            );
+
             OfficialName = officialName;
             TradeName = tradeName;
             Denomination = denomination;
             LeadPastor = leadPastor;
             FoundationDate = foundationDate;
-            Cnpj = cnpj;
+            Cnpj = new Cnpj(cnpj);
             Email = email;
             Website = website;
             CreatedAt = DateTimeOffset.UtcNow;
@@ -118,6 +133,52 @@ namespace PlataformaRedencao.Domain.Entities
             AddressId = address.Id;
             Address = address;
             UpdatedAt = DateTimeOffset.UtcNow;
+        }
+
+        // Método privado ou público dependendo se você usa ele externamente (ex: em um Update)
+        public void ValidateDomain(
+            string officialName,
+            string tradeName,
+            string denomination,
+            string leadPastor,
+            DateOnly foundationDate,
+            string cnpj,
+            string email,
+            string website)
+        {
+
+            DomainValidationException.When(string.IsNullOrWhiteSpace(officialName), "A Razão Social é obrigatória.");
+            DomainValidationException.When(string.IsNullOrWhiteSpace(tradeName), "O Nome Fantasia é obrigatório.");
+            DomainValidationException.When(string.IsNullOrWhiteSpace(leadPastor), "O Pastor Responsável é obrigatório.");
+            DomainValidationException.When(string.IsNullOrWhiteSpace(email), "O E-mail é obrigatório.");
+
+            // --- 2. Validações de Tamanho (Length) ---
+            DomainValidationException.When(officialName.Length < 3, "A Razão Social deve ter no mínimo 3 caracteres.");
+            DomainValidationException.When(officialName.Length > 200, "A Razão Social excede o limite máximo de caracteres.");
+
+            DomainValidationException.When(tradeName.Length < 3, "O Nome Fantasia deve ter no mínimo 3 caracteres.");
+            DomainValidationException.When(tradeName.Length > 150, "O Nome Fantasia excede o limite máximo de caracteres.");
+
+            DomainValidationException.When(leadPastor.Length > 100, "O nome do Pastor excede o limite máximo de caracteres.");
+
+            // Denominação (Opcional na propriedade, mas validada se preenchida)
+            if (!string.IsNullOrEmpty(denomination))
+            {
+                DomainValidationException.When(denomination.Length > 100, "A Denominação excede o limite máximo de caracteres.");
+            }
+
+            DomainValidationException.When(foundationDate > DateOnly.FromDateTime(DateTime.Now), "A Data de Fundação não pode ser uma data futura.");
+
+            var emailRegex = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
+            DomainValidationException.When(!emailRegex.IsMatch(email), "O formato do E-mail é inválido.");
+
+            // Validação de Site (Opcional ou Obrigatório dependendo da regra, aqui assumi obrigatório se vier preenchido)
+            if (!string.IsNullOrWhiteSpace(website))
+            {
+                DomainValidationException.When(website.Length > 200, "A URL do site é muito longa.");
+                bool isUri = Uri.TryCreate(website, UriKind.Absolute, out _);
+                DomainValidationException.When(!isUri, "O Website informado não é uma URL válida (ex: https://...).");
+            }
         }
     }
 }

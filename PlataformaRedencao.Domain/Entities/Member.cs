@@ -1,5 +1,6 @@
 using PlataformaRedencao.Domain.ValueObjects;
 using PlataformaRedencao.Domain.Enums;
+using PlataformaRedencao.Domain.Validation;
 
 namespace PlataformaRedencao.Domain.Entities
 {
@@ -112,12 +113,12 @@ namespace PlataformaRedencao.Domain.Entities
         /// </summary>
         public DateTimeOffset? UpdatedAt { get; private set; }
 
-        /// <summary>
-        /// Factory to create a new member.
-        /// </summary>
-        public static Member Create(
+
+
+
+        private Member(
             Cpf cpf,
-            PersonName fullName,
+            PersonName name,
             Contact contact,
             DateOnly birthDate,
             Gender gender,
@@ -127,27 +128,119 @@ namespace PlataformaRedencao.Domain.Entities
             DateOnly admissionDate,
             MemberAdmissionType admissionType)
         {
-            var member = new Member
-            {
-                Cpf = cpf,
-                FullName = fullName,
-                Contact = contact,
-                BirthDate = birthDate,
-                Gender = gender,
-                Address = address,
-                AddressId = address.Id,
-                Profession = profession,
-                ProfessionId = profession.Id,
-                Church = church,
-                ChurchId = church.Id,
-                AdmissionDate = admissionDate,
-                AdmissionType = admissionType,
-                Status = MemberStatus.Active,
-                CreatedAt = DateTimeOffset.UtcNow
-            };
+            ValidateDomain(
+                cpf,
+                name,
+                contact,
+                birthDate,
+                gender,
+                address,
+                profession,
+                church,
+                admissionDate,
+                admissionType
+            );
 
-            return member;
+            Cpf = cpf;
+            FullName = name;
+            Contact = contact;
+            BirthDate = birthDate;
+            Gender = gender;
+            Address = address;
+            Profession = profession;
+            Church = church;
+            AdmissionDate = admissionDate;
+            AdmissionType = admissionType;
+
+
         }
+
+        private void ValidateDomain(
+            Cpf cpf,
+            PersonName name,
+            Contact contact,
+            DateOnly birthDate,
+            Gender gender,
+            Address address,
+            Profession profession,
+            Church church,
+            DateOnly admissionDate,
+            MemberAdmissionType admissionType)
+        {
+            var today = DateOnly.FromDateTime(DateTime.UtcNow);
+
+            DomainValidationException.When(cpf is null, "CPF é obrigatório.");
+            DomainValidationException.When(name is null, "Nome é obrigatório.");
+            DomainValidationException.When(contact is null, "Contato é obrigatório.");
+            DomainValidationException.When(gender is null, "Gênero é obrigatório.");
+            DomainValidationException.When(address is null, "Endereço é obrigatório.");
+            DomainValidationException.When(profession is null, "Profissão é obrigatória.");
+            DomainValidationException.When(church is null, "Igreja é obrigatória.");
+
+            DomainValidationException.When(
+                birthDate > today,
+                "Data de nascimento não pode ser futura."
+            );
+
+            var age = today.Year - birthDate.Year;
+            if (birthDate > today.AddYears(-age))
+                age--;
+
+            DomainValidationException.When(
+                age < 12,
+                "Idade mínima para admissão é 12 anos."
+            );
+
+            DomainValidationException.When(
+                admissionDate < birthDate,
+                "Data de admissão não pode ser anterior ao nascimento."
+            );
+
+            DomainValidationException.When(
+                admissionDate > today,
+                "Data de admissão não pode ser futura."
+            );
+
+            DomainValidationException.When(
+                !Enum.IsDefined(typeof(MemberAdmissionType), admissionType),
+                "Tipo de admissão inválido."
+            );
+        }
+
+        /// <summary>
+        /// Factory to create a new member.
+        /// </summary>
+        public static Member Create(
+            MemberCreationData data,
+            Address address,
+            Profession profession,
+            Church church)
+        {
+            var cpf = new Cpf(data.Cpf);
+            var name = new PersonName(data.FirstName, data.LastName);
+            var email = new EmailAddress(data.Email);
+
+            var phone = string.IsNullOrWhiteSpace(data.Phone)
+                ? null
+                : new PhoneNumber(data.Phone);
+
+            var contact = new Contact(email, phone);
+            var gender = Gender.FromCode(data.GenderCode);
+
+            return new Member(
+                cpf,
+                name,
+                contact,
+                data.BirthDate,
+                gender,
+                address,
+                profession,
+                church,
+                data.AdmissionDate,
+                data.AdmissionType
+            );
+        }
+
 
         /// <summary>
         /// Updates the member data.

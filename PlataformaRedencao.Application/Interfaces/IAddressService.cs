@@ -13,18 +13,18 @@ namespace PlataformaRedencao.Application.Interfaces
         /// <summary>Gets an address by id.</summary>
         /// <param name="id">Address id (nullable).</param>
         /// <returns>The address DTO or default if not found.</returns>
-        Task<AddressDTO> GetById(int? id);
+        Task<AddressDTO> GetByIdAsync(int? id);
 
         /// <summary>Adds a new address.</summary>
         /// <param name="addressDTO">Address data to add.</param>
-        Task Add(AddressDTO addressDTO);
+        Task AddAsync(AddressDTO addressDTO);
 
         /// <summary>Updates an existing address.</summary>
         /// <param name="addressDTO">Address data to update.</param>
-        Task Update(AddressDTO addressDTO);
+        Task UpdateAsync(AddressDTO addressDTO);
 
         /// <summary>Removes an address by id.</summary>
         /// <param name="id">Address id (nullable).</param>
-        Task Remove(int? id);
+        Task RemoveAsync(int? id);
     }
 }

@@ -1,4 +1,5 @@
 using PlataformaRedencao.Domain.Enums;
+using PlataformaRedencao.Domain.Validation;
 
 namespace PlataformaRedencao.Domain.Entities
 {
@@ -92,6 +93,17 @@ namespace PlataformaRedencao.Domain.Entities
             string country,
             string postalCode)
         {
+            ValidateDomain(
+                entityId,
+                entityType,
+                street,
+                complement,
+                number,
+                city,
+                state,
+                country,
+                postalCode);
+
             EntityId = entityId;
             EntityType = entityType;
             Street = street;
@@ -101,6 +113,43 @@ namespace PlataformaRedencao.Domain.Entities
             State = state;
             Country = country;
             PostalCode = postalCode;
+        }
+
+
+        public void ValidateDomain(
+         int entityId,
+         EntityAddressType entityType,
+         string street,
+         string complement,
+         string number,
+         string city,
+         string state,
+         string country,
+         string postalCode)
+        {
+            DomainValidationException.When(entityId <= 0, "O ID da entidade proprietária do endereço é inválido.");
+
+            DomainValidationException.When(string.IsNullOrWhiteSpace(street), "O nome da rua é obrigatório.");
+            DomainValidationException.When(string.IsNullOrWhiteSpace(number), "O número é obrigatório (use 'S/N' se não houver).");
+            DomainValidationException.When(string.IsNullOrWhiteSpace(city), "A cidade é obrigatória.");
+            DomainValidationException.When(string.IsNullOrWhiteSpace(state), "O estado é obrigatório.");
+            DomainValidationException.When(string.IsNullOrWhiteSpace(country), "O país é obrigatório.");
+            DomainValidationException.When(string.IsNullOrWhiteSpace(postalCode), "O CEP/Código Postal é obrigatório.");
+
+            DomainValidationException.When(street.Length < 3, "O nome da rua é muito curto.");
+            DomainValidationException.When(street.Length > 150, "O nome da rua deve ter no máximo 150 caracteres.");
+
+            DomainValidationException.When(number.Length > 20, "O número do endereço é muito longo.");
+
+            if (!string.IsNullOrEmpty(complement))
+            {
+                DomainValidationException.When(complement.Length > 100, "O complemento deve ter no máximo 100 caracteres.");
+            }
+
+            DomainValidationException.When(state.Length < 2, "O estado inválido.");
+            DomainValidationException.When(state.Length > 50, "O nome do estado é muito longo.");
+
+            DomainValidationException.When(postalCode.Length < 8, "O CEP deve ter 8 caracteres.");
         }
     }
 }

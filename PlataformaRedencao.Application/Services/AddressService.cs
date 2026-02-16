@@ -35,7 +35,7 @@ namespace PlataformaRedencao.Application.Services
         /// <summary>
         /// Gets an address by id.
         /// </summary>
-        public async Task<AddressDTO> GetById(int? id)
+        public async Task<AddressDTO> GetByIdAsync(int? id)
         {
             var item = await _addressRepository.GetByIdAsync(id);
             return _mapper.Map<AddressDTO>(item);
@@ -44,7 +44,7 @@ namespace PlataformaRedencao.Application.Services
         /// <summary>
         /// Adds a new address.
         /// </summary>
-        public async Task Add(AddressDTO AddressDTO)
+        public async Task AddAsync(AddressDTO AddressDTO)
         {
             var entity = _mapper.Map<Address>(AddressDTO);
             await _addressRepository.AddAsync(entity);
@@ -53,7 +53,7 @@ namespace PlataformaRedencao.Application.Services
         /// <summary>
         /// Updates an existing address.
         /// </summary>
-        public async Task Update(AddressDTO AddressDTO)
+        public async Task UpdateAsync(AddressDTO AddressDTO)
         {
             var entity = _mapper.Map<Address>(AddressDTO);
             await _addressRepository.UpdateAsync(entity);
@@ -62,7 +62,7 @@ namespace PlataformaRedencao.Application.Services
         /// <summary>
         /// Removes an address by id.
         /// </summary>
-        public async Task Remove(int? id)
+        public async Task RemoveAsync(int? id)
         {
             var entity = await _addressRepository.GetByIdAsync(id);
             if (entity is null)

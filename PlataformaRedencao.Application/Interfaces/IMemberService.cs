@@ -1,4 +1,5 @@
 using PlataformaRedencao.Application.DTOs;
+using PlataformaRedencao.Domain.Entities;
 
 namespace PlataformaRedencao.Application.Interfaces
 {
@@ -7,6 +8,21 @@ namespace PlataformaRedencao.Application.Interfaces
     /// </summary>
     public interface IMemberService
     {
+        /// <summary>
+        /// Creates a new member in the system.
+        /// </summary>
+        /// <param name="request">
+        /// The request object containing the data required to create the member.
+        /// </param>
+        /// <param name="applicationUserId">
+        /// The identifier of the application user responsible for the operation.
+        /// </param>
+        /// <returns>
+        /// A task that represents the asynchronous operation. 
+        /// The result contains the identifier of the newly created member.
+        /// </returns>
+        Task<int> CreateAsync(CreateMemberRequest request, string applicationUserId);
+
         /// <summary>Gets all members.</summary>
         /// <returns>A read-only collection of <see cref="MemberDTO"/>.</returns>
         Task<IReadOnlyCollection<MemberDTO>> GetMembersAsync();
@@ -14,7 +30,7 @@ namespace PlataformaRedencao.Application.Interfaces
         /// <summary>Gets a member by id.</summary>
         /// <param name="id">Member id (nullable).</param>
         /// <returns>The member or <c>null</c> if not found.</returns>
-        Task<MemberDTO> GetById(int? id);
+        Task<MemberDTO> GetByIdAsync(int? id);
 
         /// <summary>Gets a member by CPF within a church.</summary>
         /// <param name="cpf">Member CPF.</param>
@@ -36,23 +52,23 @@ namespace PlataformaRedencao.Application.Interfaces
         /// <summary>Gets active members of a church.</summary>
         /// <param name="igrejaId">Church id.</param>
         /// <returns>List of active members linked to the church.</returns>
-        Task<IReadOnlyList<MemberDTO>> GetAtivosByIgrejaAsync(int igrejaId);
+        Task<IReadOnlyList<MemberDTO>> GetActivesByIgrejaAsync(int igrejaId);
 
         /// <summary>Gets inactive members of a church.</summary>
         /// <param name="igrejaId">Church id.</param>
         /// <returns>List of inactive members linked to the church.</returns>
-        Task<IReadOnlyList<MemberDTO>> GetInativosByIgrejaAsync(int igrejaId);
+        Task<IReadOnlyList<MemberDTO>> GetInactivesByIgrejaAsync(int igrejaId);
 
         /// <summary>Adds a new member.</summary>
         /// <param name="MemberDTO">Member data to add.</param>
-        Task Add(MemberDTO MemberDTO);
+        Task AddAsync(MemberDTO MemberDTO);
 
         /// <summary>Updates an existing member.</summary>
         /// <param name="MemberDTO">Member data to update.</param>
-        Task Update(MemberDTO MemberDTO);
+        Task UpdateAsync(MemberDTO MemberDTO);
 
         /// <summary>Removes a member by id.</summary>
         /// <param name="id">Member id to remove (nullable).</param>
-        Task Remove(int? id);
+        Task RemoveAsync(int? id);
     }
 }

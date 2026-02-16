@@ -11,15 +11,15 @@ namespace PlataformaRedencao.Application.Interfaces
         Task<IReadOnlyCollection<ProfessionDTO>> GetProfessionsAsync();
 
         /// <summary>Gets a profession by id.</summary>
-        Task<ProfessionDTO> GetById(int? id);
+        Task<ProfessionDTO> GetByIdAsync(int? id);
 
         /// <summary>Adds a new profession.</summary>
-        Task Add(ProfessionDTO ProfessionDTO);
+        Task AddAsync(ProfessionDTO ProfessionDTO);
 
         /// <summary>Updates an existing profession.</summary>
-        Task Update(ProfessionDTO ProfessionDTO);
+        Task UpdateAsync(ProfessionDTO ProfessionDTO);
 
         /// <summary>Removes a profession by id.</summary>
-        Task Remove(int? id);
+        Task RemoveAsync(int? id);
     }
 }

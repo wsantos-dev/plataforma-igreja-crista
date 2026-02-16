@@ -35,7 +35,7 @@ namespace PlataformaRedencao.Application.Services
         /// <summary>
         /// Gets a profession by id.
         /// </summary>
-        public async Task<ProfessionDTO> GetById(int? id)
+        public async Task<ProfessionDTO> GetByIdAsync(int? id)
         {
             var profissao = await _profissaoRepository.GetByIdAsync(id);
             return _mapper.Map<ProfessionDTO>(profissao);
@@ -44,7 +44,7 @@ namespace PlataformaRedencao.Application.Services
         /// <summary>
         /// Adds a new profession.
         /// </summary>
-        public async Task Add(ProfessionDTO ProfessionDTO)
+        public async Task AddAsync(ProfessionDTO ProfessionDTO)
         {
             var profissao = _mapper.Map<Profession>(ProfessionDTO);
             await _profissaoRepository.AddAsync(profissao);
@@ -53,7 +53,7 @@ namespace PlataformaRedencao.Application.Services
         /// <summary>
         /// Updates an existing profession.
         /// </summary>
-        public async Task Update(ProfessionDTO ProfessionDTO)
+        public async Task UpdateAsync(ProfessionDTO ProfessionDTO)
         {
             var profissao = _mapper.Map<Profession>(ProfessionDTO);
             await _profissaoRepository.UpdateAsync(profissao);
@@ -62,7 +62,7 @@ namespace PlataformaRedencao.Application.Services
         /// <summary>
         /// Removes a profession by id.
         /// </summary>
-        public async Task Remove(int? id)
+        public async Task RemoveAsync(int? id)
         {
             var profissao = await _profissaoRepository.GetByIdAsync(id);
             if (profissao is null)

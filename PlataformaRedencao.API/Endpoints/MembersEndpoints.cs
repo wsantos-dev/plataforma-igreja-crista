@@ -1,0 +1,35 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using PlataformaRedencao.Application.DTOs;
+using PlataformaRedencao.Application.Interfaces;
+
+namespace PlataformaRedencao.API.Endpoints
+{
+    public static class MembersEndpoints
+    {
+        public static void MapMembersEndpoints(this WebApplication app)
+        {
+            var group = app.MapGroup("/members")
+                           .WithTags("Members")
+                           .RequireAuthorization("MemberWithMinistrie");
+
+            group.MapPost("/create", async (
+                CreateMemberRequest request,
+                IMemberService service,
+                HttpContext httpContext) =>
+            {
+                var userId = httpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+                if (string.IsNullOrEmpty(userId))
+                    return Results.Unauthorized();
+
+                var id = await service.CreateAsync(request, userId);
+
+                return Results.Created($"/api/members/{id}", new { id });
+            });
+        }
+    }
+}

@@ -15,18 +15,23 @@ namespace PlataformaRedencao.API.Endpoints
         /// <returns>The <see cref="WebApplication"/> for chaining.</returns>
         public static WebApplication MapErrorEndpoints(this WebApplication app)
         {
-            app.Map("/error", (HttpContext context) => 
+
+            var group = app.MapGroup("/errors")
+                           .WithTags("Error");
+
+
+            group.Map("/error", (HttpContext context) =>
             {
                 var exception = context.Features.Get<IExceptionHandlerFeature>()?.Error;
 
-                return exception switch 
+                return exception switch
                 {
                     DomainValidationException ex => Results.Problem(
                         title: "Invalid request.",
                         detail: ex.Message,
                         statusCode: StatusCodes.Status400BadRequest
                     ),
-                    
+
                     _ => Results.Problem(
                         title: "Internal server error.",
                         detail: "An unexpected error occurred.",

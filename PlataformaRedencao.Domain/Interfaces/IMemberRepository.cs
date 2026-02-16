@@ -43,5 +43,8 @@ namespace PlataformaRedencao.Domain.Interfaces
         /// <param name="churchId">Church id.</param>
         /// <returns>List of inactive members of the given church.</returns>
         Task<IReadOnlyList<Member?>> GetInactivesByChurchAsync(int churchId);
+
+
+
     }
 }

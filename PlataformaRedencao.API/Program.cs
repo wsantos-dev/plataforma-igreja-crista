@@ -1,5 +1,6 @@
 using System.Text;
 using PlataformaRedencao.API.Endpoints;
+using PlataformaRedencao.Config;
 using PlataformaRedencao.Domain.Enums;
 using PlataformaRedencao.Infra.IoC;
 
@@ -12,7 +13,7 @@ builder.Services.AddInfrastructure(builder.Configuration);
 
 // Security
 var jwtSettings = builder.Configuration.GetSection("Jwt");
-var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]!);
+var key = Encoding.UTF8.GetBytes(AppSettings.JwtKey);
 
 
 builder.Services.AddAuthorization(options =>
@@ -54,8 +55,6 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-
-
 // Global error handling
 builder.Services.AddProblemDetails();
 
@@ -76,6 +75,8 @@ app.UseAuthorization();
 app.UseExceptionHandler();
 app.MapErrorEndpoints();
 app.MapAdminEndpoints();
+app.MapAuthEndpoints();
+app.MapMembersEndpoints();
 
 app.Run();
 
