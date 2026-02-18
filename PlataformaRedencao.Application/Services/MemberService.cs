@@ -130,7 +130,7 @@ namespace PlataformaRedencao.Application.Services
         }
 
         public async Task<int> CreateAsync(
-            CreateMemberRequest request,
+            CreateMemberRequestDTO request,
             string applicationUserId)
         {
             await ValidateCpfAsync(request.Cpf!, request.ChurchId);
@@ -165,7 +165,7 @@ namespace PlataformaRedencao.Application.Services
 
         }
 
-        private async Task<Address> CreateAddressAsync(CreateMemberRequest request)
+        private async Task<Address> CreateAddressAsync(CreateMemberRequestDTO request)
         {
             var address = new Address(
                 entityId: 0,

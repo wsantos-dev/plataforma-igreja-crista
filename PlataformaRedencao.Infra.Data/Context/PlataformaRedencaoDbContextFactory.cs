@@ -12,7 +12,8 @@ namespace PlataformaRedencao.Infra.Data.Context
             IConfigurationRoot configuration = new ConfigurationBuilder()
                 .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../PlataformaRedencao.API"))
                 .AddJsonFile("appsettings.Development.json", optional: true)
-                .AddUserSecrets<PlataformaRedencaoDbContextFactory>()
+                .AddJsonFile("appsettings.json", optional: true)
+                .AddEnvironmentVariables()
                 .Build();
 
             var builder = new DbContextOptionsBuilder<PlataformaRedencaoDbContext>();

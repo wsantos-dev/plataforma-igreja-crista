@@ -12,7 +12,7 @@ using PlataformaRedencao.Infra.Data.Context;
 namespace PlataformaRedencao.Infra.Data.Migrations
 {
     [DbContext(typeof(PlataformaRedencaoDbContext))]
-    [Migration("20260217034945_CreatingEntities")]
+    [Migration("20260218023419_CreatingEntities")]
     partial class CreatingEntities
     {
         /// <inheritdoc />
@@ -426,6 +426,45 @@ namespace PlataformaRedencao.Infra.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("profession", "secretary");
+                });
+
+            modelBuilder.Entity("PlataformaRedencao.Domain.Entities.RefreshToken", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<DateTimeOffset>("ExpiresAt")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("expires_at");
+
+                    b.Property<bool>("Revoked")
+                        .HasColumnType("boolean")
+                        .HasColumnName("revoked");
+
+                    b.Property<string>("TokenHash")
+                        .IsRequired()
+                        .HasMaxLength(88)
+                        .HasColumnType("character varying(88)")
+                        .HasColumnName("token_hash");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExpiresAt");
+
+                    b.HasIndex("TokenHash")
+                        .IsUnique();
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("refresh_token", "auth");
                 });
 
             modelBuilder.Entity("PlataformaRedencao.Infra.Identity.Entities.ApplicationUser", b =>

@@ -10,6 +10,7 @@ using PlataformaRedencao.Infra.Identity.Entities;
 using Microsoft.AspNetCore.Identity;
 using PlataformaRedencao.Infra.Data.Repositories;
 using PlataformaRedencao.Infra.Data.Context;
+using PlataformaRedencao.Infra.Data.Security;
 
 namespace PlataformaRedencao.Infra.IoC;
 
@@ -41,8 +42,10 @@ public static class DependencyInjection
                 .AddEntityFrameworkStores<PlataformaRedencaoDbContext>()
                 .AddDefaultTokenProviders();
 
-
         services.AddIdentityInfrastructure();
+
+        services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+        services.AddScoped<IHashingService, Sha256HashingService>();
 
         return services;
     }

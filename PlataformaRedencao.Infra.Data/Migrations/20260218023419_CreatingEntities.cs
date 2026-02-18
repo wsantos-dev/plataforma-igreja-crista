@@ -98,6 +98,22 @@ namespace PlataformaRedencao.Infra.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "refresh_token",
+                schema: "auth",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    token_hash = table.Column<string>(type: "character varying(88)", maxLength: 88, nullable: false),
+                    user_id = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
+                    expires_at = table.Column<DateTimeOffset>(type: "timestamptz", nullable: false),
+                    revoked = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_refresh_token", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "church",
                 schema: "secretary",
                 columns: table => new
@@ -384,6 +400,25 @@ namespace PlataformaRedencao.Infra.Data.Migrations
                 schema: "secretary",
                 table: "member",
                 column: "profession_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_refresh_token_expires_at",
+                schema: "auth",
+                table: "refresh_token",
+                column: "expires_at");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_refresh_token_token_hash",
+                schema: "auth",
+                table: "refresh_token",
+                column: "token_hash",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "ix_refresh_token_user_id",
+                schema: "auth",
+                table: "refresh_token",
+                column: "user_id");
         }
 
         /// <inheritdoc />
@@ -412,6 +447,10 @@ namespace PlataformaRedencao.Infra.Data.Migrations
             migrationBuilder.DropTable(
                 name: "member",
                 schema: "secretary");
+
+            migrationBuilder.DropTable(
+                name: "refresh_token",
+                schema: "auth");
 
             migrationBuilder.DropTable(
                 name: "asp_net_roles",

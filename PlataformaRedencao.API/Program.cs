@@ -29,7 +29,7 @@ builder.Services.AddAuthorization(options =>
 {
     foreach (var role in Enum.GetNames(typeof(Roles)))
     {
-        options.AddPolicy($"{role}Only",
+        options.AddPolicy($"{role}Policy",
             policy => policy.RequireRole(role));
     }
 });

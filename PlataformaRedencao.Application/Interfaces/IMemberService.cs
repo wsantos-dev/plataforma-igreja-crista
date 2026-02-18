@@ -21,7 +21,7 @@ namespace PlataformaRedencao.Application.Interfaces
         /// A task that represents the asynchronous operation. 
         /// The result contains the identifier of the newly created member.
         /// </returns>
-        Task<int> CreateAsync(CreateMemberRequest request, string applicationUserId);
+        Task<int> CreateAsync(CreateMemberRequestDTO request, string applicationUserId);
 
         /// <summary>Gets all members.</summary>
         /// <returns>A read-only collection of <see cref="MemberDTO"/>.</returns>

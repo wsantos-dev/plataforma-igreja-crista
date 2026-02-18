@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace PlataformaRedencao.Application.DTOs
 {
-    public class AddressRequest
+    public class AddressRequestDTO
     {
         public string? Street { get; set; }
         public string? Complement { get; set; }

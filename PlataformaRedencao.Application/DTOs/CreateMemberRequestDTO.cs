@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace PlataformaRedencao.Application.DTOs
 {
-    public class CreateMemberRequest
+    public class CreateMemberRequestDTO
     {
         public string? Cpf { get; set; }
         public string? FirstName { get; set; }
@@ -23,7 +18,7 @@ namespace PlataformaRedencao.Application.DTOs
         public DateOnly AdmissionDate { get; set; }
         public int AdmissionType { get; set; }
 
-        public AddressRequest? Address { get; set; }
+        public AddressRequestDTO? Address { get; set; }
     }
 
 }

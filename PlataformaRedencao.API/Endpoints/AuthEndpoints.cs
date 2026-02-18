@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Identity.Data;
 using PlataformaRedencao.Application.Exceptions;
 using PlataformaRedencao.Domain.Messages;
 using PlataformaRedencao.Infra.Identity.Entities;
+using PlataformaRedencao.Infra.Identity.Services;
 
 namespace PlataformaRedencao.API.Endpoints;
 
 public static class AuthEndpoints
 {
-
     public record RegisterRequest(string Email, string Password);
     public record LoginRequest(string Email, string Password);
 
@@ -17,7 +17,15 @@ public static class AuthEndpoints
         var group = app.MapGroup("/auth")
                        .WithTags("Auth");
 
-        group.MapPost("/register", async (UserManager<ApplicationUser> userManager, RegisterRequest request) =>
+        group.MapGet("/", async (IIdentityService identityService) =>
+        {
+            var users = await identityService.GetAllUserAsync();
+            return Results.Ok(users);
+
+        })
+        .WithDisplayName("GetAllUsers");
+
+        group.MapPost("/register", async (IIdentityService identityService, RegisterRequest request) =>
         {
             var user = new ApplicationUser
             {
@@ -25,23 +33,21 @@ public static class AuthEndpoints
                 Email = request.Email
             };
 
-            var result = await userManager.CreateAsync(user, request.Password);
+            var (accessToken, refreshToken) = await identityService.RegisterAsync(request.Email, request.Password);
 
-            if (!result.Succeeded)
-                return Results.BadRequest(result.Errors);
 
-            return Results.Ok(new { user.Id, user.Email });
+            return Results.Ok(new { AccessToken = accessToken, RefreshToken = refreshToken });
         })
         .WithDisplayName("Register");
 
-        group.MapPost("/login", async (SignInManager<ApplicationUser> signInManager, LoginRequest request) =>
+        group.MapPost("/login", async (IIdentityService identityService, LoginRequest request) =>
         {
-            var result = await signInManager.PasswordSignInAsync(request.Email, request.Password, false, true);
+            var (accessToken, refreshToken) = await identityService.LoginAsync(
+                request.Email,
+                request.Password
+            );
 
-            if (!result.Succeeded)
-                throw new UnauthorizedOperationException("UNAUTHORIZED", ErrorMessages.UnauthorizedAccess);
-
-            return Results.Ok(Messages.LoggedInSucess);
+            return Results.Ok(new { AccessToken = accessToken, RefreshToken = refreshToken });
         })
         .WithDisplayName("Login");
     }

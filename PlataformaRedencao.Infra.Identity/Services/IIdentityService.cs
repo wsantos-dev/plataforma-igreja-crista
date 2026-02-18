@@ -4,6 +4,7 @@ namespace PlataformaRedencao.Infra.Identity.Services;
 
 public interface IIdentityService
 {
-    Task<string> RegisterAsync(string email, string password);
-    Task<string> LoginAsync(string email, string password);
+    Task<IReadOnlyCollection<(string id, string email, string userName)>> GetAllUserAsync();
+    Task<(string accessToken, string refreshToken)> RegisterAsync(string email, string password);
+    Task<(string accessToken, string refreshToken)> LoginAsync(string email, string password);
 }

@@ -17,7 +17,7 @@ namespace PlataformaRedencao.API.Endpoints
                            .RequireAuthorization("MemberWithMinistrie");
 
             group.MapPost("/create", async (
-                CreateMemberRequest request,
+                CreateMemberRequestDTO request,
                 IMemberService service,
                 HttpContext httpContext) =>
             {
@@ -28,7 +28,7 @@ namespace PlataformaRedencao.API.Endpoints
 
                 var id = await service.CreateAsync(request, userId);
 
-                return Results.Created($"/api/members/{id}", new { id });
+                return Results.Created($"/members/{id}", new { id });
             });
         }
     }
