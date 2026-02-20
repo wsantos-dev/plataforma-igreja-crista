@@ -1,12 +1,12 @@
-using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using PlataformaRedencao.Infra.Identity.Entities;
+using PlataformaRedencao.Domain.Entities;
 
-namespace PlataformaRedencao.Infra.Identity.Services;
+
+namespace PlataformaRedencao.Application.Interfaces;
 
 public class TokenService : ITokenService
 {

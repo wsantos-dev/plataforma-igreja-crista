@@ -37,7 +37,7 @@ namespace PlataformaRedencao.Infra.Data.Repositories
         /// </summary>
         /// <param name="churchId">Church id.</param>
         /// <returns>List of members of the given church.</returns>
-        public async Task<IReadOnlyList<Member>> GetByChurchAsync(int churchId)
+        public async Task<IReadOnlyList<Member?>> GetByChurchAsync(int churchId)
             => await _context.Members
                 .AsNoTracking()
                 .Where(m => m.ChurchId == churchId)
@@ -96,7 +96,7 @@ namespace PlataformaRedencao.Infra.Data.Repositories
         /// </summary>
         /// <param name="churchId">Church id.</param>
         /// <returns>List of active members of the given church.</returns>
-        public async Task<IReadOnlyList<Member>> GetActivesByChurchAsync(int churchId)
+        public async Task<IReadOnlyList<Member?>> GetActivesByChurchAsync(int churchId)
             => await _context.Members
                 .AsNoTracking()
                 .Where(m => m.ChurchId == churchId && m.Status == MemberStatus.Active)

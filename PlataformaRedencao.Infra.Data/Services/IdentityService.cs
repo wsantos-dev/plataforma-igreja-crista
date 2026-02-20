@@ -1,11 +1,12 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using PlataformaRedencao.Application.Interfaces;
 using PlataformaRedencao.Domain.Entities;
 using PlataformaRedencao.Domain.Interfaces;
-using PlataformaRedencao.Infra.Identity.Entities;
 using System.Security.Cryptography;
 
-namespace PlataformaRedencao.Infra.Identity.Services;
+
+namespace PlataformaRedencao.Infra.Data.Services;
 
 public class IdentityService : IIdentityService
 {

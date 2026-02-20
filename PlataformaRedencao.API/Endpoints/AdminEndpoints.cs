@@ -1,5 +1,6 @@
 
-using PlataformaRedencao.Domain.Enums;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 
 namespace PlataformaRedencao.API.Endpoints
 {
@@ -11,7 +12,7 @@ namespace PlataformaRedencao.API.Endpoints
                            .WithTags("Admin")
                            .RequireAuthorization("AdminOnly");
 
-            group.MapPost("/dashboard", async (HttpContext context) =>
+            group.MapPost("/dashboard", (HttpContext context) =>
             {
 
                 return Results.Ok("Administration Area");

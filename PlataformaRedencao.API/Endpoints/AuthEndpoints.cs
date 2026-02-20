@@ -1,9 +1,8 @@
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.Data;
-using PlataformaRedencao.Application.Exceptions;
-using PlataformaRedencao.Domain.Messages;
-using PlataformaRedencao.Infra.Identity.Entities;
-using PlataformaRedencao.Infra.Identity.Services;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using PlataformaRedencao.Application.Interfaces;
+using PlataformaRedencao.Domain.Entities;
+
 
 namespace PlataformaRedencao.API.Endpoints;
 

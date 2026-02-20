@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using PlataformaRedencao.Domain.Entities;
 using PlataformaRedencao.Infra.Data.Constants;
-using PlataformaRedencao.Infra.Identity.Entities;
 
 namespace PlataformaRedencao.Infra.Data.Context
 {

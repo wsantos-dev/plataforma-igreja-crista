@@ -12,12 +12,16 @@ namespace PlataformaRedencao.Domain.ValueObjects
         /// <summary>
         /// Legal first name of the person (as in civil registration).
         /// </summary>
-        public string FirstName { get; }
+        public string FirstName { get; } = null!;
 
+        /// <summary>
+        ///  Middle name 
+        /// </summary>
+        public string MiddleName { get; } = null!;
         /// <summary>
         /// Last name / family name of the person (as in civil registration).
         /// </summary>
-        public string LastName { get; }
+        public string LastName { get; } = null!;
 
         private PersonName() { } // EF Core
 

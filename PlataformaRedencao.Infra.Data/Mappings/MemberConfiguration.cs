@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PlataformaRedencao.Domain.Entities;
 using PlataformaRedencao.Domain.ValueObjects;
 using PlataformaRedencao.Infra.Data.Constants;
-using PlataformaRedencao.Infra.Identity.Entities;
 
 namespace PlataformaRedencao.Infra.Data.Mappings;
 
@@ -48,6 +47,10 @@ public class MemberConfiguration : IEntityTypeConfiguration<Member>
                 .HasMaxLength(100)
                 .HasColumnName("first_name")
                 .IsRequired();
+
+            fullname.Property(n => n.MiddleName)
+                .HasMaxLength(100)
+                .HasColumnName("middle_name");
 
             fullname.Property(n => n.LastName)
                 .HasColumnName("last_name")

@@ -1,8 +1,8 @@
 using System;
 using Microsoft.AspNetCore.Identity;
-using PlataformaRedencao.Infra.Identity.Entities;
+using PlataformaRedencao.Domain.Entities;
 
-namespace PlataformaRedencao.Infra.Identity.Seed;
+namespace PlataformaRedencao.Infra.Data.Seed;
 
 public static class IdentitySeed
 {

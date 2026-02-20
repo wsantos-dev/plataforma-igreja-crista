@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="../PlataformaRedencao.Application/PlataformaRedencao.Application.csproj" />
     <ProjectReference Include="../PlataformaRedencao.Domain/PlataformaRedencao.Domain.csproj" />
-    <ProjectReference Include="../PlataformaRedencao.Infra.Identity/PlataformaRedencao.Infra.Identity.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,6 +32,9 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.16.0" />
+
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
 </Project>

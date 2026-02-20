@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+
 namespace PlataformaRedencao.API.Endpoints
 {
     public static class ChurchsEndpoints
@@ -7,7 +10,7 @@ namespace PlataformaRedencao.API.Endpoints
             var group = app.MapGroup("/churchs")
                            .WithTags("Churchs");
 
-            group.MapPost("/create", async () =>
+            group.MapPost("/create", () =>
             {
 
             });

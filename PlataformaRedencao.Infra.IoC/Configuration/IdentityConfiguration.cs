@@ -2,7 +2,7 @@ using System;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace PlataformaRedencao.Infra.Identity.Configuration;
+namespace PlataformaRedencao.Infra.IoC.Configuration;
 
 public static class IdentityConfiguration
 {

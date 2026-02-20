@@ -20,7 +20,7 @@ namespace PlataformaRedencao.Domain.Entities
 
         public bool Revoked { get; private set; }
 
-        protected RefreshToken() { }
+        private RefreshToken() { }
 
         private RefreshToken(
             string userId,

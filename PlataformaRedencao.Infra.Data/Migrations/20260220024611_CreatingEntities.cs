@@ -271,6 +271,7 @@ namespace PlataformaRedencao.Infra.Data.Migrations
                     application_user_id = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
                     cpf = table.Column<string>(type: "character varying(14)", maxLength: 14, nullable: true),
                     first_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    middle_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     last_name = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
                     birth_date = table.Column<DateOnly>(type: "date", nullable: false),
                     gender = table.Column<char>(type: "char(1)", nullable: false),
@@ -321,7 +322,7 @@ namespace PlataformaRedencao.Infra.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "ix_address_entity_id_entity_type",
+                name: "'ix'_address_entity_id_entity_type",
                 schema: "secretary",
                 table: "address",
                 columns: new[] { "entity_id", "entity_type" });

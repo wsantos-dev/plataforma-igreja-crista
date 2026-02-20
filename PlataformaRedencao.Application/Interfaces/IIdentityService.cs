@@ -1,6 +1,4 @@
-using System;
-
-namespace PlataformaRedencao.Infra.Identity.Services;
+namespace PlataformaRedencao.Application.Interfaces;
 
 public interface IIdentityService
 {
