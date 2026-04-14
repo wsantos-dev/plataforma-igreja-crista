@@ -22,34 +22,18 @@ namespace PlataformaIgrejaCrista.Infra.Data.Context
         {
             base.OnModelCreating(modelBuilder);
 
-            // forcing the tables to be creating with snake_case conventions
-            // because UseSnakeCaseNamingConvention() is applyed only custom tables
-
-            modelBuilder.Entity<ApplicationUser>().ToTable("asp_net_users", Schemas.Auth);
-            modelBuilder.Entity<IdentityRole>().ToTable("asp_net_roles", Schemas.Auth);
-            modelBuilder.Entity<IdentityUserRole<string>>().ToTable("asp_net_user_roles", Schemas.Auth);
-            modelBuilder.Entity<IdentityUserClaim<string>>().ToTable("asp_net_user_claims", Schemas.Auth);
-            modelBuilder.Entity<IdentityUserLogin<string>>().ToTable("asp_net_user_logins", Schemas.Auth);
-            modelBuilder.Entity<IdentityRoleClaim<string>>().ToTable("asp_net_role_claims", Schemas.Auth);
-            modelBuilder.Entity<IdentityUserToken<string>>().ToTable("asp_net_user_tokens", Schemas.Auth);
+            foreach (var entity in modelBuilder.Model.GetEntityTypes())
+            {
+                if (entity.GetTableName()?.StartsWith("AspNet") == true)
+                {
+                    entity.SetSchema(Schemas.Auth);
+                }
+            }
 
             modelBuilder.ApplyConfigurationsFromAssembly(
                 typeof(PlataformaIgrejaCristaDbContext).Assembly
             );
 
-            foreach (var entity in modelBuilder.Model.GetEntityTypes())
-            {
-                // IGNORA OWNED TYPES
-                if (entity.IsOwned())
-                    continue;
-
-                foreach (var property in entity.GetProperties())
-                {
-                    property.SetColumnName(
-                        property.GetColumnName().ToSnakeCase()
-                    );
-                }
-            }
         }
     }
 }

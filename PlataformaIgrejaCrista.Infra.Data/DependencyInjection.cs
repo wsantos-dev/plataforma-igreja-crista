@@ -16,12 +16,11 @@ public static class DependencyInjection
        IConfiguration configuration)
     {
         services.AddDbContext<PlataformaIgrejaCristaDbContext>(options =>
-               options.UseNpgsql(
-                   configuration.GetConnectionString("PostgreSql"),
+               options.UseSqlServer(
+                   configuration.GetConnectionString("SqlServer"),
                    p => p.MigrationsAssembly(typeof(PlataformaIgrejaCristaDbContext)
                    .Assembly.FullName)
                 )
-            .UseSnakeCaseNamingConvention()
         );
 
 

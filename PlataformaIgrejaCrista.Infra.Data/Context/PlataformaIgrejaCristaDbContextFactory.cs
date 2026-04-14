@@ -17,10 +17,10 @@ namespace PlataformaIgrejaCrista.Infra.Data.Context
                 .Build();
 
             var builder = new DbContextOptionsBuilder<PlataformaIgrejaCristaDbContext>();
-            var connectionString = configuration.GetConnectionString("PostgreSql");
+            var connectionString = configuration.GetConnectionString("SqlServer");
 
 
-            builder.UseNpgsql(connectionString);
+            builder.UseSqlServer(connectionString);
 
             return new PlataformaIgrejaCristaDbContext(builder.Options);
         }
