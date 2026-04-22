@@ -12,7 +12,7 @@ using PlataformaIgrejaCrista.Infra.Data.Context;
 namespace PlataformaIgrejaCrista.Infra.Data.Migrations
 {
     [DbContext(typeof(PlataformaIgrejaCristaDbContext))]
-    [Migration("20260414025118_FirstMigration")]
+    [Migration("20260422014532_FirstMigration")]
     partial class FirstMigration
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace PlataformaIgrejaCrista.Infra.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.13")
+                .HasAnnotation("ProductVersion", "10.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
